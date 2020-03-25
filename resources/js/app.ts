@@ -1,5 +1,4 @@
 import { Vue } from 'vue-property-decorator';
-import * as BSN from 'bootstrap.native/dist/bootstrap-native-v4';
 import Axios from 'axios';
 import Home from './pages/Home';
 
