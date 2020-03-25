@@ -15342,7 +15342,7 @@ var Home = /** @class */ (function (_super) {
     Home.prototype.log = function () {
         console.log(this.name);
     };
-    Home.prototype.created = function () {
+    Home.prototype.beforeCreate = function () {
         this._methods = ['log'];
     };
     Home = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([

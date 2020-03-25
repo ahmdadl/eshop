@@ -10,7 +10,7 @@ export default class Home extends Super {
         console.log(this.name);
     }
 
-    created() {
+    beforeCreate() {
         this._methods = ['log'];
     }
 }
