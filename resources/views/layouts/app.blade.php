@@ -74,7 +74,13 @@
 
         <main class="py-4">
             @yield('content')
-            <example-component></example-component>
+            <home :data="h">
+                    <h1>sadasd</h1>
+                    {{-- @verbatim
+                    {{h.id}}
+                    @endverbatim --}}
+                    <button v-on:click="h.log()">log</button>
+            </home>
         </main>
     </div>
 </body>
