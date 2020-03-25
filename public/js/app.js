@@ -15340,7 +15340,10 @@ var Home = /** @class */ (function (_super) {
         return _this;
     }
     Home.prototype.log = function () {
-        console.log('asdasd');
+        console.log(this.name);
+    };
+    Home.prototype.created = function () {
+        this._methods = ['log'];
     };
     Home = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
@@ -15370,6 +15373,7 @@ var Super = /** @class */ (function (_super) {
     function Super() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.d = {};
+        _this._methods = [];
         return _this;
     }
     Super.prototype.attachToGlobal = function (methods) {
@@ -15382,7 +15386,7 @@ var Super = /** @class */ (function (_super) {
         this.$root.h = this.d;
     };
     Super.prototype.mounted = function () {
-        this.attachToGlobal(['log']);
+        this.attachToGlobal(this._methods);
     };
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Object, required: true }),

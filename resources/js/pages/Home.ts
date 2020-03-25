@@ -7,6 +7,10 @@ export default class Home extends Super {
     id: number = 5;
 
     public log() {
-        console.log('asdasd');
+        console.log(this.name);
+    }
+
+    created() {
+        this._methods = ['log'];
     }
 }

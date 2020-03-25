@@ -6,6 +6,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 export default class Super extends Vue {
     @Prop({ type: Object, required: true }) data: {}
     d = {};
+    _methods: string[] = [];
 
     public attachToGlobal(methods: string[]) {
         for (const k in this.$data) {
@@ -19,6 +20,6 @@ export default class Super extends Vue {
     }
 
     mounted() {
-        this.attachToGlobal(['log']);
+        this.attachToGlobal(this._methods);
     }
 }
