@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title', 'eshop')</title>
 
     
 
@@ -72,14 +72,9 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
-            <home :data="h">
-                    <h1>sadasd</h1>
-                    {{-- @verbatim
-                    {{h.id}}
-                    @endverbatim --}}
-                    <button v-on:click="h.log()">log</button>
-            </home>
+            <{{$cpt}} :data="h">
+                @yield('content')
+            </{{$cpt}}>
         </main>
     </div>
     <!-- Scripts -->
