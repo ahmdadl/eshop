@@ -1,5 +1,5 @@
 import { Component, Prop } from 'vue-property-decorator';
-import Super from './Super';
+import Super from './super';
 
 @Component
 export default class Home extends Super {

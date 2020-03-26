@@ -1,6 +1,6 @@
 import { Vue } from 'vue-property-decorator';
 import Axios from 'axios';
-import Home from './pages/Home';
+import Home from './pages/home';
 
 Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

@@ -15297,7 +15297,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _pages_Home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/Home */ "./resources/js/pages/Home.ts");
+/* harmony import */ var _pages_home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/home */ "./resources/js/pages/home.ts");
 
 
 
@@ -15306,7 +15306,7 @@ vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"].config.productionTip 
 var app = new vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"]({
     el: '#app',
     components: {
-        Home: _pages_Home__WEBPACK_IMPORTED_MODULE_2__["default"],
+        Home: _pages_home__WEBPACK_IMPORTED_MODULE_2__["default"],
     },
     data: {
         h: {}
@@ -15316,9 +15316,9 @@ var app = new vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"]({
 
 /***/ }),
 
-/***/ "./resources/js/pages/Home.ts":
+/***/ "./resources/js/pages/home.ts":
 /*!************************************!*\
-  !*** ./resources/js/pages/Home.ts ***!
+  !*** ./resources/js/pages/home.ts ***!
   \************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -15327,7 +15327,7 @@ var app = new vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"]({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
-/* harmony import */ var _Super__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Super */ "./resources/js/pages/Super.ts");
+/* harmony import */ var _super__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./super */ "./resources/js/pages/super.ts");
 
 
 
@@ -15349,15 +15349,26 @@ var Home = /** @class */ (function (_super) {
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
     ], Home);
     return Home;
-}(_Super__WEBPACK_IMPORTED_MODULE_2__["default"]));
+}(_super__WEBPACK_IMPORTED_MODULE_2__["default"]));
 /* harmony default export */ __webpack_exports__["default"] = (Home);
 
 
 /***/ }),
 
-/***/ "./resources/js/pages/Super.ts":
+/***/ "./resources/js/pages/index-template.html":
+/*!************************************************!*\
+  !*** ./resources/js/pages/index-template.html ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div :id=\"this.$options.name.toLowerCase() + '-page'\">\r\n    <slot></slot>\r\n</div>";
+
+/***/ }),
+
+/***/ "./resources/js/pages/super.ts":
 /*!*************************************!*\
-  !*** ./resources/js/pages/Super.ts ***!
+  !*** ./resources/js/pages/super.ts ***!
   \*************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -15401,17 +15412,6 @@ var Super = /** @class */ (function (_super) {
 }(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Vue"]));
 /* harmony default export */ __webpack_exports__["default"] = (Super);
 
-
-/***/ }),
-
-/***/ "./resources/js/pages/index-template.html":
-/*!************************************************!*\
-  !*** ./resources/js/pages/index-template.html ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div :id=\"this.$options.name.toLowerCase() + '-page'\">\r\n    <slot></slot>\r\n</div>";
 
 /***/ }),
 
