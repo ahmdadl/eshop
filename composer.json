@@ -66,6 +66,7 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "md": ["@php artisan ide-helper:models --nowrite"]
     }
 }
