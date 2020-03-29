@@ -13,8 +13,8 @@ $factory->define(Product::class, function (Faker $faker) {
         'category_id' => factory(Category::class)->create(),
         'name' => $faker->sentence,
         'price' => $faker->randomFloat(4),
-        'save' => $faker->randomDigitNotNull,
-        'amount' => $faker->randomDigittNotNull,
+        'save' => rand(0, 100),
+        'amount' => rand(1, 3),
         'is_used' => $faker->boolean(),
         'color' => json_encode([$faker->word, $faker->word]),
         'img' => json_encode([rand(1, 5).'.png', rand(1, 5).'.png', rand(1, 5).'.png'])
