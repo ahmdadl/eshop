@@ -4,6 +4,7 @@
 namespace Tests\Unit;
 
 use App\Category;
+use App\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -39,5 +40,19 @@ class CategoryTest extends TestCase
         $cat = Category::with('subCat')->find($cat->id);
 
         $this->assertCount(1, $cat->categories);
+    }
+
+    public function testItHasManyProducts()
+    {
+        /** @var \App\Category $cat */
+        $cat = factory(Category::class)->create();
+
+        $cat->products()->attach(
+            (factory(Product::class)->create())->id
+        );
+
+        $cat = Category::first();
+
+        $this->assertCount(1, $cat->products);
     }
 }
