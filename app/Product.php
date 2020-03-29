@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -13,4 +14,9 @@ class Product extends Model
         'color' => 'array',
         'img' => 'array'
     ];
+
+    public function categories() : BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'category_product');
+    }
 }
