@@ -11,6 +11,7 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         'user_id' => factory(User::class)->create(),
         'name' => $faker->sentence,
+        'info' => $faker->text,
         'price' => $faker->randomFloat(4),
         'save' => rand(0, 100),
         'amount' => rand(1, 3),
