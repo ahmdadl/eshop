@@ -31,4 +31,9 @@ class Category extends Model
     {
         return $this->hasMany(Category::class);
     }
+
+    public function subCat() : HasMany
+    {
+        return $this->hasMany(Category::class)->with('categories');
+    }
 }
