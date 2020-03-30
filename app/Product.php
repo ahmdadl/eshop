@@ -31,4 +31,9 @@ class Product extends Model
     {
         return $this->hasMany(Rate::class);
     }
+
+    public function getRateAvg() : float
+    {
+        return round($this->rates->average('rate'), 1);
+    }
 }

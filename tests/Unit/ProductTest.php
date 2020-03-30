@@ -79,4 +79,20 @@ class ProductTest extends TestCase
 
         $this->assertCount(1, $p->rates);
     }
+
+    public function testItHasRateAverage()
+    {
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+
+        $p->rates()->createMany(factory(Rate::class, rand(10, 25))->raw([
+            'product_id' => $p->id
+        ]));
+
+        $avg = round($p->rates->average('rate'), 1); 
+
+        $this->assertSame($avg, $p->getRateAvg());
+        $this->assertLessThanOrEqual(5, $p->getRateAvg());
+        $this->assertIsFloat($p->getRateAvg());
+    }
 }
