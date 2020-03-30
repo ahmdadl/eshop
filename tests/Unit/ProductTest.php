@@ -6,6 +6,7 @@ use App\Category;
 use App\CategoryProduct;
 use App\Product;
 use App\ProductInfo;
+use App\Rate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -65,5 +66,17 @@ class ProductTest extends TestCase
 
         $this->assertIsArray($p->pi->info);
         $this->assertSame($info['info'], $p->pi->info);
+    }
+
+    public function testItHasRates()
+    {
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+
+        $p->rates()->create(factory(Rate::class)->raw([
+            'product_id' => $p->id
+        ]));
+
+        $this->assertCount(1, $p->rates);
     }
 }
