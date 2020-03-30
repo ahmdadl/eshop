@@ -5,6 +5,12 @@
 @endsection
 
 @section('content')
+    @dump($cats->first->subCat)
+    {{-- @dump($cats->first)
     @dump($cats->first)
+    @dump($cats->first)
+    @dump($cats->first)
+    @dump($cats->first)
+    @dump($cats->first) --}}
 @endsection
 

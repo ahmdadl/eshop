@@ -37,20 +37,20 @@
             @guest
             <li class="nav-item">
                 <a class="nav-link text-light"
-                    href="{{ LaravelLocalization::localizeUrl('(/register)') }}">
+                    href="{{ LaravelLocalization::localizeUrl('register') }}">
                     @lang('t.nav.account_create')
                 </a>
             </li>
             @endguest
             <li class="nav-item">
                 <a class="nav-link text-light"
-                    href="{{ LaravelLocalization::localizeUrl('(/daily)') }}">
+                    href="{{ LaravelLocalization::localizeUrl('daily') }}">
                     @lang('t.nav.daily')
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-light"
-                    href="{{ LaravelLocalization::localizeUrl('(/addItem)') }}">
+                    href="{{ LaravelLocalization::localizeUrl('addItem)') }}">
                     @lang('t.nav.sellUs')
                 </a>
             </li>
@@ -71,7 +71,8 @@
                 @endif
             </li>
         </ul>
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav
+            class="navbar sticky-top navbar-expand-sm navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -136,6 +137,33 @@
                 </div>
             </div>
         </nav>
+        <ul class="nav nav-taps nav-fill navbar-light"
+            style="background-color: #e3f2fd" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active"
+                    href="{{LaravelLocalization::localizeUrl('/')}}">All
+                    Categories</a>
+            </li>
+            @foreach ($cats as $c)
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                    href="#" role="button" aria-haspopup="true"
+                    aria-expanded="false">
+                    {{$c->name}}
+                </a>
+                <div class="dropdown-menu">
+                    @foreach ($c->subCat as $sc)
+                    <a class="dropdown-item" href="#">
+                        {{$sc->name}}
+                    </a>
+                    @endforeach
+                </div>
+            </li>
+            @endforeach
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+        </ul>
 
         <main class="py-4">
             <{{$cpt ?? ''}} :data="h">
