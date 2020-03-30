@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "cviebrock/eloquent-sluggable": "^7.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
@@ -16,8 +17,7 @@
         "laravel/telescope": "^3.2",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
-        "mcamara/laravel-localization": "^1.5",
-        "cviebrock/eloquent-sluggable": "^7.0.0"
+        "mcamara/laravel-localization": "^1.5"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
@@ -57,10 +57,7 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi",
-            "@php artisan ide-helper:generate",
-            "@php artisan ide-helper:meta",
-            "@php artisan ide-helper:models --nowrite"
+            "@php artisan package:discover --ansi"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -68,6 +65,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "md": ["@php artisan ide-helper:models --nowrite"]
+        "md": ["@php artisan ide-helper:models --nowrite"],
+        "md-pre": [
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:models --nowrite"
+        ]
     }
 }
