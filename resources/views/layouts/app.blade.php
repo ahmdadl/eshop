@@ -20,7 +20,7 @@
         rel="stylesheet">
 
     <!-- Styles -->
-    @if (app()->getLocale() === 'ar')
+    @if (app()->isLocale('ar'))
     <link rel="stylesheet"
         href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css"
         integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If"
@@ -34,12 +34,29 @@
 <body>
     <div id="app">
         <ul class="nav justify-content-end bg-dark text-light col-12">
+            @guest
             <li class="nav-item">
                 <a class="nav-link text-light"
-                    href="/register">@lang('nav.account_create')</a>
+                    href="{{ LaravelLocalization::localizeUrl('(/register)') }}">
+                    @lang('t.nav.account_create')
+                </a>
+            </li>
+            @endguest
+            <li class="nav-item">
+                <a class="nav-link text-light"
+                    href="{{ LaravelLocalization::localizeUrl('(/daily)') }}">
+                    @lang('t.nav.daily')
+                </a>
             </li>
             <li class="nav-item">
-                @if (LaravelLocalization::getCurrentLocale() === 'en')
+                <a class="nav-link text-light"
+                    href="{{ LaravelLocalization::localizeUrl('(/addItem)') }}">
+                    @lang('t.nav.sellUs')
+                </a>
+            </li>
+
+            <li class="nav-item">
+                @if (app()->isLocale('en'))
                 <a class="nav-link text-light" rel="alternate" hreflang="ar"
                     href="/ar{{
                         Str::after(url()->current(), LaravelLocalization::getCurrentLocale())
