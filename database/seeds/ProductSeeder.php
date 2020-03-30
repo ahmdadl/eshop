@@ -17,7 +17,7 @@ class ProductSeeder extends Seeder
 
         $cats->each(function (Category $c) {
             $c->products()->createMany(
-                factory(Product::class, mt_rand(5, 20))->raw()
+                factory(Product::class, mt_rand(25, 80))->raw()
             );
         });
     }
