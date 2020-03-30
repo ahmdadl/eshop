@@ -51,8 +51,9 @@ class CategoryTest extends TestCase
             (factory(Product::class)->create())->id
         );
 
+        /** @var \App\Category $cat */
         $cat = Category::first();
 
-        $this->assertCount(1, $cat->products);
+        $this->assertIsIterable($cat->products);
     }
 }
