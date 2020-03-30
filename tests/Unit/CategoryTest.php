@@ -6,6 +6,7 @@ namespace Tests\Unit;
 use App\Category;
 use App\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -55,5 +56,22 @@ class CategoryTest extends TestCase
         $cat = Category::first();
 
         $this->assertIsIterable($cat->products);
+    }
+
+    public function testItHasSlug()
+    {
+        $name = 'some of me Here At me No';
+
+        /** @var \App\Category $cat */
+        $cat = new Category([
+            'name' => $name
+        ]);
+
+        $cat->save();
+
+        $this->assertSame(
+            Str::slug(Str::lower($name)),
+            $cat->slug
+        );
     }
 }
