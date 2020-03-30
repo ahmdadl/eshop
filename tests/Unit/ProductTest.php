@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Category;
 use App\CategoryProduct;
 use App\Product;
+use App\ProductInfo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -48,5 +49,21 @@ class ProductTest extends TestCase
 
         $this->assertIsIterable($p->categories);
         $this->assertCount(2, $p->categories);
+    }
+
+    public function testItHasInfo()
+    {
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+
+        $info = factory(ProductInfo::class)->raw();
+
+        $p->pi()->create($info);
+
+        /** @var \App\Product $p */
+        $p = Product::first();
+
+        $this->assertIsArray($p->pi->info);
+        $this->assertSame($info['info'], $p->pi->info);
     }
 }
