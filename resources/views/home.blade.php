@@ -5,6 +5,6 @@
 @endsection
 
 @section('content')
-
+    @dump($cats->first)
 @endsection
 
