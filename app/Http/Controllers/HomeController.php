@@ -22,7 +22,8 @@ class HomeController extends Controller
     public function index()
     {
         return view('home', [
-            'cats' => \App\Category::whereNull('category_id')->with(['subCat'])->get(),
+            // 'cats' => \App\Category::whereNull('category_id')->with(['subCat'])->get(),
+            'cats' => collect([])
         ]);
     }
 }
