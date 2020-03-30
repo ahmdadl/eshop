@@ -95,4 +95,14 @@ class ProductTest extends TestCase
         $this->assertLessThanOrEqual(5, $p->getRateAvg());
         $this->assertIsFloat($p->getRateAvg());
     }
+
+    public function testItCanCalculatePriceAfterSaving()
+    {
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+
+        $save = $p->price - ($p->save/100 * $p->price);
+
+        $this->assertSame($save, $p->savedPrice);
+    }
 }

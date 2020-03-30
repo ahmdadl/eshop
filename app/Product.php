@@ -58,4 +58,9 @@ class Product extends Model
     {
         return 'slug';
     }
+
+    public function getSavedPriceAttribute(): float
+    {
+        return $this->price - ($this->save/100 * $this->price);
+    }
 }
