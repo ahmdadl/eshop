@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
@@ -12,9 +13,22 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(string $c_slug, string $sub)
     {
-        //
+        $cats =  \App\Category::whereNull('category_id')->with(['subCat'])->get();
+
+        $pros = [];
+        foreach ($cats as $c) {
+            if ($c->slug === $c_slug) {
+                foreach ($c->subCat as $sc) {
+                    if ($sc->slug === $sub) {
+                        $pros[] = $sc->products;
+                    }
+                }
+            }
+        }
+
+        return view('product.index', compact('cats', 'pros'));
     }
 
     /**

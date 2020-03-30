@@ -22,5 +22,8 @@ Route::group(
         Route::get('/', 'HomeController@index')->name('home');
         
         Auth::routes();
+
+        // load all products by a given sub category
+        Route::get('/c/{c_slug}/sub/{sub_slug}', 'ProductController@index');
     }
 );

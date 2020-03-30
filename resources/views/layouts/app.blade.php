@@ -153,7 +153,7 @@
                 </a>
                 <div class="dropdown-menu">
                     @foreach ($c->subCat as $sc)
-                    <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{LaravelLocalization::localizeUrl('c/'.$c->slug.'/sub/'.$sc->slug)}}">
                         {{$sc->name}}
                     </a>
                     @endforeach
