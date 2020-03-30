@@ -12,7 +12,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'user_id' => factory(User::class)->create(),
         'name' => $faker->sentence,
         'info' => $faker->text,
-        'price' => $faker->randomFloat(4),
+        'price' => $faker->randomFloat(1, 50, 100000),
         'save' => rand(0, 100),
         'amount' => rand(1, 3),
         'is_used' => $faker->boolean(),
