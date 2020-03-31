@@ -15,7 +15,7 @@ class CreateProductInfosTable extends Migration
     {
         Schema::create('product_infos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id');
+            $table->foreignId('product_id')->index();
             $table->longText('info');
             $table->longText('more')->nullable();
             $table->timestamps();
