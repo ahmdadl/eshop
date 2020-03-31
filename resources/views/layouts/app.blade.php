@@ -28,7 +28,7 @@
     @else
     <!-- TODO add bootstrap ltr native cdn link -->
     @endif
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -153,7 +153,8 @@
                 </a>
                 <div class="dropdown-menu">
                     @foreach ($c->subCat as $sc)
-                <a class="dropdown-item" href="{{LaravelLocalization::localizeUrl('c/'.$c->slug.'/sub/'.$sc->slug)}}">
+                    <a class="dropdown-item"
+                        href="{{LaravelLocalization::localizeUrl('c/'.$c->slug.'/sub/'.$sc->slug)}}">
                         {{$sc->name}}
                     </a>
                     @endforeach
@@ -166,14 +167,16 @@
         </ul>
 
         <main class="py-4">
-            <{{$cpt ?? ''}} :data="h">
-                @yield('content')
+            <{{$cpt ?? ''}}>
+                <template v-slot="h">
+                    @yield('content')
+                </template>
             </{{$cpt ?? ''}}>
         </main>
     </div>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{asset('js/bootstrap-native-v4.min.js')}}" defer></script>
+    <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/bootstrap-native-v4.min.js') }}" defer></script>
 </body>
 
 </html>
