@@ -125,4 +125,14 @@ export default class $pageName extends Super {
 }       
 TS;
     }
+
+    private function getInterfaceTxt ($pageName) : string
+    {
+        return <<<TS
+export default interface $pageName {
+
+}
+
+TS;
+    }
 }

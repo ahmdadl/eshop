@@ -18,7 +18,8 @@ class SetupVueJs extends Command
     protected $signature = 'make:vuejs
                             {page_name?}
                             {--kjs : keep old javascipt files}
-                            {--g : generate new page}';
+                            {--g : generate new page}
+                            {--i : generate interface}';
 
     /**
      * The console command description.
@@ -60,10 +61,24 @@ class SetupVueJs extends Command
                 return;
             }
 
-            chdir('pages');
-
             $pageName = $this->argument('page_name');
             $kebpage = Str::kebab($this->argument('page_name'));
+
+            if ($this->option('i')) {
+                if (!$fs->exists('interfaces')) {
+                    mkdir('interfaces');
+                }
+
+                chdir('interfaces');
+
+                $fs->put($kebpage .'.ts', $this->getInterfaceTxt($pageName));
+
+                $this->info($kebpage .'.ts interface was created succeffully');
+
+                return;
+            }
+
+            chdir('pages');
 
             // check if page is exists any way
             if ($fs->exists($kebpage . '.ts')) {
