@@ -15298,18 +15298,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _pages_home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/home */ "./resources/js/pages/home.ts");
+/* harmony import */ var _pages_product__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/product */ "./resources/js/pages/product.ts");
+
 
 
 
 axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios__WEBPACK_IMPORTED_MODULE_1___default.a.interceptors.response.use(function (response) {
+    // TODO show loader
+    console.log(response.data);
+    return response;
+}, function (error) {
+    // TODO hide loader
+    console.log(error);
+    return Promise.reject(error);
+});
 vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"].config.productionTip = false;
 var app = new vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"]({
     el: '#app',
     components: {
         Home: _pages_home__WEBPACK_IMPORTED_MODULE_2__["default"],
-    },
-    data: {
-        h: {}
+        Product: _pages_product__WEBPACK_IMPORTED_MODULE_3__["default"]
     }
 });
 
@@ -15335,15 +15344,22 @@ var Home = /** @class */ (function (_super) {
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(Home, _super);
     function Home() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.name = 'asd';
-        _this.id = 5;
+        _this.d = {
+            name: '',
+            id: 0,
+            test: [''],
+        };
         return _this;
     }
     Home.prototype.log = function () {
-        console.log(this.name);
+        console.log(this.d.name);
     };
-    Home.prototype.beforeCreate = function () {
-        this._methods = ['log'];
+    Home.prototype.beforeMount = function () {
+        this.attachToGlobal(this, ['log']);
+    };
+    Home.prototype.mounted = function () {
+        var _this = this;
+        setTimeout(function (_) { return _this.d.test = ['wsd', 'ers', 'qsf']; }, 1200);
     };
     Home = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
@@ -15362,7 +15378,48 @@ var Home = /** @class */ (function (_super) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div :id=\"this.$options.name.toLowerCase() + '-page'\">\r\n    <slot></slot>\r\n</div>";
+module.exports = "<div :id=\"this.$options.name.toLowerCase() + '-page'\">\r\n    <slot v-bind:d=\"d\">\r\n    </slot>\r\n</div>";
+
+/***/ }),
+
+/***/ "./resources/js/pages/product.ts":
+/*!***************************************!*\
+  !*** ./resources/js/pages/product.ts ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
+/* harmony import */ var _super__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./super */ "./resources/js/pages/super.ts");
+
+
+
+var Product = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(Product, _super);
+    function Product() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.d = {
+            current: 'ers'
+        };
+        return _this;
+    }
+    Product.prototype.beforeMount = function () {
+        // this.attachMethods(this, []);
+    };
+    Product.prototype.mounted = function () {
+        var _this = this;
+        setTimeout(function (_) { return _this.d.current = 'qczxcxzwds'; }, 2000);
+    };
+    Product = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
+    ], Product);
+    return Product;
+}(_super__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Product);
+
 
 /***/ }),
 
@@ -15377,6 +15434,9 @@ module.exports = "<div :id=\"this.$options.name.toLowerCase() + '-page'\">\r\n  
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 var Super = /** @class */ (function (_super) {
@@ -15384,25 +15444,40 @@ var Super = /** @class */ (function (_super) {
     function Super() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.d = {};
-        _this._methods = [];
+        _this.allData = [];
         return _this;
     }
-    Super.prototype.attachToGlobal = function (methods) {
+    Super.prototype.loadAllData = function () {
         var _this = this;
-        for (var k in this.$data) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/data').then(function (res) {
+            // console.log(res.data[0]);
+            // this.d.allData = res.data[0];
+            _this.d.allData = [{ name: 'qqqqqxc' }];
+            _this.d.id = 'adsadsad';
+        });
+        setTimeout(function (_) { return _this.d.name = 'asdsad'; }, 1100);
+    };
+    /**
+     * attach compoenent properties and methods to global d variable
+     *
+     * @param self current component instance
+     * @param methods array of public methods
+     */
+    Super.prototype.attachToGlobal = function (self, methods) {
+        var _this = this;
+        for (var k in self.$data) {
+            if (k === 'd') {
+                continue;
+            }
             this.d[k] = this.$data[k];
         }
-        methods.map(function (x) { return (_this.d[x] = _this[x]); });
-        // @ts-ignore
-        this.$root.h = this.d;
+        methods.map(function (x) {
+            _this.d[x] = self[x];
+        });
     };
-    Super.prototype.mounted = function () {
-        this.attachToGlobal(this._methods);
+    Super.prototype.beforeMount = function () {
+        this.loadAllData();
     };
-    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Object, required: true }),
-        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Object)
-    ], Super.prototype, "data", void 0);
     Super = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             template: __webpack_require__(/*! ./index-template.html */ "./resources/js/pages/index-template.html")
