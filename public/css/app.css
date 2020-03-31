@@ -10882,3 +10882,7 @@ a.text-dark:focus {
   }
 }
 
+.text-dell {
+  text-decoration: line-through !important;
+}
+
