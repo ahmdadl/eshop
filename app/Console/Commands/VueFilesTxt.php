@@ -9,6 +9,18 @@ import Axios from 'axios';
 import Home from './pages/home';
 
 Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+Axios.interceptors.response.use(
+    function(response) {
+        // TODO show loader
+        console.log(response.data);
+        return response;
+    },
+    function(error) {
+        // TODO hide loader
+        console.log(error);
+        return Promise.reject(error);
+    }
+);
 
 Vue.config.productionTip = false;
 
@@ -16,44 +28,48 @@ const app = new Vue({
     el: '#app',
     components: {
         Home,
-    },
-    data: {
-        h: {}
     }
 });    
 EOT;
 
     private static $indexHtml = <<<'EOD'
 <div :id="this.$options.name.toLowerCase() + '-page'">
-    <slot></slot>
+    <slot v-bind:d="d">
+    </slot>
 </div>
 EOD;
 
     private static $super = <<<'TS'
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 
 @Component({
     template: require('./index-template.html')
 })
 export default class Super extends Vue {
-    @Prop({ type: Object, required: true }) data: {}
-    d = {};
-    _methods: string[] = [];
+    public d: any = {};
 
-    public attachToGlobal(methods: string[]) {
+    /**
+     * attach compoenent methods to global d variable
+     * 
+     * @param self current component instance
+     * @param methods array of public methods
+     */
+    protected attachMethods(self: Super, methods: string[]) {
+        methods.map(x => {
+            this.d[x] = self[x];
+        });
+    }
+
+    private attachToGlobal() {
         for (const k in this.$data) {
+            if (k === 'd') {
+                continue;
+            }
             this.d[k] = this.$data[k];
         }
-
-        methods.map(x => (this.d[x] = this[x]));
-
-        // @ts-ignore
-        this.$root.h = this.d;
     }
 
-    mounted() {
-        this.attachToGlobal(this._methods);
-    }
+    beforeMount() {}
 }
 TS;
 
@@ -63,12 +79,17 @@ import Super from './super';
 
 @Component
 export default class Home extends Super {
+    public d = {
+        // all your compnent data will be present in here
+
+    };
+    
     public log() {
-        console.log('eee');
+        console.log('log is working');
     }
 
-    beforeCreate() {
-        this._methods = ['log'];
+    beforeMount() {
+        this.attachToGlobal(this, ['log']);
     }
 }
 TS;
@@ -99,14 +120,18 @@ JSN;
 const mix = require('laravel-mix');
 
 mix.ts('resources/js/app.ts', 'public/js')
-.sass('resources/sass/app.scss', 'public/css')
-.browserSync('laravel.test');
+    .sass('resources/sass/app.scss', 'public/css')
+    .browserSync('laravel.test')
+    .version();
 MX;
 
     private static $layout = <<<'HML'
-    <{{$component}} :data="h">
+<{{$cpt ?? ''}}>
+    <template v-slot="h">
+        {{-- you can access js data in here as @{{h.d.(varible name)}} --}}
         @yield('content')
-    </{{$component}}>
+    </template>
+</{{$cpt ?? ''}}>
 HML;
 
     private function getNewPageTxt($pageName) : string
@@ -117,10 +142,10 @@ import Super from './super';
 
 @Component
 export default class $pageName extends Super {
-    
+    public d = {};
 
-    beforeCreate() {
-        this._methods = [];
+    beforeMount() {
+        this.attachToGlobal(this, []);
     }
 }       
 TS;
@@ -132,7 +157,6 @@ TS;
 export default interface $pageName {
 
 }
-
 TS;
     }
 }
