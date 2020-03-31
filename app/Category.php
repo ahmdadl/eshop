@@ -25,7 +25,7 @@ class Category extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'category_product');
+        return $this->belongsToMany(Product::class, 'category_product')->with(['rates', 'pi']);
     }
 
     public function sluggable(): array
