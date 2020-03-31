@@ -15,10 +15,14 @@ class ProductSeeder extends Seeder
     {
         $cats = Category::whereNotNull('category_id')->get();
 
+        DB::beginTransaction();
+
         $cats->each(function (Category $c) {
             $c->products()->createMany(
                 factory(Product::class, mt_rand(25, 80))->raw()
             );
         });
+
+        DB::commit();
     }
 }

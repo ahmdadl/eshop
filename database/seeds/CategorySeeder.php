@@ -12,6 +12,8 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
+        DB::beginTransaction();
+        
         $cats = factory(Category::class, 7)->create([
             'category_id' => null
         ]);
@@ -23,5 +25,7 @@ class CategorySeeder extends Seeder
                 ])
             );
         });
+
+        DB::commit();
     }
 }
