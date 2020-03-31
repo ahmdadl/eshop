@@ -1,3 +1,4 @@
 <div :id="this.$options.name.toLowerCase() + '-page'">
-    <slot></slot>
+    <slot v-bind:d="d">
+    </slot>
 </div>

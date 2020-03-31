@@ -3,14 +3,21 @@ import Super from './super';
 
 @Component
 export default class Home extends Super {
-    name: string = 'asd';
-    id: number = 5;
+    public d = {
+        name: '',
+        id: 0,
+        test: [''],
+    };
 
     public log() {
-        console.log(this.name);
+        console.log(this.d.name);
     }
 
-    beforeCreate() {
-        this._methods = ['log'];
+    beforeMount() {
+        this.attachToGlobal(this, ['log']);
+    }
+
+    mounted() {
+        setTimeout(_ => this.d.test = ['wsd', 'ers', 'qsf'], 1200);
     }
 }
