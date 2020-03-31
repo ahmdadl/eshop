@@ -14,6 +14,7 @@ export default interface Product
     color: string[];
     img: string[];
     pi?: ProductInfo;
+    pivot?: {category_id: number, product_id: number};
     rates?: Rates;
     created_at: string;
     updated_at: string;
