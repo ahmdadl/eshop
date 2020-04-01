@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -22,8 +24,14 @@ class HomeController extends Controller
     public function index()
     {
         return view('home', [
-            'cats' => \App\Category::whereNull('category_id')->with(['subCat'])->get(),
-            // 'cats' => collect([])
+            'cats' => Category::whereNull('category_id')->with('subCat')->get(),
         ]);
+    }
+
+    public function sendData()
+    {
+        return response()->json(
+            Product::with(['pi', 'rates', 'categories'])->simplePaginate(60)
+        );
     }
 }

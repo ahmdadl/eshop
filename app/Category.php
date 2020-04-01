@@ -20,7 +20,12 @@ class Category extends Model
 
     public function subCat(): HasMany
     {
-        return $this->hasMany(Category::class)->with('products');
+        return $this->hasMany(Category::class);
+    }
+
+    public function subCatProducts() : HasMany
+    {
+        return $this->subCat()->with('products');
     }
 
     public function products(): BelongsToMany
