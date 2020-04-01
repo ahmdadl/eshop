@@ -4,6 +4,7 @@ export default interface Product
 {
     id: number;
     user_id: number;
+    category_slug?: string;
     name: string;
     slug?: string;
     info?: string;
