@@ -18,8 +18,10 @@ class ProductSeeder extends Seeder
         DB::beginTransaction();
 
         $cats->each(function (Category $c) {
-            $c->products()->createMany(
-                factory(Product::class, mt_rand(25, 80))->raw()
+            $c->products()->saveMany(
+                factory(Product::class, mt_rand(25, 80))->make([
+                    'category_id' => $c->id
+                ])
             );
         });
 
