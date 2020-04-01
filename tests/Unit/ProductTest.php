@@ -89,11 +89,11 @@ class ProductTest extends TestCase
             'product_id' => $p->id
         ]));
 
-        $avg = round($p->rates->average('rate'), 1); 
+        $avg = round($p->rates->average('rate'), 1);
 
-        $this->assertSame($avg, $p->getRateAvg());
-        $this->assertLessThanOrEqual(5, $p->getRateAvg());
-        $this->assertIsFloat($p->getRateAvg());
+        $this->assertSame($avg, $p->rateAvg);
+        $this->assertLessThanOrEqual(5, $p->rateAvg);
+        $this->assertIsFloat($p->rateAvg);
     }
 
     public function testItCanCalculatePriceAfterSaving()
@@ -101,8 +101,18 @@ class ProductTest extends TestCase
         /** @var \App\Product $p */
         $p = factory(Product::class)->create();
 
-        $save = $p->price - ($p->save/100 * $p->price);
+        $save = $p->price - ($p->save / 100 * $p->price);
 
         $this->assertSame($save, $p->savedPrice);
+    }
+
+    public function testRntTimeAttributesAppendedToJsonOrArray()
+    {
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+
+        $this->assertIsObject($p->toJson());
+
+        // $this->assertArrayHasKey('saved');
     }
 }
