@@ -74,4 +74,27 @@ class CategoryTest extends TestCase
             $cat->slug
         );
     }
+
+    public function testItHasPath()
+    {
+        // parent category
+        /** @var \App\Category $cat */
+        $cat = factory(Category::class)->create();
+
+        $path = '/' . app()->getLocale() . '/c/' . $cat->slug;
+
+        $this->assertSame($path, $cat->path(), 'test parent category');
+
+        // sub category
+        /** @var \App\Category $sc */
+        $sc = $cat->subCat()->create(
+            factory(Category::class)->raw()
+        );
+
+        $this->assertSame(
+            $path . '/sub/' . $sc->slug,
+            $sc->path($cat->slug),
+            'testing sub category'
+        );
+    }
 }

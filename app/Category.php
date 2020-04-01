@@ -51,4 +51,13 @@ class Category extends Model
     {
         return 'slug';
     }
+
+    public function path(string $parent_slug = ''): string {
+        $path = '/'. app()->getLocale() . '/c/';
+        if ($parent_slug === '') {
+             return $path . $this->slug;
+        }
+
+        return $path . $parent_slug . '/sub/' . $this->slug;
+    }
 }
