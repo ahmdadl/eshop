@@ -15,12 +15,14 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned()->index();
+            $table->foreignId('user_id')->index();
+            $table->foreignId('category_id')->nullable()->index();
             $table->string('name');
             $table->float('price');
             $table->float('save')->default(0);
             $table->integer('amount');
             $table->boolean('is_used')->default(false);
+            $table->string('brand')->nullable();
             $table->string('color');
             $table->text('img');
             $table->timestamps();
@@ -28,6 +30,11 @@ class CreateProductsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories')
                 ->onDelete('cascade');
         });
     }
