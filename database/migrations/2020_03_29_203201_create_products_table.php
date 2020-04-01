@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index();
-            $table->foreignId('category_id')->nullable()->index();
+            $table->string('category_slug')->nullable()->index();
             $table->string('name');
             $table->float('price');
             $table->float('save')->default(0);
@@ -30,11 +30,6 @@ class CreateProductsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
-
-            $table->foreign('category_id')
-                ->references('id')
-                ->on('categories')
                 ->onDelete('cascade');
         });
     }

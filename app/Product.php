@@ -31,11 +31,6 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'category_product');
     }
 
-    public function cat() : BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
     public function pi(): HasOne
     {
         return $this->hasOne(ProductInfo::class);
