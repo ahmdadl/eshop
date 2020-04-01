@@ -20,6 +20,11 @@ class Product extends Model
         'img' => 'array'
     ];
 
+    protected $appends = [
+        'rateAvg',
+        'savedPrice'
+    ];
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'category_product');
@@ -40,6 +45,11 @@ class Product extends Model
         return round($this->rates->average('rate'), 1);
     }
 
+    public function getSavedPriceAttribute(): float
+    {
+        return $this->price - ($this->save/100 * $this->price);
+    }
+
     public function sluggable(): array
     {
         return [
@@ -57,10 +67,5 @@ class Product extends Model
     public function getRouteKeyName()
     {
         return 'slug';
-    }
-
-    public function getSavedPriceAttribute(): float
-    {
-        return $this->price - ($this->save/100 * $this->price);
     }
 }

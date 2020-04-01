@@ -111,8 +111,7 @@ class ProductTest extends TestCase
         /** @var \App\Product $p */
         $p = factory(Product::class)->create();
 
-        $this->assertIsObject($p->toJson());
-
-        // $this->assertArrayHasKey('saved');
+        $this->assertArrayHasKey('rateAvg', $p->toArray());
+        $this->assertArrayHasKey('savedPrice', $p->toArray());
     }
 }
