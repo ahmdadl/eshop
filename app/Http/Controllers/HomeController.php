@@ -28,10 +28,9 @@ class HomeController extends Controller
         ]);
     }
 
-    public function sendData()
+    public function sendData(Category $category)
     {
-        return response()->json(
-            Product::with(['pi', 'rates', 'categories'])->simplePaginate(60)
-        );
+        $category->load('productsMini');
+        return response()->json($category);
     }
 }

@@ -23,14 +23,19 @@ class Category extends Model
         return $this->hasMany(Category::class);
     }
 
-    public function subCatProducts() : HasMany
+    public function subCatProducts(): HasMany
     {
         return $this->subCat()->with('products');
     }
 
+    public function productsMini(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'category_product');
+    }
+
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'category_product')->with(['rates', 'pi']);
+        return $this->productsMini()->with(['rates', 'pi']);
     }
 
     public function sluggable(): array
@@ -52,10 +57,11 @@ class Category extends Model
         return 'slug';
     }
 
-    public function path(string $parent_slug = ''): string {
-        $path = '/'. app()->getLocale() . '/c/';
+    public function path(string $parent_slug = ''): string
+    {
+        $path = '/' . app()->getLocale() . '/c/';
         if ($parent_slug === '') {
-             return $path . $this->slug;
+            return $path . $this->slug;
         }
 
         return $path . $parent_slug . '/sub/' . $this->slug;

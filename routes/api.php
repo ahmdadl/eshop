@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/data', 'HomeController@sendData');
+Route::get('/sub/{category}', 'HomeController@sendData');

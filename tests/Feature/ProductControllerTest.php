@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Facades\Tests\Setup\CategoryFactory;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
@@ -34,5 +35,18 @@ class ProductControllerTest extends TestCase
             ->assertSee($c->name)
             ->assertSee($sc->name)
             ->assertSee($randCategory->name);
+    }
+
+    public function testRetrivingProductList()
+    {
+        /** @var \App\Category $c */
+        /** @var \App\Category $sc */
+        /** @var \App\Product $p */
+        [$c, $sc, $p] = CategoryFactory::wSub(1)->wPro()->create();
+        $sc->load('productsMini');
+
+        $this->get('/api/sub/' . $sc->slug)
+            ->assertOk()
+            ->assertExactJson($sc->toArray());
     }
 }
