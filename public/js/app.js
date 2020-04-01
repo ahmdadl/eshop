@@ -15449,7 +15449,7 @@ var Super = /** @class */ (function (_super) {
     }
     Super.prototype.loadAllData = function () {
         var _this = this;
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/data').then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/data').then(function (res) {
             // console.log(res.data[0]);
             // this.d.allData = res.data[0];
             _this.d.allData = [{ name: 'qqqqqxc' }];

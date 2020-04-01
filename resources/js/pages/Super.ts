@@ -10,7 +10,7 @@ export default class Super extends Vue {
     public allData: Category[] = [];
 
     private loadAllData() {
-        Axios.get('/data').then(res => {
+        Axios.get('/api/data').then(res => {
             // console.log(res.data[0]);
             // this.d.allData = res.data[0];
             this.d.allData = [{ name: 'qqqqqxc' }];
