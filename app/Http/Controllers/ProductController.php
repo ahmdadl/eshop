@@ -8,6 +8,8 @@ use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
+    use GetCategoryList;
+
     /**
      * Display a listing of the resource.
      *
@@ -15,20 +17,9 @@ class ProductController extends Controller
      */
     public function index(string $c_slug, string $sub)
     {
-        $cats =  \App\Category::whereNull('category_id')->with(['subCat'])->get();
+        $cats =  $this->getList();
 
-        $pros = [];
-        foreach ($cats as $c) {
-            if ($c->slug === $c_slug) {
-                foreach ($c->subCat as $sc) {
-                    if ($sc->slug === $sub) {
-                        $pros[] = $sc->products;
-                    }
-                }
-            }
-        }
-
-        return view('product.index', compact('cats', 'pros'));
+        return view('product.index', compact('cats'));
     }
 
     /**
