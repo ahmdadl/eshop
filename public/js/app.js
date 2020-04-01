@@ -15451,9 +15451,6 @@ var Product = /** @class */ (function (_super) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-
 
 
 var Super = /** @class */ (function (_super) {
@@ -15464,16 +15461,6 @@ var Super = /** @class */ (function (_super) {
         _this.allData = [];
         return _this;
     }
-    Super.prototype.loadAllData = function () {
-        var _this = this;
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/data').then(function (res) {
-            // console.log(res.data[0]);
-            // this.d.allData = res.data[0];
-            _this.d.allData = [{ name: 'qqqqqxc' }];
-            _this.d.id = 'adsadsad';
-        });
-        setTimeout(function (_) { return _this.d.name = 'asdsad'; }, 1100);
-    };
     /**
      * attach compoenent properties and methods to global d variable
      *
@@ -15492,9 +15479,7 @@ var Super = /** @class */ (function (_super) {
             _this.d[x] = self[x];
         });
     };
-    Super.prototype.beforeMount = function () {
-        this.loadAllData();
-    };
+    Super.prototype.beforeMount = function () { };
     Super = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             template: __webpack_require__(/*! ./index-template.html */ "./resources/js/pages/index-template.html")
