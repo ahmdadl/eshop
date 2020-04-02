@@ -28,9 +28,11 @@ class HomeController extends Controller
         ]);
     }
 
-    public function sendData(Category $category)
+    public function sendData(string $cat_slug)
     {
-        $category->load('productsMini');
-        return response()->json($category);
+        // $category->load('productsMini');
+        return response()->json(
+            Product::where('category_slug', '=', $cat_slug)->paginate(30)
+        );
     }
 }

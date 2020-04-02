@@ -20,7 +20,7 @@ class ProductSeeder extends Seeder
         $cats->each(function (Category $c) {
             $c->products()->saveMany(
                 factory(Product::class, mt_rand(25, 80))->make([
-                    'category_id' => $c->id
+                    'category_slug' => $c->slug
                 ])
             );
         });
