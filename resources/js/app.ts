@@ -2,6 +2,7 @@ import { Vue } from 'vue-property-decorator';
 import Axios from 'axios';
 import Home from './pages/home';
 import Product from './pages/product';
+import StarRate from './components/StarRate.vue';
 
 Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 Axios.defaults.baseURL = `/api/`;
@@ -33,6 +34,8 @@ Axios.interceptors.response.use(
 );
 
 Vue.config.productionTip = false;
+
+Vue.component('star-rate', StarRate);
 
 const app = new Vue({
     el: '#app',

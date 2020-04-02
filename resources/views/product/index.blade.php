@@ -29,7 +29,7 @@
                     </strong>
                 </p>
                 <p>
-                    @{{p.rateAvg}}
+                    <star-rate :percent="p.rateAvg" :count="p.rates.length"></star-rate>
                 </p>
             </div>
             <div class="card-footer">
