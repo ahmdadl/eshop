@@ -11,6 +11,12 @@ const mix = require('laravel-mix');
  |
  */
 
+if (mix.inProduction()) {
+   mix.options({
+      extractVueStyles: true,
+   });
+}
+
 mix.ts('resources/js/app.ts', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
    // .browserSync('eshop.test')
