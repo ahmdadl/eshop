@@ -15,7 +15,8 @@ export interface Dynamic {
     brands: Filter[];
     colors: Filter[];
     conditions: Filter[];
-    collabse: {id: string, txt?: string};
+    collabse: { id: string; txt?: string };
+    range: { from: number; to: number; max: number };
 }
 
 export interface Filter {
@@ -41,7 +42,8 @@ export default class Product extends Super {
         brands: [],
         colors: [],
         conditions: [],
-        collabse: {id: '', txt: ''},
+        collabse: { id: "", txt: "" },
+        range: { from: 0, to: 0, max: 0 }
     };
     public oldData: ProductInterface[];
 
@@ -119,11 +121,12 @@ export default class Product extends Super {
     }
 
     public toogleCollabseButton(isShown: boolean, refId: string) {
-       this.d.collabse.id = refId;
-       this.d.collabse.txt = isShown ? '+' : '-';
+        this.d.collabse.id = refId;
+        this.d.collabse.txt = isShown ? "+" : "-";
     }
 
     private doCalc() {
+        const prices: number[] = [];
         this.oldData.map(x => {
             this.d.brands.push({
                 txt: x.brand as string,
@@ -133,6 +136,7 @@ export default class Product extends Super {
                 txt: x.color[0],
                 checked: false
             });
+            prices.push(x.savedPriceInt);
             return x;
         });
         this.d.conditions = [
@@ -145,6 +149,10 @@ export default class Product extends Super {
                 checked: false
             }
         ];
+
+        // sort prices
+        prices.sort();
+        this.d.range.max = Number(prices[prices.length - 1].toFixed(2));
     }
 
     private showLoader() {

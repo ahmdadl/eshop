@@ -16717,7 +16717,8 @@ var Product = /** @class */ (function (_super) {
             brands: [],
             colors: [],
             conditions: [],
-            collabse: { id: '', txt: '' },
+            collabse: { id: "", txt: "" },
+            range: { from: 0, to: 0, max: 0 }
         };
         return _this;
     }
@@ -16787,10 +16788,11 @@ var Product = /** @class */ (function (_super) {
     };
     Product.prototype.toogleCollabseButton = function (isShown, refId) {
         this.d.collabse.id = refId;
-        this.d.collabse.txt = isShown ? '+' : '-';
+        this.d.collabse.txt = isShown ? "+" : "-";
     };
     Product.prototype.doCalc = function () {
         var _this = this;
+        var prices = [];
         this.oldData.map(function (x) {
             _this.d.brands.push({
                 txt: x.brand,
@@ -16800,6 +16802,7 @@ var Product = /** @class */ (function (_super) {
                 txt: x.color[0],
                 checked: false
             });
+            prices.push(x.savedPriceInt);
             return x;
         });
         this.d.conditions = [
@@ -16812,6 +16815,9 @@ var Product = /** @class */ (function (_super) {
                 checked: false
             }
         ];
+        // sort prices
+        prices.sort();
+        this.d.range.max = Number(prices[prices.length - 1].toFixed(2));
     };
     Product.prototype.showLoader = function () {
         this.d.loadingPosts = true;
