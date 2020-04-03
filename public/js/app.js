@@ -3105,7 +3105,7 @@ var StarRate = /** @class */ (function (_super) {
         Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Number)
     ], StarRate.prototype, "percent", void 0);
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Number, required: true }),
+        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Number, required: false }),
         Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Number)
     ], StarRate.prototype, "count", void 0);
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
@@ -3788,9 +3788,11 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("span", { staticClass: "text-muted mx-1" }, [
-      _vm._v("\n      (" + _vm._s(_vm.count) + ")\n  ")
-    ])
+    _vm.count
+      ? _c("span", { staticClass: "text-muted mx-1" }, [
+          _vm._v("\n      (" + _vm._s(_vm.count) + ")\n  ")
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -16790,6 +16792,16 @@ var Product = /** @class */ (function (_super) {
         this.d.collabse.id = refId;
         this.d.collabse.txt = isShown ? "+" : "-";
     };
+    Product.prototype.rateFilter = function (starCount) {
+        var _this = this;
+        var arr = this.oldData.filter(function (x) { return x.rateAvg >= starCount; });
+        this.d.data = [];
+        this.showLoader();
+        setTimeout(function (_) {
+            _this.d.data = arr;
+            _this.hideLoader();
+        }, 300);
+    };
     Product.prototype.doCalc = function () {
         var _this = this;
         var prices = [];
@@ -16826,7 +16838,11 @@ var Product = /** @class */ (function (_super) {
         this.d.loadingPosts = false;
     };
     Product.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ["filterData", "toogleCollabseButton"]);
+        this.attachToGlobal(this, [
+            "filterData",
+            "toogleCollabseButton",
+            "rateFilter"
+        ]);
         var _a = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(this.extractRoute(), 2), cat = _a[0], sub = _a[1];
         this.d.slug = [cat, sub];
         this.loadData(sub);

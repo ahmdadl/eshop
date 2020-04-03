@@ -125,6 +125,21 @@ export default class Product extends Super {
         this.d.collabse.txt = isShown ? "+" : "-";
     }
 
+    public rateFilter(starCount: number) {
+        const arr = this.oldData.filter(
+            x => (x.rateAvg as number) >= starCount
+        );
+
+        this.d.data = [];
+
+        this.showLoader();
+
+        setTimeout(_ => {
+            this.d.data = arr;
+            this.hideLoader();
+        }, 300);
+    }
+
     private doCalc() {
         const prices: number[] = [];
         this.oldData.map(x => {
@@ -163,7 +178,11 @@ export default class Product extends Super {
     }
 
     beforeMount() {
-        this.attachToGlobal(this, ["filterData", "toogleCollabseButton"]);
+        this.attachToGlobal(this, [
+            "filterData",
+            "toogleCollabseButton",
+            "rateFilter"
+        ]);
 
         const [cat, sub] = this.extractRoute();
         this.d.slug = [cat, sub];

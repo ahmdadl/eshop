@@ -1,6 +1,6 @@
 @props(['title', 'show'])
 
-<div class="card">
+<div class="card {{strtolower($title)}}">
     <div class="card-header">
         <span class="float-left">@lang('t.' . strtolower($title))</span>
         <span class="float-right">

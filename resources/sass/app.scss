@@ -1,17 +1,25 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
-@import '../../node_modules/@fortawesome/fontawesome-free/css/all.css';
+@import "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
 
 .text-dell {
     text-decoration: line-through !important;
 }
 .transition {
-    transition: all .8s ease-in-out;
+    transition: all 0.8s ease-in-out;
+}
+.card.rating {
+    .rateContainer {
+        transition: all 0.5s linear;
+        &:hover {
+            margin: 0 1rem;
+        }
+    }
 }

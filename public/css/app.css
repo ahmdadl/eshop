@@ -15436,3 +15436,11 @@ a.text-dark:focus {
   transition: all 0.8s ease-in-out;
 }
 
+.card.rating .rateContainer {
+  transition: all 0.5s linear;
+}
+
+.card.rating .rateContainer:hover {
+  margin: 0 1rem;
+}
+
