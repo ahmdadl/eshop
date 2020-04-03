@@ -8,6 +8,7 @@ export interface Dynamic {
     nextUrl: string;
     slug: string[];
     loadingPosts: boolean;
+    is_land_product: boolean;
 }
 
 @Component
@@ -17,6 +18,7 @@ export default class Product extends Super {
         nextUrl: '',
         slug: [],
         loadingPosts: false,
+        is_land_product: false,
     };
 
     public foramtMony(n: number): any

@@ -16703,6 +16703,7 @@ var Product = /** @class */ (function (_super) {
             nextUrl: '',
             slug: [],
             loadingPosts: false,
+            is_land_product: false,
         };
         return _this;
     }
