@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -17,10 +18,11 @@ class ProductController extends Controller
      */
     public function index(string $c_slug, string $sub)
     {
-        $cats =  $this->getList();
-
-        // $p = Product::where('category_slug', '=', $sub)->paginate(30);
-        return view('product.index', compact('cats'));
+        return view('product.index',[
+            'cats' => $this->getList(),
+            'slug' => [$c_slug, $sub],
+            'title' => ucwords(str_replace('-', ' ', $sub)),
+        ]);
     }
 
     /**

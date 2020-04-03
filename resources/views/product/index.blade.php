@@ -1,10 +1,18 @@
 @extends('layouts.app', ['cpt' => 'product'])
 
 @section('title')
-@lang('t.all_p')
+{{$title ?? __('t.all_p')}} 
 @endsection
 
 @section('content')
+<div class="row">
+    <div class="col-6 text-left">
+        <h4>{{$title}}</h4>
+    </div>
+    <div class="col-6 text-right">
+        
+    </div>
+</div>
 <div class="row">
     <my-product v-for="(p, pinx) in h.d.data" :product="p"
         :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')']" :is_land="true"
