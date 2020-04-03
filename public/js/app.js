@@ -3819,7 +3819,9 @@ var render = function() {
     "div",
     {
       staticClass: "transition",
-      class: _vm.is_land ? "col-12" : "col-6 col-sm-4 col-md-3"
+      class: _vm.is_land
+        ? "col-12 col-md-6 col-lg-4"
+        : "col-6 col-sm-4 col-md-3"
     },
     [
       _c("div", { staticClass: "card", class: _vm.is_land ? "mb-3" : "mb-1" }, [
