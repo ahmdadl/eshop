@@ -6,10 +6,10 @@
 
 @section('content')
 <div class="row">
-    <div class="col-6 text-left">
+    <div class="col-12 col-sm-6 text-left">
         <h4>{{$title}}</h4>
     </div>
-    <div class="col-6 text-right">
+    <div class="col-12 col-sm-6 text-right">
         @lang('t.view')
         <div class="d-inline">
             <button class="btn btn-outline-primary"
@@ -23,9 +23,29 @@
                 <i class="fa fa-th-large"></i>
             </button>
         </div>
+        <span>
+            @lang('t.sortBy'): <div class="btn-group dropleft">
+                <div class="dropdown d-inline">
+                    <button
+                        class="btn btn-outline-info btn-clear dropdown-toggle text-capitalize"
+                        type="button" id="dropdownMenuFilterList"
+                        data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        @{{h.d.filters[h.d.currentFilter]}}
+                    </button>
+                    <div class="dropdown-menu text-capitalize"
+                        aria-labelledby="dropdownMenuFilterList">
+                        <a class="dropdown-item" href="#"
+                            v-for="(f, finx) in h.d.filters"
+                            v-on:click.prevent="h.d.filterData(finx+1)"
+                            :class="h.d.currentFilter===finx ? 'active' : ''">@{{f}}</a>
+                    </div>
+                </div>
+            </div>
+        </span>
     </div>
 </div>
-<div class="row">
+<div class="row mt-3">
     <my-product v-for="(p, pinx) in h.d.data" :product="p"
         :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')']"
         :is_land="h.d.is_land_product" :key="pinx">

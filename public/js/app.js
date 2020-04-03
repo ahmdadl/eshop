@@ -16705,44 +16705,97 @@ var Product = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.d = {
             data: [],
-            nextUrl: '',
+            nextUrl: "",
             slug: [],
             loadingPosts: false,
             is_land_product: false,
+            filters: [
+                "popularity",
+                "top rated",
+                "price: low to high",
+                "price: high to low"
+            ],
+            currentFilter: 0
         };
         return _this;
     }
     Product.prototype.foramtMony = function (n) {
         return this.formatter.format(n);
     };
+    Product.prototype.sortData = function (finx) {
+        var arr = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(this.oldData);
+        var callback = function (a, b) {
+            return b.rates.length - a.rates.length; // popularity
+        };
+        if (finx === 2) {
+            callback = function (a, b) {
+                return b.rateAvg - a.rates.length;
+            };
+        }
+        else if (finx === 3) {
+            callback = function (a, b) {
+                return a.savedPriceInt - b.savedPriceInt;
+            };
+        }
+        else if (finx === 4) {
+            callback = function (a, b) {
+                return b.savedPriceInt - a.savedPriceInt;
+            };
+        }
+        this.d.data = this.oldData.sort(callback);
+    };
+    Product.prototype.filterData = function (finx) {
+        var _this = this;
+        if (this.d.currentFilter === finx - 1) {
+            console.info("is same");
+            return;
+        }
+        this.d.currentFilter = finx - 1;
+        this.d.data = [];
+        this.showLoader();
+        setTimeout(function (_) {
+            _this.sortData(finx);
+            _this.hideLoader();
+        }, 500);
+    };
     Product.prototype.loadData = function (subSlug, nextPath) {
         var _this = this;
         if (subSlug === void 0) { subSlug = this.d.slug[1]; }
         if (nextPath === void 0) { nextPath = null; }
         this.d.data = [];
-        this.d.loadingPosts = true;
+        this.showLoader();
         var path = !nextPath ? "sub/" + subSlug : nextPath;
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(path).then(function (res) {
             res = res.data;
             res.data.map(function (x) {
+                x.priceInt = x.price;
+                x.savedPriceInt = x.savedPrice;
                 x.youSave = _this.foramtMony(x.price - x.savedPrice);
                 x.price = _this.foramtMony(x.price);
                 x.savedPrice = _this.foramtMony(x.savedPrice);
                 return x;
             });
-            _this.d.data = res.data;
+            // this.d.data = res.data;
+            _this.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
             _this.d.nextUrl = res.next_page_url;
-            _this.d.loadingPosts = false;
+            _this.sortData(1);
+            // this.hideLoader();
         });
     };
+    Product.prototype.showLoader = function () {
+        this.d.loadingPosts = true;
+    };
+    Product.prototype.hideLoader = function () {
+        this.d.loadingPosts = false;
+    };
     Product.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ['foramtMony']);
+        this.attachToGlobal(this, ["filterData"]);
         var _a = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(this.extractRoute(), 2), cat = _a[0], sub = _a[1];
         this.d.slug = [cat, sub];
         this.loadData(sub);
+        // setTimeout(_ => this.resetData(), 2500);
     };
-    Product.prototype.mounted = function () {
-    };
+    Product.prototype.mounted = function () { };
     Product = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
     ], Product);
