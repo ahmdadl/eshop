@@ -18,6 +18,7 @@ export default interface ProductInterface {
     is_used: boolean | false;
     color: string[];
     img: string[];
+    brand?: string;
     pi?: ProductInfo;
     pivot?: { category_id: number; product_id: number };
     rates: Rates[];

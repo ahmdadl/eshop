@@ -46,10 +46,23 @@
     </div>
 </div>
 <div class="row mt-3">
-    <my-product v-for="(p, pinx) in h.d.data" :product="p"
-        :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')']"
-        :is_land="h.d.is_land_product" :key="pinx">
-    </my-product>
+    <div class="d-non d-md-block col-12 col-md-3">
+        <x-filter-card title="Brand" show="show">
+            <x-loop-filters data="brands" index="br"></x-loop-filters>
+        </x-filter-card>
+        <x-filter-card title="Color">
+            <x-loop-filters data="colors" index="co"></x-loop-filters>
+        </x-filter-card>
+        <x-filter-card title="Condition">
+            <x-loop-filters data="conditions" index="cod"></x-loop-filters>
+        </x-filter-card>
+    </div>
+    <div class="col-12 col-md-9">
+        <my-product v-for="(p, pinx) in h.d.data" :product="p"
+            :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')']"
+            :is_land="h.d.is_land_product" :key="pinx">
+        </my-product>
+    </div>
 </div>
 <div :id="h.d.loadingPosts" class="d-flex justify-content-center mt-2">
     <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"

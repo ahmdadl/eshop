@@ -16713,7 +16713,11 @@ var Product = /** @class */ (function (_super) {
                 "price: low to high",
                 "price: high to low"
             ],
-            currentFilter: 0
+            currentFilter: 0,
+            brands: [],
+            colors: [],
+            conditions: [],
+            collabse: { id: '', txt: '' },
         };
         return _this;
     }
@@ -16776,9 +16780,38 @@ var Product = /** @class */ (function (_super) {
             // this.d.data = res.data;
             _this.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
             _this.d.nextUrl = res.next_page_url;
+            _this.doCalc();
             _this.sortData(1);
-            // this.hideLoader();
+            _this.hideLoader();
         });
+    };
+    Product.prototype.toogleCollabseButton = function (isShown, refId) {
+        this.d.collabse.id = refId;
+        this.d.collabse.txt = isShown ? '+' : '-';
+    };
+    Product.prototype.doCalc = function () {
+        var _this = this;
+        this.oldData.map(function (x) {
+            _this.d.brands.push({
+                txt: x.brand,
+                checked: false
+            });
+            _this.d.colors.push({
+                txt: x.color[0],
+                checked: false
+            });
+            return x;
+        });
+        this.d.conditions = [
+            {
+                txt: "New",
+                checked: false
+            },
+            {
+                txt: "Used",
+                checked: false
+            }
+        ];
     };
     Product.prototype.showLoader = function () {
         this.d.loadingPosts = true;
@@ -16787,11 +16820,10 @@ var Product = /** @class */ (function (_super) {
         this.d.loadingPosts = false;
     };
     Product.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ["filterData"]);
+        this.attachToGlobal(this, ["filterData", "toogleCollabseButton"]);
         var _a = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(this.extractRoute(), 2), cat = _a[0], sub = _a[1];
         this.d.slug = [cat, sub];
         this.loadData(sub);
-        // setTimeout(_ => this.resetData(), 2500);
     };
     Product.prototype.mounted = function () { };
     Product = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([

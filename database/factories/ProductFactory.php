@@ -16,6 +16,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'save' => rand(0, 100),
         'amount' => rand(1, 3),
         'is_used' => $faker->boolean(),
+        'brand' => $faker->word,
         'color' => [$faker->word, $faker->word],
         'img' => [rand(1, 5).'.png', rand(1, 5).'.png', rand(1, 5).'.png']
     ];

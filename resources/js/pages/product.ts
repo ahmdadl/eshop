@@ -12,6 +12,15 @@ export interface Dynamic {
     is_land_product: boolean;
     filters: string[];
     currentFilter: number | 0 | 1 | 2 | 3;
+    brands: Filter[];
+    colors: Filter[];
+    conditions: Filter[];
+    collabse: {id: string, txt?: string};
+}
+
+export interface Filter {
+    txt: string;
+    checked: boolean;
 }
 
 @Component
@@ -28,7 +37,11 @@ export default class Product extends Super {
             "price: low to high",
             "price: high to low"
         ],
-        currentFilter: 0
+        currentFilter: 0,
+        brands: [],
+        colors: [],
+        conditions: [],
+        collabse: {id: '', txt: ''},
     };
     public oldData: ProductInterface[];
 
@@ -99,9 +112,39 @@ export default class Product extends Super {
             // this.d.data = res.data;
             this.oldData = [...res.data];
             this.d.nextUrl = res.next_page_url;
+            this.doCalc();
             this.sortData(1);
-            // this.hideLoader();
+            this.hideLoader();
         });
+    }
+
+    public toogleCollabseButton(isShown: boolean, refId: string) {
+       this.d.collabse.id = refId;
+       this.d.collabse.txt = isShown ? '+' : '-';
+    }
+
+    private doCalc() {
+        this.oldData.map(x => {
+            this.d.brands.push({
+                txt: x.brand as string,
+                checked: false
+            });
+            this.d.colors.push({
+                txt: x.color[0],
+                checked: false
+            });
+            return x;
+        });
+        this.d.conditions = [
+            {
+                txt: "New",
+                checked: false
+            },
+            {
+                txt: "Used",
+                checked: false
+            }
+        ];
     }
 
     private showLoader() {
@@ -112,14 +155,12 @@ export default class Product extends Super {
     }
 
     beforeMount() {
-        this.attachToGlobal(this, ["filterData"]);
+        this.attachToGlobal(this, ["filterData", "toogleCollabseButton"]);
 
         const [cat, sub] = this.extractRoute();
         this.d.slug = [cat, sub];
 
         this.loadData(sub);
-
-        // setTimeout(_ => this.resetData(), 2500);
     }
 
     mounted() {}
