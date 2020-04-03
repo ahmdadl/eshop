@@ -9,7 +9,7 @@
         >&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</i>
       </i>
     </span>
-    <span class="text-muted mx-1">
+    <span class="text-muted mx-1" v-if="count">
         ({{count}})
     </span>
   </div>
@@ -43,7 +43,7 @@ import { Vue, Prop, Component } from "vue-property-decorator";
 @Component
 export default class StarRate extends Vue {
   @Prop({ type: Number, required: true }) public percent: number;
-  @Prop({ type: Number, required: true }) public count: number;
+  @Prop({ type: Number, required: false }) public count: number;
   @Prop({ type: Boolean }) public run: boolean;
   public w: number = 0;
 
