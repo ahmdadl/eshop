@@ -154,20 +154,17 @@
                 <div class="dropdown-menu">
                     @foreach ($c->subCat as $sc)
                     <a class="dropdown-item"
-                        href="{{LaravelLocalization::localizeUrl('c/'.$c->slug.'/sub/'.$sc->slug)}}">
+                        href="{{LaravelLocalization::localizeUrl('c/'.$c->slug.'/sub/'.$sc->slug)}}" @if($cpt === 'product') v-on:click.prevent="$refs.childCmp.loadData('{{$sc->slug}}')" @endif>
                         {{$sc->name}}
                     </a>
                     @endforeach
                 </div>
             </li>
             @endforeach
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
         </ul>
 
         <main class="py-4">
-            <{{$cpt ?? ''}}>
+            <{{$cpt ?? ''}} ref="childCmp">
                 <template v-slot="h">
                     @yield('content')
                 </template>

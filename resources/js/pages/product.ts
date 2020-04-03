@@ -24,10 +24,11 @@ export default class Product extends Super {
         return this.formatter.format(n);
     }
 
-    private loadData(
+    public loadData(
         subSlug: string = this.d.slug[1],
         nextPath: string | null = null
     ): void {
+        this.d.data = [];
         this.d.loadingPosts = true;
         const path = !nextPath ? `sub/${subSlug}` : nextPath;
         Axios.get(path).then((res: any) => {

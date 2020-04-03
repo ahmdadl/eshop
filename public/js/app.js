@@ -16713,6 +16713,7 @@ var Product = /** @class */ (function (_super) {
         var _this = this;
         if (subSlug === void 0) { subSlug = this.d.slug[1]; }
         if (nextPath === void 0) { nextPath = null; }
+        this.d.data = [];
         this.d.loadingPosts = true;
         var path = !nextPath ? "sub/" + subSlug : nextPath;
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(path).then(function (res) {
