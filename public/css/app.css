@@ -15432,3 +15432,7 @@ a.text-dark:focus {
   text-decoration: line-through !important;
 }
 
+.transition {
+  transition: all 0.8s ease-in-out;
+}
+

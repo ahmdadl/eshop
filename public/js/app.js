@@ -3817,7 +3817,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { class: _vm.is_land ? "col-12" : "col-6 col-sm-4 col-md-3" },
+    {
+      staticClass: "transition",
+      class: _vm.is_land ? "col-12" : "col-6 col-sm-4 col-md-3"
+    },
     [
       _c("div", { staticClass: "card", class: _vm.is_land ? "mb-3" : "mb-1" }, [
         _c(

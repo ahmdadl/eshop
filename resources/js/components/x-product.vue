@@ -1,5 +1,5 @@
 <template>
-    <div :class="is_land ? 'col-12' : 'col-6 col-sm-4 col-md-3'">
+    <div class='transition' :class="is_land ? 'col-12' : 'col-6 col-sm-4 col-md-3'">
         <div class="card" :class="is_land ? 'mb-3' : 'mb-1'">
             <div class="row" :class="is_land ? 'no-gutters' : ''">
                 <div :class="is_land ? 'col-4' : 'col-12'">
