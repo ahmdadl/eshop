@@ -37,7 +37,7 @@ Axios.interceptors.response.use(
 Vue.config.productionTip = false;
 
 Vue.component('star-rate', StarRate);
-Vue.component('x-product', XProduct);
+Vue.component('my-product', XProduct);
 
 const app = new Vue({
     el: '#app',

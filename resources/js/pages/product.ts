@@ -33,6 +33,7 @@ export default class Product extends Super {
         Axios.get(path).then((res: any) => {
             res = res.data;
             res.data.map((x: ProductInterface) => {
+                x.youSave = this.foramtMony(x.price - x.savedPrice);
                 x.price = this.foramtMony(x.price);
                 x.savedPrice = this.foramtMony(x.savedPrice);
                 return x;

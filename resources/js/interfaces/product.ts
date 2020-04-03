@@ -10,6 +10,7 @@ export default interface ProductInterface
     info?: string;
     price: number;
     savedPrice: number;
+    youSave?: number;
     rateAvg?: number;
     save?: number | 0;
     amount: number;
