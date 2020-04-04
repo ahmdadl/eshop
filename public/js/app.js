@@ -16782,11 +16782,13 @@ var Product = /** @class */ (function (_super) {
         this.getDataFromServer("sub/" + this.d.slug[1] + "/filterBrands/" + this.d.selected.brands.join(","));
     };
     Product.prototype.filterByColors = function () {
-        // this.getDataFromServer(
-        //     `sub/${this.d.slug[1]}/filterBrands/${this.d.selected.colors.join(
-        //         ","
-        //     )}`
-        // );
+        var _this = this;
+        if (!this.d.selected.colors.length) {
+            this.d.data = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(this.oldData);
+            return;
+        }
+        var arr = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(this.oldData);
+        this.d.data = arr.filter(function (x) { return _this.d.selected.colors.indexOf(x.color[0]) > -1; });
     };
     Product.prototype.filterByConditions = function () {
         var val = this.d.selected.conditions === "Used" ? 1 : 0;

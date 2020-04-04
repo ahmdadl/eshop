@@ -118,11 +118,15 @@ export default class Product extends Super {
     }
 
     public filterByColors() {
-        // this.getDataFromServer(
-        //     `sub/${this.d.slug[1]}/filterBrands/${this.d.selected.colors.join(
-        //         ","
-        //     )}`
-        // );
+        if (!this.d.selected.colors.length) {
+            this.d.data = [...this.oldData];
+            return;
+        }
+
+        const arr = [...this.oldData];
+        this.d.data = arr.filter(
+            x => this.d.selected.colors.indexOf(x.color[0]) > -1
+        );
     }
 
     public filterByConditions() {
