@@ -16892,6 +16892,7 @@ var Product = /** @class */ (function (_super) {
         // sort prices
         prices.sort(function (a, b) { return a - b; });
         this.d.range.max = Number(prices[prices.length - 1].toFixed(2));
+        this.d.range.to = this.d.range.max;
     };
     Product.prototype.showLoader = function () {
         this.d.loadingPosts = true;

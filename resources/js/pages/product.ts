@@ -250,6 +250,7 @@ export default class Product extends Super {
         
         prices.sort((a, b) => a - b);
         this.d.range.max = Number(prices[prices.length - 1].toFixed(2));
+        this.d.range.to = this.d.range.max;
     }
 
     private showLoader() {
