@@ -16779,7 +16779,7 @@ var Product = /** @class */ (function (_super) {
         this.d.collabse.txt = isShown ? "+" : "-";
     };
     Product.prototype.filterByBrands = function () {
-        var path = "sub/" + this.d.slug[1];
+        var path;
         if (this.d.selected.brands.length) {
             path = "sub/" + this.d.slug[1] + "/filterBrands/" + this.d.selected.brands.join(",");
         }
@@ -16808,8 +16808,17 @@ var Product = /** @class */ (function (_super) {
             _this.hideLoader();
         }, 300);
     };
+    Product.prototype.removeAllfilters = function () {
+        this.d.selected = {
+            brands: [],
+            colors: [],
+            conditions: ""
+        };
+        this.getDataFromServer();
+    };
     Product.prototype.getDataFromServer = function (path, native) {
         var _this = this;
+        if (path === void 0) { path = "sub/" + this.d.slug[1]; }
         if (native === void 0) { native = false; }
         this.d.data = [];
         this.showLoader();
@@ -16884,7 +16893,8 @@ var Product = /** @class */ (function (_super) {
             "filterByBrands",
             "filterByColors",
             "filterByConditions",
-            "rateFilter"
+            "rateFilter",
+            "removeAllfilters"
         ]);
         var _a = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(this.extractRoute(), 2), cat = _a[0], sub = _a[1];
         this.d.slug = [cat, sub];

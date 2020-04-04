@@ -110,7 +110,7 @@ export default class Product extends Super {
     }
 
     public filterByBrands() {
-        let path = `sub/${this.d.slug[1]}`;
+        let path;
         if (this.d.selected.brands.length) {
             path = `sub/${
                 this.d.slug[1]
@@ -152,7 +152,20 @@ export default class Product extends Super {
         }, 300);
     }
 
-    private getDataFromServer(path: string, native: boolean = false) {
+    public removeAllfilters() {
+        this.d.selected = {
+            brands: [],
+            colors: [],
+            conditions: ""
+        };
+
+        this.getDataFromServer();
+    }
+
+    private getDataFromServer(
+        path: string = `sub/${this.d.slug[1]}`,
+        native: boolean = false
+    ) {
         this.d.data = [];
         this.showLoader();
         Axios.get(path).then((res: any) => {
@@ -235,7 +248,8 @@ export default class Product extends Super {
             "filterByBrands",
             "filterByColors",
             "filterByConditions",
-            "rateFilter"
+            "rateFilter",
+            "removeAllfilters"
         ]);
 
         const [cat, sub] = this.extractRoute();

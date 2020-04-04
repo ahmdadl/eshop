@@ -47,6 +47,21 @@
 </div>
 <div class="row mt-3">
     <div class="d-non d-md-block col-12 col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <button class="btn btn-info float-left" :disabled="h.d.loadingPosts">
+                    @lang('t.nav.daily')
+                </button>
+                <button class="btn btn-danger float-right"
+                    v-on:click="h.d.removeAllfilters()"
+                    :disabled="h.d.loadingPosts">
+                    <span :class="h.d.loadingPosts ? '' : 'd-none'"
+                        class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                    @lang('t.removeAllfillters')
+                </button>
+            </div>
+        </div>
         <x-filter-card title="Brand" show="show">
             <x-loop-filters data="brands" index="br"></x-loop-filters>
         </x-filter-card>
