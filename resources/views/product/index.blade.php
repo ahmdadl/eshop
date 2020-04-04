@@ -54,7 +54,8 @@
             <x-loop-filters data="colors" index="co"></x-loop-filters>
         </x-filter-card>
         <x-filter-card title="Condition">
-            <x-loop-filters data="conditions" index="cod"></x-loop-filters>
+            <x-loop-filters data="conditions" index="cod" type="radio">
+            </x-loop-filters>
         </x-filter-card>
         @include('product.filters.range')
         @include('product.filters.rating')

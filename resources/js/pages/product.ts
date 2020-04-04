@@ -17,7 +17,7 @@ export interface Dynamic {
     conditions: Filter[];
     collabse: { id: string; txt?: string };
     range: { from: number; to: number; max: number };
-    selected: { brands: string[]; colors: string[]; conditions: string[] };
+    selected: { brands: string[]; colors: string[]; conditions: string };
 }
 
 export interface Filter {
@@ -48,7 +48,7 @@ export default class Product extends Super {
         selected: {
             brands: [],
             colors: [],
-            conditions: []
+            conditions: ""
         }
     };
     public oldData: ProductInterface[];
@@ -100,35 +100,28 @@ export default class Product extends Super {
         subSlug: string = this.d.slug[1],
         nextPath: string | null = null
     ): void {
-        this.d.data = [];
-        this.showLoader();
         const path = !nextPath ? `sub/${subSlug}` : nextPath;
-        Axios.get(path).then((res: any) => {
-            res = res.data;
-            res.data.map((x: ProductInterface) => {
-                x.priceInt = x.price as number;
-                x.savedPriceInt = x.savedPrice as number;
-                x.youSave = this.foramtMony(
-                    (x.price as number) - (x.savedPrice as number)
-                );
-                x.price = this.foramtMony(x.price as number);
-                (x.savedPrice as number) = this.foramtMony(
-                    x.savedPrice as number
-                );
-                return x;
-            });
-            // this.d.data = res.data;
-            this.oldData = [...res.data];
-            this.d.nextUrl = res.next_page_url;
-            this.doCalc();
-            this.sortData(1);
-            this.hideLoader();
-        });
+        this.getDataFromServer(path, true);
     }
 
     public toogleCollabseButton(isShown: boolean, refId: string) {
         this.d.collabse.id = refId;
         this.d.collabse.txt = isShown ? "+" : "-";
+    }
+
+    public filterByBrands() {
+        console.log(this.d.selected.brands);
+        this.getDataFromServer(
+            `sub/${this.d.slug[1]}/filterBrands/${this.d.selected.brands.join(
+                ","
+            )}`
+        );
+    }
+    public filterByColors() {
+        console.log(this.d.selected.colors);
+    }
+    public filterByConditions() {
+        console.log(this.d.selected.conditions);
     }
 
     public rateFilter(starCount: number) {
@@ -146,30 +139,69 @@ export default class Product extends Super {
         }, 300);
     }
 
-    private doCalc() {
+    private getDataFromServer(path: string, native: boolean = false) {
+        this.d.data = [];
+        this.showLoader();
+        Axios.get(path).then((res: any) => {
+            res = res.data;
+            res.data.map((x: ProductInterface) => {
+                x.priceInt = x.price as number;
+                x.savedPriceInt = x.savedPrice as number;
+                x.youSave = this.foramtMony(
+                    (x.price as number) - (x.savedPrice as number)
+                );
+                x.price = this.foramtMony(x.price as number);
+                (x.savedPrice as number) = this.foramtMony(
+                    x.savedPrice as number
+                );
+                return x;
+            });
+            // this.d.data = res.data;
+            this.oldData = [...res.data];
+            this.d.nextUrl = res.next_page_url;
+            this.doCalc(native);
+            this.sortData(1);
+            this.hideLoader();
+        });
+    }
+
+    private doCalc(native: boolean) {
         const prices: number[] = [];
+        if (native) {
+            this.d.brands = [];
+            this.d.colors = [];
+            this.d.conditions = [];
+        }
+
         this.oldData.map(x => {
-            this.d.brands.push({
-                txt: x.brand as string,
-                checked: false
-            });
-            this.d.colors.push({
-                txt: x.color[0],
-                checked: false
-            });
+            if (native) {
+                this.d.brands.push({
+                    txt: x.brand as string,
+                    checked: false
+                });
+            }
+            if (native) {
+                this.d.colors.push({
+                    txt: x.color[0],
+                    checked: false
+                });
+            }
             prices.push(x.savedPriceInt);
             return x;
         });
-        this.d.conditions = [
-            {
-                txt: "New",
-                checked: false
-            },
-            {
-                txt: "Used",
-                checked: false
-            }
-        ];
+
+        if (native) {
+            this.d.conditions = [
+                {
+                    txt: "New",
+                    checked: false
+                },
+                {
+                    txt: "Used",
+                    checked: false
+                }
+            ];
+        }
 
         // sort prices
         prices.sort();
@@ -187,6 +219,9 @@ export default class Product extends Super {
         this.attachToGlobal(this, [
             "filterData",
             "toogleCollabseButton",
+            "filterByBrands",
+            "filterByColors",
+            "filterByConditions",
             "rateFilter"
         ]);
 

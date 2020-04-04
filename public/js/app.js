@@ -16724,7 +16724,7 @@ var Product = /** @class */ (function (_super) {
             selected: {
                 brands: [],
                 colors: [],
-                conditions: []
+                conditions: ""
             }
         };
         return _this;
@@ -16769,12 +16769,40 @@ var Product = /** @class */ (function (_super) {
         }, 500);
     };
     Product.prototype.loadData = function (subSlug, nextPath) {
-        var _this = this;
         if (subSlug === void 0) { subSlug = this.d.slug[1]; }
         if (nextPath === void 0) { nextPath = null; }
+        var path = !nextPath ? "sub/" + subSlug : nextPath;
+        this.getDataFromServer(path, true);
+    };
+    Product.prototype.toogleCollabseButton = function (isShown, refId) {
+        this.d.collabse.id = refId;
+        this.d.collabse.txt = isShown ? "+" : "-";
+    };
+    Product.prototype.filterByBrands = function () {
+        console.log(this.d.selected.brands);
+        this.getDataFromServer("sub/" + this.d.slug[1] + "/filterBrands/" + this.d.selected.brands.join(","));
+    };
+    Product.prototype.filterByColors = function () {
+        console.log(this.d.selected.colors);
+    };
+    Product.prototype.filterByConditions = function () {
+        console.log(this.d.selected.conditions);
+    };
+    Product.prototype.rateFilter = function (starCount) {
+        var _this = this;
+        var arr = this.oldData.filter(function (x) { return x.rateAvg >= starCount; });
         this.d.data = [];
         this.showLoader();
-        var path = !nextPath ? "sub/" + subSlug : nextPath;
+        setTimeout(function (_) {
+            _this.d.data = arr;
+            _this.hideLoader();
+        }, 300);
+    };
+    Product.prototype.getDataFromServer = function (path, native) {
+        var _this = this;
+        if (native === void 0) { native = false; }
+        this.d.data = [];
+        this.showLoader();
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(path).then(function (res) {
             res = res.data;
             res.data.map(function (x) {
@@ -16788,50 +16816,47 @@ var Product = /** @class */ (function (_super) {
             // this.d.data = res.data;
             _this.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
             _this.d.nextUrl = res.next_page_url;
-            _this.doCalc();
+            _this.doCalc(native);
             _this.sortData(1);
             _this.hideLoader();
         });
     };
-    Product.prototype.toogleCollabseButton = function (isShown, refId) {
-        this.d.collabse.id = refId;
-        this.d.collabse.txt = isShown ? "+" : "-";
-    };
-    Product.prototype.rateFilter = function (starCount) {
-        var _this = this;
-        var arr = this.oldData.filter(function (x) { return x.rateAvg >= starCount; });
-        this.d.data = [];
-        this.showLoader();
-        setTimeout(function (_) {
-            _this.d.data = arr;
-            _this.hideLoader();
-        }, 300);
-    };
-    Product.prototype.doCalc = function () {
+    Product.prototype.doCalc = function (native) {
         var _this = this;
         var prices = [];
+        if (native) {
+            this.d.brands = [];
+            this.d.colors = [];
+            this.d.conditions = [];
+        }
         this.oldData.map(function (x) {
-            _this.d.brands.push({
-                txt: x.brand,
-                checked: false
-            });
-            _this.d.colors.push({
-                txt: x.color[0],
-                checked: false
-            });
+            if (native) {
+                _this.d.brands.push({
+                    txt: x.brand,
+                    checked: false
+                });
+            }
+            if (native) {
+                _this.d.colors.push({
+                    txt: x.color[0],
+                    checked: false
+                });
+            }
             prices.push(x.savedPriceInt);
             return x;
         });
-        this.d.conditions = [
-            {
-                txt: "New",
-                checked: false
-            },
-            {
-                txt: "Used",
-                checked: false
-            }
-        ];
+        if (native) {
+            this.d.conditions = [
+                {
+                    txt: "New",
+                    checked: false
+                },
+                {
+                    txt: "Used",
+                    checked: false
+                }
+            ];
+        }
         // sort prices
         prices.sort();
         this.d.range.max = Number(prices[prices.length - 1].toFixed(2));
@@ -16846,6 +16871,9 @@ var Product = /** @class */ (function (_super) {
         this.attachToGlobal(this, [
             "filterData",
             "toogleCollabseButton",
+            "filterByBrands",
+            "filterByColors",
+            "filterByConditions",
             "rateFilter"
         ]);
         var _a = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(this.extractRoute(), 2), cat = _a[0], sub = _a[1];

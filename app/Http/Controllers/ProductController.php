@@ -32,7 +32,7 @@ class ProductController extends Controller
         return response()->json(
             Product::where('category_slug', $cat_slug)
                 ->whereIn('brand', $brands)
-                ->get()
+                ->paginate(30)
         );
     }
 
@@ -41,7 +41,7 @@ class ProductController extends Controller
         return response()->json(
             Product::where('category_slug', $cat_slug)
                 ->where('is_used', (int)$is_used)
-                ->get()
+                ->paginate(30)
         );
     }
 

@@ -58,7 +58,7 @@ class ProductControllerTest extends TestCase
 
         $this->get("/api/sub/$sc->slug/filterBrands/$brands")
             ->assertOk()
-            ->assertJsonCount(4)
+            ->assertJsonCount(4, 'data')
             ->assertSee($p[2]->slug);
     }
 
