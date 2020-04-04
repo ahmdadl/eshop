@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Category;
+use App\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Facades\Tests\Setup\CategoryFactory;
@@ -58,12 +59,37 @@ class ProductControllerTest extends TestCase
         /** @var \App\Product[] $p */
         [$c, $sc, $p] = CategoryFactory::wSub(1)->wPro(4)->create();
         $sc->load('productsMini');
-        
+
         $brands = Arr::pluck($p, 'brand');
         $brands = Arr::shuffle($brands);
         $brands = implode(',', $brands);
 
         $this->get("/api/sub/$sc->slug/filterBrands/$brands")
+            ->assertOk()
+            ->assertJsonCount(4)
+            ->assertSee($p[2]->slug);
+    }
+
+    public function testLoadProductsWithCondition()
+    {
+        /** @var \App\Category $c */
+        /** @var \App\Category $sc */
+        /** @var \App\Product[] $p */
+        [$c, $sc] = CategoryFactory::wSub()->create();
+
+        $p = $sc->products()->saveMany(
+            factory(Product::class, 4)->make([
+                'category_slug' => $sc->slug,
+                'is_used' => false
+            ])
+        );
+
+        $sc->products()->save(factory(Product::class)->make([
+            'category_slug' => $sc->slug,
+            'is_used' => true
+        ]));
+
+        $this->get("/api/sub/$sc->slug/filterCondition/0")
             ->assertOk()
             ->assertJsonCount(4)
             ->assertSee($p[2]->slug);

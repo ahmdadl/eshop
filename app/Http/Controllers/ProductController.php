@@ -30,11 +30,21 @@ class ProductController extends Controller
         $brands = explode(',', $brands);
 
         return response()->json(
-            Product::where('category_slug', '=', $cat_slug)
+            Product::where('category_slug', $cat_slug)
                 ->whereIn('brand', $brands)
                 ->get()
         );
     }
+
+    public function filterCondition(string $cat_slug, int $is_used)
+    {
+        return response()->json(
+            Product::where('category_slug', $cat_slug)
+                ->where('is_used', (int)$is_used)
+                ->get()
+        );
+    }
+
     /**
      * Show the form for creating a new resource.
      *

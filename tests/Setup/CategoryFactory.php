@@ -9,8 +9,8 @@ use App\Product;
 
 class CategoryFactory
 {
-    private $sub_count = 1;
-    private $product_count = 1;
+    private $sub_count = null;
+    private $product_count = null;
 
 
     public function wSub(int $count = 1): self
