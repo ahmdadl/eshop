@@ -110,11 +110,14 @@ export default class Product extends Super {
     }
 
     public filterByBrands() {
-        this.getDataFromServer(
-            `sub/${this.d.slug[1]}/filterBrands/${this.d.selected.brands.join(
-                ","
-            )}`
-        );
+        let path = `sub/${this.d.slug[1]}`;
+        if (this.d.selected.brands.length) {
+            path = `sub/${
+                this.d.slug[1]
+            }/filterBrands/${this.d.selected.brands.join(",")}`;
+        }
+
+        this.getDataFromServer(path);
     }
 
     public filterByColors() {
