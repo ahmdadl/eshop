@@ -16720,7 +16720,12 @@ var Product = /** @class */ (function (_super) {
             colors: [],
             conditions: [],
             collabse: { id: "", txt: "" },
-            range: { from: 0, to: 0, max: 0 }
+            range: { from: 0, to: 0, max: 0 },
+            selected: {
+                brands: [],
+                colors: [],
+                conditions: []
+            }
         };
         return _this;
     }

@@ -17,6 +17,7 @@ export interface Dynamic {
     conditions: Filter[];
     collabse: { id: string; txt?: string };
     range: { from: number; to: number; max: number };
+    selected: { brands: string[]; colors: string[]; conditions: string[] };
 }
 
 export interface Filter {
@@ -43,7 +44,12 @@ export default class Product extends Super {
         colors: [],
         conditions: [],
         collabse: { id: "", txt: "" },
-        range: { from: 0, to: 0, max: 0 }
+        range: { from: 0, to: 0, max: 0 },
+        selected: {
+            brands: [],
+            colors: [],
+            conditions: []
+        }
     };
     public oldData: ProductInterface[];
 

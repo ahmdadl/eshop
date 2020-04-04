@@ -47,7 +47,7 @@
 </div>
 <div class="row mt-3">
     <div class="d-non d-md-block col-12 col-md-3">
-        <x-filter-card title="Brand">
+        <x-filter-card title="Brand" show="show">
             <x-loop-filters data="brands" index="br"></x-loop-filters>
         </x-filter-card>
         <x-filter-card title="Color">

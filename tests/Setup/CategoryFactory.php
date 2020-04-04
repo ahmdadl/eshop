@@ -64,7 +64,9 @@ class CategoryFactory
             if ($this->product_count >= 1) {
                 /** @var \App\Product $p */
                 $p = $scc[0]->first()->products()->createMany(
-                    factory(Product::class, $this->product_count)->{$product_method}()
+                    factory(Product::class, $this->product_count)->{$product_method}([
+                        'category_slug' => $sc->slug
+                    ])
                 );
 
                 if ($this->product_count === 1) $p = $p[0]->first();

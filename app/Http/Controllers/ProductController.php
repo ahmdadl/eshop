@@ -18,13 +18,23 @@ class ProductController extends Controller
      */
     public function index(string $c_slug, string $sub)
     {
-        return view('product.index',[
+        return view('product.index', [
             'cats' => $this->getList(),
             'slug' => [$c_slug, $sub],
             'title' => ucwords(str_replace('-', ' ', $sub)),
         ]);
     }
 
+    public function filterBrands(string $cat_slug, string $brands)
+    {
+        $brands = explode(',', $brands);
+
+        return response()->json(
+            Product::where('category_slug', '=', $cat_slug)
+                ->whereIn('brand', $brands)
+                ->get()
+        );
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/sub/{category}', 'HomeController@sendData');
+Route::get('/sub/{category}/filterBrands/{brands}', 'ProductController@filterBrands');
