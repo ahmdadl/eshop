@@ -19,6 +19,7 @@ export interface Dynamic {
     collabse: { id: string; txt?: string };
     range: { from: number; to: number; max: number };
     selected: { brands: string[]; colors: string[]; conditions: string };
+    scroll: number;
 }
 
 export interface Filter {
@@ -51,7 +52,8 @@ export default class Product extends Super {
             colors: [],
             conditions: ""
         },
-        oldData: []
+        oldData: [],
+        scroll: 0
     };
     // public d.oldData: ProductInterface[];
 
@@ -175,11 +177,36 @@ export default class Product extends Super {
         this.getDataFromServer();
     }
 
+    public checkIfReachedBottom() {
+        window.onscroll = event => {
+            this.d.scroll =
+                document.documentElement.clientHeight +
+                document.documentElement.scrollTop;
+
+            // check if user has reached the end of page
+            if (
+                this.d.scroll >=
+                    (document.querySelector(
+                        "#component-container"
+                    ) as HTMLDivElement).scrollHeight &&
+                this.d.data.length &&
+                null !== this.d.nextUrl &&
+                !this.d.loadingPosts
+            ) {
+                this.getDataFromServer(this.d.nextUrl, true, true);
+            }
+        };
+    }
+
     private getDataFromServer(
         path: string = `sub/${this.d.slug[1]}`,
-        native: boolean = false
+        native: boolean = false,
+        append: boolean = false
     ) {
-        this.d.data = [];
+        if (!append) {
+            this.d.data = [];
+        }
+
         this.showLoader();
         Axios.get(path).then((res: any) => {
             if (!res.data.data || !res.data.data.length) {
@@ -200,30 +227,35 @@ export default class Product extends Super {
                 return x;
             });
             // this.d.data = res.data;
-            this.d.oldData = [...res.data];
+            if (append) {
+                this.d.oldData = this.d.oldData.concat(res.data);
+                this.d.data = [...this.d.oldData];
+            } else {
+                this.d.oldData = [...res.data];
+                this.sortData(1);
+            }
+            this.doCalc(native, append);
             this.d.nextUrl = res.next_page_url;
-            this.doCalc(native);
-            this.sortData(1);
             this.hideLoader();
         });
     }
 
-    private doCalc(native: boolean) {
+    private doCalc(native: boolean, append: boolean) {
         const prices: number[] = [];
-        if (native) {
+        if (native && !append) {
             this.d.brands = [];
             this.d.colors = [];
             this.d.conditions = [];
         }
 
         this.d.oldData.map(x => {
-            if (native) {
+            if (native && !append) {
                 this.d.brands.push({
                     txt: x.brand as string,
                     checked: false
                 });
             }
-            if (native) {
+            if (native && !append) {
                 this.d.colors.push({
                     txt: x.color[0],
                     checked: false
@@ -233,7 +265,7 @@ export default class Product extends Super {
             return x;
         });
 
-        if (native) {
+        if (native && !append) {
             this.d.conditions = [
                 {
                     txt: "New",
@@ -247,7 +279,7 @@ export default class Product extends Super {
         }
 
         // sort prices
-        
+
         prices.sort((a, b) => a - b);
         this.d.range.max = Number(prices[prices.length - 1].toFixed(2));
         this.d.range.to = this.d.range.max;
@@ -269,7 +301,8 @@ export default class Product extends Super {
             "filterByConditions",
             "rateFilter",
             "removeAllfilters",
-            "filterByPrice"
+            "filterByPrice",
+            "log"
         ]);
 
         const [cat, sub] = this.extractRoute();
@@ -278,5 +311,7 @@ export default class Product extends Super {
         this.loadData(sub);
     }
 
-    mounted() {}
+    mounted() {
+        this.checkIfReachedBottom();
+    }
 }

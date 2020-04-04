@@ -163,7 +163,7 @@
             @endforeach
         </ul>
 
-        <main class="py-4">
+        <main class="py-4" id="component-container">
             <{{$cpt ?? ''}} ref="childCmp">
                 <template v-slot="h">
                     @yield('content')

@@ -16726,7 +16726,8 @@ var Product = /** @class */ (function (_super) {
                 colors: [],
                 conditions: ""
             },
-            oldData: []
+            oldData: [],
+            scroll: 0
         };
         return _this;
     }
@@ -16825,11 +16826,30 @@ var Product = /** @class */ (function (_super) {
         };
         this.getDataFromServer();
     };
-    Product.prototype.getDataFromServer = function (path, native) {
+    Product.prototype.checkIfReachedBottom = function () {
+        var _this = this;
+        window.onscroll = function (event) {
+            _this.d.scroll =
+                document.documentElement.clientHeight +
+                    document.documentElement.scrollTop;
+            // check if user has reached the end of page
+            if (_this.d.scroll >=
+                document.querySelector("#component-container").scrollHeight &&
+                _this.d.data.length &&
+                null !== _this.d.nextUrl &&
+                !_this.d.loadingPosts) {
+                _this.getDataFromServer(_this.d.nextUrl, true, true);
+            }
+        };
+    };
+    Product.prototype.getDataFromServer = function (path, native, append) {
         var _this = this;
         if (path === void 0) { path = "sub/" + this.d.slug[1]; }
         if (native === void 0) { native = false; }
-        this.d.data = [];
+        if (append === void 0) { append = false; }
+        if (!append) {
+            this.d.data = [];
+        }
         this.showLoader();
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(path).then(function (res) {
             if (!res.data.data || !res.data.data.length) {
@@ -16846,29 +16866,35 @@ var Product = /** @class */ (function (_super) {
                 return x;
             });
             // this.d.data = res.data;
-            _this.d.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
+            if (append) {
+                _this.d.oldData = _this.d.oldData.concat(res.data);
+                _this.d.data = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(_this.d.oldData);
+            }
+            else {
+                _this.d.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
+                _this.sortData(1);
+            }
+            _this.doCalc(native, append);
             _this.d.nextUrl = res.next_page_url;
-            _this.doCalc(native);
-            _this.sortData(1);
             _this.hideLoader();
         });
     };
-    Product.prototype.doCalc = function (native) {
+    Product.prototype.doCalc = function (native, append) {
         var _this = this;
         var prices = [];
-        if (native) {
+        if (native && !append) {
             this.d.brands = [];
             this.d.colors = [];
             this.d.conditions = [];
         }
         this.d.oldData.map(function (x) {
-            if (native) {
+            if (native && !append) {
                 _this.d.brands.push({
                     txt: x.brand,
                     checked: false
                 });
             }
-            if (native) {
+            if (native && !append) {
                 _this.d.colors.push({
                     txt: x.color[0],
                     checked: false
@@ -16877,7 +16903,7 @@ var Product = /** @class */ (function (_super) {
             prices.push(x.savedPriceInt);
             return x;
         });
-        if (native) {
+        if (native && !append) {
             this.d.conditions = [
                 {
                     txt: "New",
@@ -16909,13 +16935,16 @@ var Product = /** @class */ (function (_super) {
             "filterByConditions",
             "rateFilter",
             "removeAllfilters",
-            "filterByPrice"
+            "filterByPrice",
+            "log"
         ]);
         var _a = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(this.extractRoute(), 2), cat = _a[0], sub = _a[1];
         this.d.slug = [cat, sub];
         this.loadData(sub);
     };
-    Product.prototype.mounted = function () { };
+    Product.prototype.mounted = function () {
+        this.checkIfReachedBottom();
+    };
     Product = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
     ], Product);

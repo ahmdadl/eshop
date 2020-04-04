@@ -83,7 +83,7 @@
         </my-product>
     </div>
 </div>
-<div :id="h.d.loadingPosts" class="d-flex justify-content-center mt-2">
+<div :class="h.d.loadingPosts ? 'd-flex' : 'd-none'" class="d-none justify-content-center mt-2">
     <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"
         role="status">
         <div class="spinner-grow text-danger" role="status">
