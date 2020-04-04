@@ -46,14 +46,14 @@
     </div>
 </div>
 <div class="row mt-3">
-    <div class="d-non d-md-block col-12 col-md-3">
-        <div class="card">
-            <div class="card-header">
-                <button class="btn btn-info float-left"
+    <div class="d-non d-md-block col-12 col-md-2">
+        <div class="card px-0">
+            <div class="card-header px-0">
+                <button class="btn btn-info btn-sm float-left"
                     :disabled="h.d.loadingPosts">
                     @lang('t.nav.daily')
                 </button>
-                <button class="btn btn-danger float-right"
+                <button class="btn btn-danger float-right btn-sm"
                     v-on:click="h.d.removeAllfilters()" :disabled="h.d.loadingPosts || (!h.d.selected.brands.length && !h.d.selected.colors.length && !h.d.selected.conditions.length &&
                     h.d.oldData.length === h.d.data.length)">
                     <span :class="h.d.loadingPosts ? '' : 'd-none'"
@@ -76,7 +76,7 @@
         @include('product.filters.range')
         @include('product.filters.rating')
     </div>
-    <div class="col-12 col-md-9">
+    <div class="col-12 col-md-10 card-group">
         <my-product v-for="(p, pinx) in h.d.data" :product="p"
             :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')']"
             :is_land="h.d.is_land_product" :key="pinx">
