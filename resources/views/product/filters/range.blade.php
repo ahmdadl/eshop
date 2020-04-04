@@ -26,7 +26,7 @@
     </div>
     <div class="row">
         <div class="col-12 text-center">
-            <button class="btn btn-primary btn-block">
+            <button class="btn btn-primary btn-block" v-on:click="h.d.filterByPrice()">
                 @lang('t.search')
             </button>
         </div>

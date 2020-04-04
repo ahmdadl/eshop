@@ -28,8 +28,8 @@ class ProductControllerTest extends TestCase
 
         $this->get($sc->path($c->slug))
             ->assertOk();
-            // ->assertSeeText($c->name)
-            // ->assertSeeText($sc->name);
+        // ->assertSeeText($c->name)
+        // ->assertSeeText($sc->name);
     }
 
     public function testRetrivingProductList()
@@ -38,7 +38,7 @@ class ProductControllerTest extends TestCase
         /** @var \App\Category $sc */
         /** @var \App\Product $p */
         [$c, $sc, $p] = CategoryFactory::wSub(1)->wPro()->create();
-        
+
         $this->get('/api/sub/' . $sc->slug)
             ->assertOk()
             ->assertJsonCount(1, 'data');
@@ -85,5 +85,20 @@ class ProductControllerTest extends TestCase
             ->assertOk()
             ->assertJsonCount(4)
             ->assertSee($p[2]->slug);
+    }
+
+    public function testFilterDataByPrice()
+    {
+        $this->withoutExceptionHandling();
+        /** @var \App\Category $c */
+        /** @var \App\Category $sc */
+        /** @var \App\Product[] $p */
+        [$c, $sc, $p] = CategoryFactory::wSub(1)->wPro(10)->create();
+
+        $from = 1;
+        $to = 1000000;
+
+        $this->get("/api/sub/$sc->slug/priceFilter/$from/$to")
+            ->assertOk();
     }
 }

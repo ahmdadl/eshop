@@ -139,6 +139,17 @@ export default class Product extends Super {
         this.getDataFromServer(`sub/${this.d.slug[1]}/filterCondition/${val}`);
     }
 
+    public filterByPrice() {
+        // @ts-ignore
+        const from = parseFloat(this.d.range.from);
+        // @ts-ignore
+        const to = parseFloat(this.d.range.to);
+
+        this.getDataFromServer(
+            `sub/${this.d.slug[1]}/priceFilter/${from}/${to}`
+        );
+    }
+
     public rateFilter(starCount: number) {
         const arr = this.d.oldData.filter(
             x => (x.rateAvg as number) >= starCount
@@ -171,6 +182,10 @@ export default class Product extends Super {
         this.d.data = [];
         this.showLoader();
         Axios.get(path).then((res: any) => {
+            if (!res.data.data || !res.data.data.length) {
+                this.hideLoader();
+                return;
+            }
             res = res.data;
             res.data.map((x: ProductInterface) => {
                 x.priceInt = x.price as number;
@@ -251,7 +266,8 @@ export default class Product extends Super {
             "filterByColors",
             "filterByConditions",
             "rateFilter",
-            "removeAllfilters"
+            "removeAllfilters",
+            "filterByPrice"
         ]);
 
         const [cat, sub] = this.extractRoute();

@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/sub/{category_slug}', 'HomeController@sendData');
 Route::get('/sub/{category_slug}/filterBrands/{brands}', 'ProductController@filterBrands');
 Route::get('/sub/{category_slug}/filterCondition/{is_used}', 'ProductController@filterCondition');
+Route::get('/sub/{category_slug}/priceFilter/{from}/{to}', 'ProductController@filterByPrice');

@@ -16800,6 +16800,13 @@ var Product = /** @class */ (function (_super) {
         var val = this.d.selected.conditions === "Used" ? 1 : 0;
         this.getDataFromServer("sub/" + this.d.slug[1] + "/filterCondition/" + val);
     };
+    Product.prototype.filterByPrice = function () {
+        // @ts-ignore
+        var from = parseFloat(this.d.range.from);
+        // @ts-ignore
+        var to = parseFloat(this.d.range.to);
+        this.getDataFromServer("sub/" + this.d.slug[1] + "/priceFilter/" + from + "/" + to);
+    };
     Product.prototype.rateFilter = function (starCount) {
         var _this = this;
         var arr = this.d.oldData.filter(function (x) { return x.rateAvg >= starCount; });
@@ -16825,6 +16832,10 @@ var Product = /** @class */ (function (_super) {
         this.d.data = [];
         this.showLoader();
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(path).then(function (res) {
+            if (!res.data.data || !res.data.data.length) {
+                _this.hideLoader();
+                return;
+            }
             res = res.data;
             res.data.map(function (x) {
                 x.priceInt = x.price;
@@ -16896,7 +16907,8 @@ var Product = /** @class */ (function (_super) {
             "filterByColors",
             "filterByConditions",
             "rateFilter",
-            "removeAllfilters"
+            "removeAllfilters",
+            "filterByPrice"
         ]);
         var _a = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(this.extractRoute(), 2), cat = _a[0], sub = _a[1];
         this.d.slug = [cat, sub];

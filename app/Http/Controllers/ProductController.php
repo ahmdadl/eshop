@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -40,7 +41,19 @@ class ProductController extends Controller
     {
         return response()->json(
             Product::where('category_slug', $cat_slug)
-                ->where('is_used', (int)$is_used)
+                ->where('is_used', (int) $is_used)
+                ->paginate(30)
+        );
+    }
+
+    public function filterByPrice(
+        string $cat_slug,
+        float $from,
+        float $to
+    ) {
+        return response()->json(
+            Product::where('category_slug', $cat_slug)
+                ->whereBetween(DB::raw('price-(save/100*price)'), [$from, $to])
                 ->paginate(30)
         );
     }
