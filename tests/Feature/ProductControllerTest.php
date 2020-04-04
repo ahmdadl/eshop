@@ -45,11 +45,10 @@ class ProductControllerTest extends TestCase
         /** @var \App\Category $sc */
         /** @var \App\Product $p */
         [$c, $sc, $p] = CategoryFactory::wSub(1)->wPro()->create();
-        $sc->load('productsMini');
-
+        
         $this->get('/api/sub/' . $sc->slug)
             ->assertOk()
-            ->assertExactJson($sc->toArray());
+            ->assertJsonCount(1, 'data');
     }
 
     public function testLoadProductsWithBrandFilter()
