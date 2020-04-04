@@ -49,12 +49,13 @@
     <div class="d-non d-md-block col-12 col-md-3">
         <div class="card">
             <div class="card-header">
-                <button class="btn btn-info float-left" :disabled="h.d.loadingPosts">
+                <button class="btn btn-info float-left"
+                    :disabled="h.d.loadingPosts">
                     @lang('t.nav.daily')
                 </button>
                 <button class="btn btn-danger float-right"
-                    v-on:click="h.d.removeAllfilters()"
-                    :disabled="h.d.loadingPosts">
+                    v-on:click="h.d.removeAllfilters()" :disabled="h.d.loadingPosts || (!h.d.selected.brands.length && !h.d.selected.colors.length && !h.d.selected.conditions.length &&
+                    h.d.oldData.length === h.d.data.length)">
                     <span :class="h.d.loadingPosts ? '' : 'd-none'"
                         class="spinner-border spinner-border-sm" role="status"
                         aria-hidden="true"></span>

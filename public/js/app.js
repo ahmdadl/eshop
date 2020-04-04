@@ -16725,15 +16725,17 @@ var Product = /** @class */ (function (_super) {
                 brands: [],
                 colors: [],
                 conditions: ""
-            }
+            },
+            oldData: []
         };
         return _this;
     }
+    // public d.oldData: ProductInterface[];
     Product.prototype.foramtMony = function (n) {
         return this.formatter.format(n);
     };
     Product.prototype.sortData = function (finx) {
-        var arr = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(this.oldData);
+        var arr = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(this.d.oldData);
         var callback = function (a, b) {
             return b.rates.length - a.rates.length; // popularity
         };
@@ -16752,7 +16754,7 @@ var Product = /** @class */ (function (_super) {
                 return b.savedPriceInt - a.savedPriceInt;
             };
         }
-        this.d.data = this.oldData.sort(callback);
+        this.d.data = this.d.oldData.sort(callback);
     };
     Product.prototype.filterData = function (finx) {
         var _this = this;
@@ -16788,10 +16790,10 @@ var Product = /** @class */ (function (_super) {
     Product.prototype.filterByColors = function () {
         var _this = this;
         if (!this.d.selected.colors.length) {
-            this.d.data = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(this.oldData);
+            this.d.data = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(this.d.oldData);
             return;
         }
-        var arr = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(this.oldData);
+        var arr = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(this.d.oldData);
         this.d.data = arr.filter(function (x) { return _this.d.selected.colors.indexOf(x.color[0]) > -1; });
     };
     Product.prototype.filterByConditions = function () {
@@ -16800,7 +16802,7 @@ var Product = /** @class */ (function (_super) {
     };
     Product.prototype.rateFilter = function (starCount) {
         var _this = this;
-        var arr = this.oldData.filter(function (x) { return x.rateAvg >= starCount; });
+        var arr = this.d.oldData.filter(function (x) { return x.rateAvg >= starCount; });
         this.d.data = [];
         this.showLoader();
         setTimeout(function (_) {
@@ -16833,7 +16835,7 @@ var Product = /** @class */ (function (_super) {
                 return x;
             });
             // this.d.data = res.data;
-            _this.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
+            _this.d.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
             _this.d.nextUrl = res.next_page_url;
             _this.doCalc(native);
             _this.sortData(1);
@@ -16848,7 +16850,7 @@ var Product = /** @class */ (function (_super) {
             this.d.colors = [];
             this.d.conditions = [];
         }
-        this.oldData.map(function (x) {
+        this.d.oldData.map(function (x) {
             if (native) {
                 _this.d.brands.push({
                     txt: x.brand,

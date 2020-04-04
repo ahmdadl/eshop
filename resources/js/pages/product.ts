@@ -6,6 +6,7 @@ import Rates from "../interfaces/rates";
 
 export interface Dynamic {
     data: ProductInterface[];
+    oldData: ProductInterface[];
     nextUrl: string;
     slug: string[];
     loadingPosts: boolean;
@@ -49,15 +50,16 @@ export default class Product extends Super {
             brands: [],
             colors: [],
             conditions: ""
-        }
+        },
+        oldData: []
     };
-    public oldData: ProductInterface[];
+    // public d.oldData: ProductInterface[];
 
     public foramtMony(n: number): any {
         return this.formatter.format(n);
     }
     public sortData(finx: number | 1 | 2 | 3 | 4) {
-        const arr = [...this.oldData];
+        const arr = [...this.d.oldData];
 
         let callback = (a: ProductInterface, b: ProductInterface) => {
             return b.rates.length - a.rates.length; // popularity
@@ -76,7 +78,7 @@ export default class Product extends Super {
             };
         }
 
-        this.d.data = this.oldData.sort(callback);
+        this.d.data = this.d.oldData.sort(callback);
     }
 
     public filterData(finx: number): void {
@@ -122,11 +124,11 @@ export default class Product extends Super {
 
     public filterByColors() {
         if (!this.d.selected.colors.length) {
-            this.d.data = [...this.oldData];
+            this.d.data = [...this.d.oldData];
             return;
         }
 
-        const arr = [...this.oldData];
+        const arr = [...this.d.oldData];
         this.d.data = arr.filter(
             x => this.d.selected.colors.indexOf(x.color[0]) > -1
         );
@@ -138,7 +140,7 @@ export default class Product extends Super {
     }
 
     public rateFilter(starCount: number) {
-        const arr = this.oldData.filter(
+        const arr = this.d.oldData.filter(
             x => (x.rateAvg as number) >= starCount
         );
 
@@ -183,7 +185,7 @@ export default class Product extends Super {
                 return x;
             });
             // this.d.data = res.data;
-            this.oldData = [...res.data];
+            this.d.oldData = [...res.data];
             this.d.nextUrl = res.next_page_url;
             this.doCalc(native);
             this.sortData(1);
@@ -199,7 +201,7 @@ export default class Product extends Super {
             this.d.conditions = [];
         }
 
-        this.oldData.map(x => {
+        this.d.oldData.map(x => {
             if (native) {
                 this.d.brands.push({
                     txt: x.brand as string,
