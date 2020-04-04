@@ -247,7 +247,8 @@ export default class Product extends Super {
         }
 
         // sort prices
-        prices.sort();
+        
+        prices.sort((a, b) => a - b);
         this.d.range.max = Number(prices[prices.length - 1].toFixed(2));
     }
 

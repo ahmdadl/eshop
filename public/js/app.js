@@ -16890,7 +16890,7 @@ var Product = /** @class */ (function (_super) {
             ];
         }
         // sort prices
-        prices.sort();
+        prices.sort(function (a, b) { return a - b; });
         this.d.range.max = Number(prices[prices.length - 1].toFixed(2));
     };
     Product.prototype.showLoader = function () {
