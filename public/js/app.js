@@ -16779,14 +16779,18 @@ var Product = /** @class */ (function (_super) {
         this.d.collabse.txt = isShown ? "+" : "-";
     };
     Product.prototype.filterByBrands = function () {
-        console.log(this.d.selected.brands);
         this.getDataFromServer("sub/" + this.d.slug[1] + "/filterBrands/" + this.d.selected.brands.join(","));
     };
     Product.prototype.filterByColors = function () {
-        console.log(this.d.selected.colors);
+        // this.getDataFromServer(
+        //     `sub/${this.d.slug[1]}/filterBrands/${this.d.selected.colors.join(
+        //         ","
+        //     )}`
+        // );
     };
     Product.prototype.filterByConditions = function () {
-        console.log(this.d.selected.conditions);
+        var val = this.d.selected.conditions === "Used" ? 1 : 0;
+        this.getDataFromServer("sub/" + this.d.slug[1] + "/filterCondition/" + val);
     };
     Product.prototype.rateFilter = function (starCount) {
         var _this = this;

@@ -110,18 +110,24 @@ export default class Product extends Super {
     }
 
     public filterByBrands() {
-        console.log(this.d.selected.brands);
         this.getDataFromServer(
             `sub/${this.d.slug[1]}/filterBrands/${this.d.selected.brands.join(
                 ","
             )}`
         );
     }
+
     public filterByColors() {
-        console.log(this.d.selected.colors);
+        // this.getDataFromServer(
+        //     `sub/${this.d.slug[1]}/filterBrands/${this.d.selected.colors.join(
+        //         ","
+        //     )}`
+        // );
     }
+
     public filterByConditions() {
-        console.log(this.d.selected.conditions);
+        const val = this.d.selected.conditions === "Used" ? 1 : 0;
+        this.getDataFromServer(`sub/${this.d.slug[1]}/filterCondition/${val}`);
     }
 
     public rateFilter(starCount: number) {
