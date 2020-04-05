@@ -21,13 +21,13 @@
                 <h3>@lang('t.show.rateThis'):</h3>
                 <form>
                     <div class="form-group">
-                        <star-rate :percent="h.d.userRev.rate" :run="true"></star-rate>
+                        <star-rate :percent="h.d.userRev.rate" :run="true" v-on:rated="h.d.userRev.rate = $event"></star-rate>
                     </div>
                     <div class="form-group mt-2">
                         <label class="form-label">@lang('t.show.rateMessage')</label>
                         <textarea type="text" class="form-control" v-model="h.d.userRev.message"></textarea>
                     </div>
-                    <div class="form-group">@{{h.d.userRev.rate}}
+                    <div class="form-group">
                         <button class="btn btn-success">@lang('t.show.rateBtn')</button>
                     </div>
                 </form>

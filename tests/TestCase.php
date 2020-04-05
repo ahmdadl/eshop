@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Mcamara\LaravelLocalization\LaravelLocalization;
 
@@ -19,5 +20,14 @@ abstract class TestCase extends BaseTestCase
     {
         putenv(LaravelLocalization::ENV_ROUTE_KEY);
         parent::tearDownAfterClass();
+    }
+
+    public function signIn(array $attr = []): User
+    {
+        $user = factory(User::class)->create($attr);
+
+        $this->actingAs($user);
+
+        return $user;
     }
 }

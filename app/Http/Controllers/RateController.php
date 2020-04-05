@@ -24,24 +24,26 @@ class RateController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Product $product)
     {
-        //
+
+        $r = request()->validate([
+            'rate' => 'required|numeric|min:0|max:5',
+            'message' => 'nullable|string|min:5'
+        ]);
+
+        $r = new Rate($r + ['user_id' => auth()->id()]);
+
+        $product->rates()->save($r);
+
+        return response()->json([
+            'created' => true
+        ]);
     }
 
     /**
@@ -51,17 +53,6 @@ class RateController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }
