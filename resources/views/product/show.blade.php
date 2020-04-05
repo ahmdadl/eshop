@@ -20,70 +20,9 @@
     <div class="row">
         <x-img-slider :imgArr="$p->img"></x-img-slider>
     </div>
-    <div class="row pt-5">
-        <div class="col-12 col-sm-6">
-            <h4 class="text-primary">${{number_format($p->savedPrice, 2)}}</h4>
-            @if ($p->save)
-            <h5><del class="text-muted">${{\number_format($p->price, 2)}}</del>
-            </h5>
-            @endif
-            <p>
-                <strong>@lang('t.show.color'):</strong>
-                <span
-                    class="p-1 px-2 border border-dark">{{$p->color[0]}}</span>
-            </p>
-            <p>
-                <strong class="d-block">@lang('t.show.desc')</strong>
-                <span>{{$p->info}}</span>
-            </p>
-        </div>
-        <div class="col-12 col-sm-6">
-            <div class="d-block">
-                <button class="btn btn-primary btn-block mb-2">
-                    @lang('t.addCart')
-                </button>
-                <strong class="text-danger">{{$p->amount}}
-                    @lang('t.show.stock')</strong>
-            </div>
-            <hr />
-            <div class="d-block">
-                <p>
-                    <strong>@lang('t.show.cond'):</strong>
-                    <span>
-                        {{$p->is_used ? __('t.show.used') : __('t.show.new')}}
-                    </span>
-                </p>
-                <p>
-                    <strong>@lang('t.show.soldBy'):</strong>
-                    <span>
-                        {{$p->user->name}}
-                    </span>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="row pt-3">
-        <div class="col-12 text-center">
-            <ul class="nav text-center justify-content-center">
-                <li class="nav-item">
-                    <a class="nav-link btn btn-outline-primary mx-2"
-                        target="_blank" href="https://www.facebook.com/sharer.php?u={{url()->current()}}">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-outline-primary mx-2"
-                        target="_blank" href="https://twitter.com/intent/tweet?url={{url()->current()}}&text={{__('t.show.shareTxt') . $p->name}}">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-outline-primary mx-2"
-                        target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{url()->current()}}&title={{__('t.show.shareTxt') . $p->name}}">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    @endsection
+
+    @include('product.show.info')
+    @include('product.show.social')
+    @include('product.show.spec')
+
+@endsection

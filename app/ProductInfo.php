@@ -11,4 +11,10 @@ class ProductInfo extends Model
     protected $casts = [
         'info' => 'array',
     ];
+
+    public function getMiniInfoAttribute(): array
+    {
+        $arr = $this->info;
+        return array_splice($arr, 0, 4);
+    }
 }

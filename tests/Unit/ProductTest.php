@@ -122,4 +122,18 @@ class ProductTest extends TestCase
 
         $this->assertIsObject($p->user);
     }
+
+    public function testProductInfoHasMini()
+    {
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+        $p->pi()->save(
+            factory(ProductInfo::class)->make()
+        );
+
+        $p->load('pi');
+
+        $this->assertIsArray($p->pi->miniInfo);
+        $this->assertCount(4, $p->pi->miniInfo);
+    }
 }
