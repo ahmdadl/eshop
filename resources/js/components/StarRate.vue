@@ -1,6 +1,11 @@
 <template>
     <div>
-        <span class="performance-rating" @mousemove="hover" @click="set">
+        <span
+            class="performance-rating"
+            @mousemove="hover"
+            @mouseout="mouseLeaved"
+            @click="set"
+        >
             <i class="fa star-unfilled star">
                 &#xf005;&#xf005;&#xf005;&#xf005;&#xf005;
                 <i
@@ -45,6 +50,22 @@ export default class StarRate extends Vue {
     @Prop({ type: Number, required: false }) public count: number;
     @Prop({ type: Boolean }) public run: boolean;
     public w: number = 0;
+    public current: number = 0;
+
+    public hover(ev): void {
+        if (!this.$props.run) return;
+        this.w = this.extractX(ev);
+    }
+
+    public mouseLeaved(): void {
+        this.w = this.current;
+    }
+
+    public set(ev): void {
+        if (!this.$props.run) return;
+        this.w = this.extractX(ev);
+        this.current = this.w;
+    }
 
     private extractX(event): number {
         var rect = event.target.getBoundingClientRect();
@@ -52,28 +73,18 @@ export default class StarRate extends Vue {
         return x;
     }
 
-    public hover(ev): void {
-        if (!this.$props.run) return;
-        this.w = this.extractX(ev);
-    }
-
-    public set(ev): void {
-        if (!this.$props.run) return;
-        this.w = this.extractX(ev);
-    }
-
-    mounted() {
-        this.w = (this.percent / 5) * 100;
-    }
-
     @Watch("percent")
     onPercentChanged(val: number, oldVal: number) {
         this.w = (this.percent / 5) * 100;
     }
 
-    @Watch('run')
+    @Watch("run")
     onRunChanged(val: boolean, oldVal: boolean) {
         this.run = val;
+    }
+
+    mounted() {
+        this.w = (this.percent / 5) * 100;
     }
 }
 </script>
