@@ -5,6 +5,10 @@
 @endsection
 
 @section('content')
-{{$p->name}}
+    @if ($p->amount < 1)
+    <div class="d-flex justify-content-center alert alert-danger">
+        <strong>@lang('t.show.out')</strong>
+    </div>
+    @endif
 @endsection
 
