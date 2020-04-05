@@ -10,7 +10,7 @@
         </ul>
     </div>
     <div class="col-12">
-        <h3 id="spec">@lang('t.show.pi')</h3>
+        <h3 id="spec">@lang('t.show.pi'):</h3>
         <div class="card">
             <div class="card-body">
                 @include('product.show.productInfo', [

@@ -24,5 +24,6 @@
     @include('product.show.info')
     @include('product.show.social')
     @include('product.show.spec')
-
+    @include('product.show.rev')
+    
 @endsection
