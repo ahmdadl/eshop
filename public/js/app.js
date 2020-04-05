@@ -3079,31 +3079,40 @@ var StarRate = /** @class */ (function (_super) {
     function StarRate() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.w = 0;
+        _this.current = 0;
         return _this;
     }
-    StarRate.prototype.extractX = function (event) {
-        var rect = event.target.getBoundingClientRect();
-        var x = event.clientX - rect.left;
-        return x;
-    };
     StarRate.prototype.hover = function (ev) {
         if (!this.$props.run)
             return;
         this.w = this.extractX(ev);
     };
+    StarRate.prototype.mouseLeaved = function () {
+        this.w = this.current;
+    };
     StarRate.prototype.set = function (ev) {
         if (!this.$props.run)
             return;
         this.w = this.extractX(ev);
+        this.current = this.w;
+        this.$emit('rated', this.getVal());
     };
-    StarRate.prototype.mounted = function () {
-        this.w = (this.percent / 5) * 100;
+    StarRate.prototype.getVal = function () {
+        return this.current * 100 / 5;
+    };
+    StarRate.prototype.extractX = function (event) {
+        var rect = event.target.getBoundingClientRect();
+        var x = event.clientX - rect.left;
+        return x;
     };
     StarRate.prototype.onPercentChanged = function (val, oldVal) {
         this.w = (this.percent / 5) * 100;
     };
     StarRate.prototype.onRunChanged = function (val, oldVal) {
         this.run = val;
+    };
+    StarRate.prototype.mounted = function () {
+        this.w = (this.percent / 5) * 100;
     };
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Number, required: true }),
@@ -3124,7 +3133,7 @@ var StarRate = /** @class */ (function (_super) {
         Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:returntype", void 0)
     ], StarRate.prototype, "onPercentChanged", null);
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Watch"])('run'),
+        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Watch"])("run"),
         Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Function),
         Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [Boolean, Boolean]),
         Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:returntype", void 0)
@@ -3788,7 +3797,7 @@ var render = function() {
       "span",
       {
         staticClass: "performance-rating",
-        on: { mousemove: _vm.hover, click: _vm.set }
+        on: { mousemove: _vm.hover, mouseout: _vm.mouseLeaved, click: _vm.set }
       },
       [
         _c("i", { staticClass: "fa star-unfilled star" }, [
@@ -17009,6 +17018,8 @@ var ShowProduct = /** @class */ (function (_super) {
             nextRevUrl: "",
             rateAvg: 0,
             loadingRates: false,
+            userId: 0,
+            userRev: { userId: 0, rate: 0, message: "" }
         };
         return _this;
     }
@@ -17021,25 +17032,44 @@ var ShowProduct = /** @class */ (function (_super) {
             path = "p/" + this.d.slug + "/rates";
         }
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(path).then(function (res) {
+            if (!res.data || !res.data.data) {
+                _this.d.loadingRates = false;
+                return;
+            }
+            res.data = res.data.data;
             if (!append) {
-                _this.d.revData = res.data.data;
+                _this.d.revData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
             }
             else {
-                _this.d.revData.concat(res.data.data);
+                _this.d.revData.concat(res.data);
             }
             _this.d.rateAvg = _this.getAvgRate();
+            _this.setUserRev(res.data);
             _this.d.loadingRates = false;
         });
+    };
+    ShowProduct.prototype.setUserRev = function (d) {
+        var _this = this;
+        var r = d.filter(function (x) { return x.user_id === _this.d.userId; })[0];
+        if (r) {
+            this.d.userRev.userId = r.user_id;
+            this.d.userRev.rate = r.rate;
+            this.d.userRev.message = r.message;
+        }
     };
     ShowProduct.prototype.getAvgRate = function () {
         var sum = this.d.revData.reduce(function (a, b) { return a + Number(b.rate); }, 0);
         return parseFloat((sum / this.d.revData.length || 0).toFixed(1));
     };
+    ShowProduct.prototype.getInpVal = function (id) {
+        return document.getElementById(id).value;
+    };
     ShowProduct.prototype.beforeMount = function () {
         this.attachToGlobal(this, []);
     };
     ShowProduct.prototype.mounted = function () {
-        this.d.slug = document.getElementById("productSlug").value;
+        this.d.slug = this.getInpVal("productSlug");
+        this.d.userId = this.getInpVal("userId");
         this.loadRevs();
     };
     ShowProduct = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([

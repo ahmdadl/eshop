@@ -1,5 +1,8 @@
 <div class="row mt-3">
     <input id="productSlug" type="hidden" value="{{$p->slug}}" />
+    @auth
+        <input id="userId" type="hidden" value="{{auth()->id()}}" />
+    @endauth
     <div class="col-12 col-md-9">
         <h3 id='revs'>@lang('t.show.rev')</h3>
         <div class="card card-body col-12" v-if="!h.d.loadingRates">
@@ -18,14 +21,14 @@
                 <h3>@lang('t.show.rateThis'):</h3>
                 <form>
                     <div class="form-group">
-                        <star-rate :percent="0" :run="true"></star-rate>
+                        <star-rate :percent="h.d.userRev.rate" :run="true"></star-rate>
                     </div>
                     <div class="form-group mt-2">
-                        <label class="form-label">Message</label>
-                        <textarea type="text" class="form-control"></textarea>
+                        <label class="form-label">@lang('t.show.rateMessage')</label>
+                        <textarea type="text" class="form-control" v-model="h.d.userRev.message"></textarea>
                     </div>
-                    <div class="form-group">
-                        <button class="btn btn-success">Rate</button>
+                    <div class="form-group">@{{h.d.userRev.rate}}
+                        <button class="btn btn-success">@lang('t.show.rateBtn')</button>
                     </div>
                 </form>
             </div>
