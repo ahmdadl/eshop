@@ -3098,7 +3098,7 @@ var StarRate = /** @class */ (function (_super) {
         this.$emit('rated', this.getVal());
     };
     StarRate.prototype.getVal = function () {
-        return this.current * 100 / 5;
+        return parseFloat((this.current / 100 * 5).toFixed(1));
     };
     StarRate.prototype.extractX = function (event) {
         var rect = event.target.getBoundingClientRect();

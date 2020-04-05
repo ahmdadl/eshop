@@ -65,6 +65,11 @@ export default class StarRate extends Vue {
         if (!this.$props.run) return;
         this.w = this.extractX(ev);
         this.current = this.w;
+        this.$emit('rated', this.getVal());
+    }
+
+    private getVal() {
+        return parseFloat((this.current/100 *5).toFixed(1));
     }
 
     private extractX(event): number {
