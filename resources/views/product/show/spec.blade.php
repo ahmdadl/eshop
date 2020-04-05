@@ -13,10 +13,22 @@
         <h3 id="spec">@lang('t.show.pi')</h3>
         <div class="card">
             <div class="card-body">
-                @foreach ($p->pi->miniInfo as $k => $v)
-                <span class="text-uppercase"><strong>{{$k}}:</strong></span>
-                <span class="text-capitalize">{{$v}}</span><br>
-                @endforeach
+                @include('product.show.productInfo', [
+                'type' => 'miniInfo'
+                ])
+                <p>
+                    <a class="btn btn-outline-primary mt-2"
+                        data-toggle="collapse" href="#readMorePrInfo"
+                        role="button" aria-expanded="false"
+                        aria-controls="readMorePrInfo">
+                        @lang('t.show.rmore')
+                    </a>
+                </p>
+                <div class="collapse" id="readMorePrInfo">
+                    @include('product.show.productInfo', [
+                    'type' => 'info'
+                    ])
+                </div>
             </div>
         </div>
     </div>
