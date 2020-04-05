@@ -137,6 +137,7 @@
                 </div>
             </div>
         </nav>
+        @if (isset($cats))
         <ul class="nav nav-taps nav-fill navbar-light"
             style="background-color: #e3f2fd" id="myTab" role="tablist">
             <li class="nav-item">
@@ -162,6 +163,7 @@
             </li>
             @endforeach
         </ul>
+        @endif
 
         <main class="py-4 container-fluid" id="component-container">
             <{{$cpt ?? ''}} ref="childCmp">
