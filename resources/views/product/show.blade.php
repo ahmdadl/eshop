@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.app', ['cpt' => 'show-product'])
 
-@section('title', 'eshop')
-
+@section('title')
+{{$p->name}}
 @endsection
 
 @section('content')
-
+{{$p->name}}
 @endsection
 

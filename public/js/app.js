@@ -3856,7 +3856,13 @@ var render = function() {
             _c("div", { class: _vm.is_land ? "col-8" : "col-12" }, [
               _c("div", { staticClass: "card-body" }, [
                 _c("h5", { staticClass: "card-title" }, [
-                  _vm._v(_vm._s(_vm.p.name))
+                  _c("a", { attrs: { href: "/p/" + _vm.p.slug } }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.p.name) +
+                        "\n                        "
+                    )
+                  ])
                 ]),
                 _vm._v(" "),
                 _c("p", { staticClass: "card-text" }, [
@@ -16403,6 +16409,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_product__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/product */ "./resources/js/pages/product.ts");
 /* harmony import */ var _components_StarRate_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/StarRate.vue */ "./resources/js/components/StarRate.vue");
 /* harmony import */ var _components_x_product_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/x-product.vue */ "./resources/js/components/x-product.vue");
+/* harmony import */ var _pages_show_product__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/show-product */ "./resources/js/pages/show-product.ts");
+
 
 
 
@@ -16443,7 +16451,8 @@ var app = new vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"]({
     el: '#app',
     components: {
         Home: _pages_home__WEBPACK_IMPORTED_MODULE_2__["default"],
-        Product: _pages_product__WEBPACK_IMPORTED_MODULE_3__["default"]
+        Product: _pages_product__WEBPACK_IMPORTED_MODULE_3__["default"],
+        ShowProduct: _pages_show_product__WEBPACK_IMPORTED_MODULE_6__["default"]
     }
 });
 
@@ -16951,6 +16960,41 @@ var Product = /** @class */ (function (_super) {
     return Product;
 }(_super__WEBPACK_IMPORTED_MODULE_2__["default"]));
 /* harmony default export */ __webpack_exports__["default"] = (Product);
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/show-product.ts":
+/*!********************************************!*\
+  !*** ./resources/js/pages/show-product.ts ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
+/* harmony import */ var _super__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./super */ "./resources/js/pages/super.ts");
+
+
+
+var ShowProduct = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(ShowProduct, _super);
+    function ShowProduct() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.d = {};
+        return _this;
+    }
+    ShowProduct.prototype.beforeMount = function () {
+        this.attachToGlobal(this, []);
+    };
+    ShowProduct = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
+    ], ShowProduct);
+    return ShowProduct;
+}(_super__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (ShowProduct);
 
 
 /***/ }),

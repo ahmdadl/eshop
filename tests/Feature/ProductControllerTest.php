@@ -101,4 +101,14 @@ class ProductControllerTest extends TestCase
         $this->get("/api/sub/$sc->slug/priceFilter/$from/$to")
             ->assertOk();
     }
+
+    public function testShowingProductData()
+    {
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+
+        $this->get(app()->getLocale() . '/p/' . $p->slug)
+            ->assertOk()
+            ->assertSee($p->name);
+    }
 }

@@ -4,6 +4,7 @@ import Home from './pages/home';
 import Product from './pages/product';
 import StarRate from './components/StarRate.vue';
 import XProduct from './components/x-product.vue';
+import ShowProduct from './pages/show-product';
 
 Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 Axios.defaults.baseURL = `/api/`;
@@ -43,6 +44,7 @@ const app = new Vue({
     el: '#app',
     components: {
         Home,
-        Product
+        Product,
+        ShowProduct
     }
 });

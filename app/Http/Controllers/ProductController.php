@@ -87,7 +87,10 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('product.show', [
+            'cats' => $this->getList(),
+            'p' => $product
+        ]);
     }
 
     /**

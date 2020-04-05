@@ -17,7 +17,11 @@
                 </div>
                 <div :class="is_land ? 'col-8' : 'col-12'">
                     <div class="card-body">
-                        <h5 class="card-title">{{ p.name }}</h5>
+                        <h5 class="card-title">
+                            <a :href="'/p/' + p.slug">
+                                {{ p.name }}
+                            </a>
+                        </h5>
                         <p class="card-text">
                             <strong class="text-primary">
                                 {{ p.savedPrice }}
