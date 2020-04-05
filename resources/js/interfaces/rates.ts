@@ -6,4 +6,5 @@ export default interface Rates {
     message?: string;
     created_at: string;
     updated_at: string;
+    updated: string; // formated date with carbon
 }

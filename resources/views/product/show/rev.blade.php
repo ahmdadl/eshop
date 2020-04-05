@@ -30,34 +30,32 @@
                 </form>
             </div>
             <hr />
-            {{-- <div class="revS mt-4">
-                @foreach ($p->rates as $r)
-                <p class="m-0">
-                    <star-rate :percent="{{$r->rate}}"></star-rate>
-            </p>
-            <p class="m-0">
-                @lang('t.show.by') <strong>{{$r->user->name}}</strong>
-                <span class="mx-2 badge badge-primary p-2">
-                    <strong>{{$r->updated_at->format('d M Y')}}</strong>
-                </span>
-            </p>
-            <p>
-                {{$r->message}}
-            </p>
-            @unless ($loop->last)
-            <hr class="mb-3" />
-            @endunless
-            @endforeach
-        </div> --}}
-    </div>
-    <div :class="h.d.loadingRates ? 'd-flex' : 'd-none'"
-        class="d-none justify-content-center mt-2">
-        <div class="spinner-border text-primary"
-            style="width: 3rem; height: 3rem;" role="status">
-            <div class="spinner-grow text-danger" role="status">
-                <span class="sr-only">Loading...</span>
+            <div class="revS mt-4">
+                <div v-for="(r, rteinx) in h.d.revData">
+                        <p class="m-0">
+                                <star-rate :percent="parseFloat(r.rate)"></star-rate>
+                        </p>
+                        <p class="m-0">
+                            @lang('t.show.by') <strong>@{{r.user.name}}</strong>
+                            <span class="mx-2 badge badge-primary p-2">
+                                <strong>@{{r.updated}}</strong>
+                            </span>
+                        </p>
+                        <p>
+                            @{{r.message}}
+                        </p>
+                        <hr class="mb-3" v-if="rteinx !== h.d.revData.length-1" />
+                </div>
+            </div>
+        </div>
+        <div :class="h.d.loadingRates ? 'd-flex' : 'd-none'"
+            class="d-none justify-content-center mt-2">
+            <div class="spinner-border text-primary"
+                style="width: 3rem; height: 3rem;" role="status">
+                <div class="spinner-grow text-danger" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
