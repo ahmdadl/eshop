@@ -87,7 +87,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product->load(['user', 'pi', 'rates']);
+        $product->load(['user', 'pi']);
 
         return view('product.show', [
             'cats' => $this->getList(),

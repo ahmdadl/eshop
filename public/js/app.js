@@ -3095,10 +3095,15 @@ var StarRate = /** @class */ (function (_super) {
         if (!this.$props.run)
             return;
         this.w = this.extractX(ev);
-        // console.log(this.w/100 *5);
     };
-    StarRate.prototype.beforeMount = function () {
+    StarRate.prototype.mounted = function () {
         this.w = (this.percent / 5) * 100;
+    };
+    StarRate.prototype.onPercentChanged = function (val, oldVal) {
+        this.w = (this.percent / 5) * 100;
+    };
+    StarRate.prototype.onRunChanged = function (val, oldVal) {
+        this.run = val;
     };
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Number, required: true }),
@@ -3112,6 +3117,18 @@ var StarRate = /** @class */ (function (_super) {
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Boolean }),
         Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Boolean)
     ], StarRate.prototype, "run", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Watch"])("percent"),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Function),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [Number, Number]),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:returntype", void 0)
+    ], StarRate.prototype, "onPercentChanged", null);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Watch"])('run'),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Function),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [Boolean, Boolean]),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:returntype", void 0)
+    ], StarRate.prototype, "onRunChanged", null);
     StarRate = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
     ], StarRate);
@@ -3775,7 +3792,7 @@ var render = function() {
       },
       [
         _c("i", { staticClass: "fa star-unfilled star" }, [
-          _vm._v("\n      \n      "),
+          _vm._v("\n            \n            "),
           _c(
             "i",
             {
@@ -3790,7 +3807,7 @@ var render = function() {
     _vm._v(" "),
     _vm.count
       ? _c("span", { staticClass: "text-muted mx-1" }, [
-          _vm._v("\n      (" + _vm._s(_vm.count) + ")\n  ")
+          _vm._v(" (" + _vm._s(_vm.count) + ") ")
         ])
       : _vm._e()
   ])
@@ -16976,6 +16993,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
 /* harmony import */ var _super__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./super */ "./resources/js/pages/super.ts");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -16983,11 +17003,44 @@ var ShowProduct = /** @class */ (function (_super) {
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(ShowProduct, _super);
     function ShowProduct() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.d = {};
+        _this.d = {
+            slug: "",
+            revData: [],
+            nextRevUrl: "",
+            rateAvg: 0,
+            loadingRates: false,
+        };
         return _this;
     }
+    ShowProduct.prototype.loadRevs = function (append, path) {
+        var _this = this;
+        if (append === void 0) { append = false; }
+        if (path === void 0) { path = this.d.nextRevUrl; }
+        this.d.loadingRates = true;
+        if (!append) {
+            path = "p/" + this.d.slug + "/rates";
+        }
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(path).then(function (res) {
+            if (!append) {
+                _this.d.revData = res.data.data;
+            }
+            else {
+                _this.d.revData.concat(res.data.data);
+            }
+            _this.d.rateAvg = _this.getAvgRate();
+            _this.d.loadingRates = false;
+        });
+    };
+    ShowProduct.prototype.getAvgRate = function () {
+        var sum = this.d.revData.reduce(function (a, b) { return a + Number(b.rate); }, 0);
+        return parseFloat((sum / this.d.revData.length || 0).toFixed(1));
+    };
     ShowProduct.prototype.beforeMount = function () {
         this.attachToGlobal(this, []);
+    };
+    ShowProduct.prototype.mounted = function () {
+        this.d.slug = document.getElementById("productSlug").value;
+        this.loadRevs();
     };
     ShowProduct = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
