@@ -41,6 +41,11 @@ class Product extends Model
         return $this->hasMany(Rate::class);
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getRateAvgAttribute(): float
     {
         return round($this->rates->average('rate'), 1);

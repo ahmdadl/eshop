@@ -114,4 +114,12 @@ class ProductTest extends TestCase
         $this->assertArrayHasKey('rateAvg', $p->toArray());
         $this->assertArrayHasKey('savedPrice', $p->toArray());
     }
+
+    public function testItBelongsToUser()
+    {
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+
+        $this->assertIsObject($p->user);
+    }
 }
