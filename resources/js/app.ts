@@ -4,6 +4,7 @@ import Home from './pages/home';
 import Product from './pages/product';
 import StarRate from './components/StarRate.vue';
 import XProduct from './components/x-product.vue';
+import Toastr from './components/toast.vue';
 import ShowProduct from './pages/show-product';
 
 Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -39,6 +40,7 @@ Vue.config.productionTip = false;
 
 Vue.component('star-rate', StarRate);
 Vue.component('my-product', XProduct);
+Vue.component('toast', Toastr);
 
 const app = new Vue({
     el: '#app',

@@ -41,8 +41,11 @@ class RateController extends Controller
 
         $product->rates()->save($r);
 
+        $r->load('user');
+
         return response()->json([
-            'created' => true
+            'created' => true,
+            'obj' => $r
         ]);
     }
 

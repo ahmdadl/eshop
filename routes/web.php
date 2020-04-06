@@ -29,3 +29,7 @@ Route::group(
         Route::get('/p/{product}', 'ProductController@show');
     }
 );
+
+Route::prefix('/api')->middleware('auth')->group(function () {
+    Route::post('/p/{product}/rates', 'RateController@store');
+});

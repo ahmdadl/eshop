@@ -2,7 +2,7 @@
     <div class="toast w-100 position-fixed transition" :class="cls">
         <div class="toast-header text-light" :class="'bg-' + type">
             <strong class="mr-auto">
-                <i class="fa fas fa-showing mr-2"></i>
+                <i class="fa fas fa-exclamation-circle mr-2"></i>
                 {{ title }}
             </strong>
             <button

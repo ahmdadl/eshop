@@ -80,15 +80,15 @@ class RateControllerTest extends TestCase
         /** @var \App\User $user */
         $user = $this->signIn();
 
-        $rate = factory(Rate::class)->make([
+        $old = factory(Rate::class)->make([
             'product_id' => $p->id
-        ])->only(['rate', 'message']);
+        ]);
+
+        $rate = $old->only(['rate', 'message']);
 
         $this->post('/api/p/' . $p->slug . '/rates', $rate)
             ->assertOk()
-            ->assertExactJson([
-                'created' => true
-            ]);
+            ->assertJsonPath('obj.message', $old->message);
 
         $this->assertDatabaseHas('rates', $rate);
     }

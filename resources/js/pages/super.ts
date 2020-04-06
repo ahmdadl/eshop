@@ -12,7 +12,8 @@ export default class Super extends Vue {
             type: "",
             title: "",
             message: ""
-        }
+        },
+        lang: []
     };
     public allData: Category[] = [];
     public formatter = new Intl.NumberFormat("en-US", {
@@ -44,10 +45,33 @@ export default class Super extends Vue {
         title: string = "",
         type: string = "primary"
     ) {
-        this.d.toast.title= title;
+        this.d.toast.title = title;
         this.d.toast.type = type;
         this.d.toast.message = message;
         (this.$refs.xToast as any).show();
+    }
+
+    protected getInpVal(id: string, asArr: boolean = false): any {
+        const el = document.getElementById(id) as HTMLInputElement;
+
+        if (el) {
+            return el.value;
+        }
+
+        return asArr ? [] : null;
+    }
+
+    /**
+     * 
+     * @param inx 
+     * @tutorial 0 => error message
+     * @tutorial 1 => success message
+     * @tutorial 2 => alert title
+     * @tutorial 3 => error title
+     * @tutorial 4 => success title
+     */
+    protected getLang(inx: number): string {
+        return this.d.lang[inx] || null;
     }
 
     public extractRoute(): string[] {
@@ -55,5 +79,10 @@ export default class Super extends Vue {
 
         return [arr[3], arr[5]];
     }
+
     beforeMount() {}
+
+    mounted() {
+        this.d.lang = JSON.parse(this.getInpVal("xlang", true));
+    }
 }

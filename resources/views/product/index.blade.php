@@ -56,9 +56,7 @@
                 <button class="btn btn-danger float-right btn-sm"
                     v-on:click="h.d.removeAllfilters()" :disabled="h.d.loadingPosts || (!h.d.selected.brands.length && !h.d.selected.colors.length && !h.d.selected.conditions.length &&
                     h.d.oldData.length === h.d.data.length)">
-                    <span :class="h.d.loadingPosts ? '' : 'd-none'"
-                        class="spinner-border spinner-border-sm" role="status"
-                        aria-hidden="true"></span>
+                    <x-btn-loader showIf="h.d.loadingPosts"></x-btn-loader>
                     @lang('t.removeAllfillters')
                 </button>
             </div>

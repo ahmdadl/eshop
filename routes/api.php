@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:web')->group(function () {
-    Route::post('/p/{product}/rates', 'RateController@store');
+    
 });
 
 Route::get('/sub/{category_slug}', 'HomeController@sendData');

@@ -1,8 +1,9 @@
 <div class="row mt-3">
     <input id="productSlug" type="hidden" value="{{$p->slug}}" />
-    @auth
-        <input id="userId" type="hidden" value="{{auth()->id()}}" />
-    @endauth
+    <input id="userId" type="hidden" value="{{auth()->id()}}" />
+    <input id="xlang" type="hidden" value="{{json_encode([
+    __('t.show.errMess'), __('t.show.succMess'), __('t.show.alertTitle'), __('t.show.dangerTitle'), __('t.show.succTitle')
+    ])}}" />
     <div class="col-12 col-md-9">
         <h3 id='revs'>@lang('t.show.rev')</h3>
         <div class="card card-body col-12" v-if="!h.d.loadingRates">
@@ -19,35 +20,55 @@
             </div>
             <div class="rateform">
                 <h3>@lang('t.show.rateThis'):</h3>
-                <form>
+                <form class="needs-validation"
+                    :class="h.d.userRev.message.length > 0 && h.d.userRev.message.length < 5 ? 'was-validated' : ''">
                     <div class="form-group">
-                        <star-rate :percent="h.d.userRev.rate" :run="true" v-on:rated="h.d.userRev.rate = $event"></star-rate>
+                        <star-rate :percent="h.d.userRev.rate" :run="true"
+                            v-on:rated="h.d.userRev.rate = $event"></star-rate>
                     </div>
+                    @auth
                     <div class="form-group mt-2">
-                        <label class="form-label">@lang('t.show.rateMessage')</label>
-                        <textarea type="text" class="form-control" v-model="h.d.userRev.message"></textarea>
+                        <label
+                            class="form-label">@lang('t.show.rateMessage')</label>
+                        <textarea type="text" class="form-control"
+                            v-model="h.d.userRev.message"
+                            :required="h.d.userRev.message.length > 0 && h.d.userRev.message.length < 5"
+                            minlength="5"></textarea>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-success">@lang('t.show.rateBtn')</button>
+                        <button class="btn btn-success"
+                            v-on:click.prevent.stop="h.d.addRev()"
+                            :disabled="h.d.userRev.message.length > 0 && h.d.userRev.message.length < 5 || h.d.savingRev || !h.d.userRev.rate">
+                            <x-btn-loader showIf="h.d.savingRev"></x-btn-loader>
+                            <span v-if="h.d.userRev.alreadyReved">
+                                @lang('t.show.upRateBtn')
+                            </span>
+                            <span v-else>
+                                @lang('t.show.rateBtn')
+                            </span>
+                        </button>
                     </div>
+                    @else
+                    adsasd
+                    @endauth
                 </form>
             </div>
             <hr />
             <div class="revS mt-4">
                 <div v-for="(r, rteinx) in h.d.revData">
-                        <p class="m-0">
-                                <star-rate :percent="parseFloat(r.rate)"></star-rate>
-                        </p>
-                        <p class="m-0">
-                            @lang('t.show.by') <strong>@{{r.user.name}}</strong>
-                            <span class="mx-2 badge badge-primary p-2">
-                                <strong>@{{r.updated}}</strong>
-                            </span>
-                        </p>
-                        <p>
-                            @{{r.message}}
-                        </p>
-                        <hr class="mb-3" v-if="rteinx !== h.d.revData.length-1" />
+                    <p class="m-0">
+                        <star-rate :percent="parseFloat(r.rate)"></star-rate>
+                    </p>
+                    <p class="m-0">
+                        @lang('t.show.by') <strong>@{{r.user.name}}</strong>
+                        <span class="mx-2 badge badge-primary p-2">
+                            <strong>@{{r.updated}}</strong>
+                        </span>
+                    </p>
+                    <p>
+                        @{{r.message}}
+                    </p>
+                    <hr class="mb-3" v-if="rteinx !== h.d.revData.length-1" />
                 </div>
             </div>
         </div>
