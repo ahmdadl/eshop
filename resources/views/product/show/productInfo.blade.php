@@ -1,3 +1,4 @@
+@if (isset($p->pi->info))
 @foreach ($p->pi->{$type} as $k => $v)
 <span class="text-uppercase mt-1"><strong>{{$k}}:</strong></span>
 <span class="text-capitalize mx-1">
@@ -10,3 +11,4 @@
     @endif
 </span><br>
 @endforeach
+@endif

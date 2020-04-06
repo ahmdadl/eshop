@@ -2,16 +2,17 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Product;
 use App\ProductInfo;
 use Faker\Generator as Faker;
 
 $factory->define(ProductInfo::class, function (Faker $faker) {
     $info_arr = [
         // 'brand' => $faker->sentence,
-        'package_thickness' => $faker->randomFloat(4),
-        'product_weight' => $faker->randomFloat(4) . ' g',
-        'package_weight' => $faker->randomFloat(5) . ' g',
-        'serial_scan_required' => false
+        'package thickness' => $faker->randomFloat(4),
+        'product weight' => $faker->randomFloat(4) . ' g',
+        'package weight' => $faker->randomFloat(5) . ' g',
+        'serial scan required' => false
     ];
 
     for ($i = 0; $i < rand(5, 15); $i++) {
@@ -25,6 +26,7 @@ $factory->define(ProductInfo::class, function (Faker $faker) {
     }
 
     return [
+        'product_id' => factory(Product::class),
         'info' => $info_arr
     ];
 });

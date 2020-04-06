@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Category;
 use App\Product;
+use App\ProductInfo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Facades\Tests\Setup\CategoryFactory;
@@ -83,7 +84,7 @@ class ProductControllerTest extends TestCase
 
         $this->get("/api/sub/$sc->slug/filterCondition/0")
             ->assertOk()
-            ->assertJsonCount(4)
+            ->assertJsonCount(4, 'data')
             ->assertSee($p[2]->slug);
     }
 
@@ -104,11 +105,14 @@ class ProductControllerTest extends TestCase
 
     public function testShowingProductData()
     {
-        /** @var \App\Product $p */
-        $p = factory(Product::class)->create();
+        $this->withoutExceptionHandling();
+        /** @var \App\Category $c */
+        /** @var \App\Category $sc */
+        /** @var \App\Product[] $p */
+        [$c, $sc, $p] = CategoryFactory::wSub(1)->wPro(10)->create();
 
-        $this->get(app()->getLocale() . '/p/' . $p->slug)
+        $this->get(app()->getLocale() . '/p/' . $p[0]->slug)
             ->assertOk()
-            ->assertSee($p->name);
+            ->assertSee($p[0]->name);
     }
 }
