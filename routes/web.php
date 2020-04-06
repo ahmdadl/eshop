@@ -20,7 +20,7 @@ Route::group(
     ],
     function () {
         Route::get('/', 'HomeController@index')->name('home');
-        
+
         Auth::routes();
 
         // load all products by a given sub category
@@ -32,4 +32,5 @@ Route::group(
 
 Route::prefix('/api')->middleware('auth')->group(function () {
     Route::post('/p/{product}/rates', 'RateController@store');
+    Route::patch('/rates/{rate}', 'RateController@update');
 });

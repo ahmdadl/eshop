@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class RateController extends Controller
 {
+
+    private static $vRules = [
+        'rate' => 'required|numeric|min:0|max:5',
+        'message' => 'nullable|string|min:5'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -32,10 +38,7 @@ class RateController extends Controller
     public function store(Request $request, Product $product)
     {
 
-        $r = request()->validate([
-            'rate' => 'required|numeric|min:0|max:5',
-            'message' => 'nullable|string|min:5'
-        ]);
+        $r = request()->validate(self::$vRules);
 
         $r = new Rate($r + ['user_id' => auth()->id()]);
 
@@ -67,9 +70,20 @@ class RateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Rate $rate)
     {
-        //
+        $r = (object)request()->validate([
+            'user_id' => 'required|exists:users,id'
+        ] + self::$vRules);
+
+        abort_unless($r->user_id === auth()->id(), 403);
+
+        $rate->rate = $r->rate;
+        $rate->message = $r->message;
+
+        $rate->save();
+
+        return response()->json(['obj' => $rate]);
     }
 
     /**

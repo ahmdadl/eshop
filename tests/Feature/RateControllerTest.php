@@ -92,4 +92,62 @@ class RateControllerTest extends TestCase
 
         $this->assertDatabaseHas('rates', $rate);
     }
+
+    public function testOnlyRateOwnerCanUpdate()
+    {
+        $this->signIn();
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+        $rate = $p->rates()->save(factory(Rate::class)->make());
+
+        $this->patch(
+            '/api/rates/' . $rate->id,
+            $rate->only(['user_id', 'rate', 'message'])
+        )->assertStatus(403);
+    }
+
+    public function testUserCanNotUpdateRateWithInvalidData()
+    {
+        $this->signIn();
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+        $rate = $p->rates()->save(factory(Rate::class)->make([
+            'message' => 'asd'
+        ]));
+
+        $this->patch(
+            '/api/rates/' . $rate->id,
+            $rate->only(['user_id', 'rate', 'message'])
+        )->assertStatus(302)
+            ->assertSessionHasErrors('message');
+    }
+
+    public function testRateCanBeUpdated()
+    {
+        /** @var \App\User $user */
+        $user = $this->signIn();
+
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+
+        $newMessage = $this->faker->sentence;
+
+        /** @var \App\Rate $rate */
+        $rate = $p->rates()->save(
+            factory(Rate::class)->make([
+                'message' => 'wsadasdsad',
+                'user_id' => $user->id
+            ])
+        );
+
+        $this->assertDatabaseHas('rates', $rate->only('user_id'));
+
+        $rate->message = $newMessage;
+
+        $this->patch(
+            '/api/rates/' . $rate->id,
+            $rate->only(['user_id', 'rate', 'message'])
+        )->assertOk()
+            ->assertJsonPath('obj.message', $rate->message);
+    }
 }
