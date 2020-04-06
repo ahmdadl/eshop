@@ -5,6 +5,8 @@ import Axios from "axios";
 
 export interface UserRev {
     userId: number;
+    id: number;
+    index: number;
     rate: number;
     message: string;
     alreadyReved: boolean;
@@ -31,7 +33,14 @@ export default class ShowProduct extends Super {
         rateAvg: 0,
         loadingRates: false,
         userId: 0,
-        userRev: { userId: 0, rate: 0, message: "", alreadyReved: false },
+        userRev: {
+            userId: 0,
+            id: 0,
+            index: 0,
+            rate: 0,
+            message: "",
+            alreadyReved: false
+        },
         savingRev: false,
         lang: []
     };
@@ -61,19 +70,22 @@ export default class ShowProduct extends Super {
 
     public addRev() {
         this.d.savingRev = true;
-        let method = 'post';
+        let method = "post",
+            path = `p/${this.d.slug}/rates`;
 
         if (this.d.userRev.alreadyReved) {
-            method = 'put';
+            method = "patch";
+            path = `/rates/${this.d.userRev.id}`;
         }
 
         const r = {
-            rate: this.d.userRev.rate || null,
+            user_id: this.d.userId,
+            rate: this.d.userRev.rate,
             message: this.d.userRev.message
         };
 
-        Axios[method](`p/${this.d.slug}/rates`, r).then(res => {
-            if (!res || !res.data || !res.data.created || !res.data.obj.user) {
+        Axios[method](path, r).then(res => {
+            if (!res || !res.data || !res.data.obj) {
                 this.d.savingRev = false;
                 this.showToast(this.getLang(0), this.getLang(3), "danger");
                 return;
@@ -81,7 +93,15 @@ export default class ShowProduct extends Super {
 
             this.showToast(this.getLang(1), this.getLang(4), "success");
 
-            this.d.revData.unshift(res.data.obj);
+            if (this.d.userRev.alreadyReved) {
+                this.d.revData[this.d.userRev.index].rate = res.data.obj.rate;
+                this.d.revData[this.d.userRev.index].message = res.data.obj.message;
+                this.d.revData[this.d.userRev.index].updated = res.data.obj.updated;
+            } else {
+                this.d.revData.unshift(res.data.obj);
+            }
+            this.d.userRev.id = parseInt(res.data.obj.id);
+            this.d.userRev.userId = parseInt(res.data.obj.user_id);
             this.d.userRev.alreadyReved = true;
             this.d.savingRev = false;
         });
@@ -90,10 +110,16 @@ export default class ShowProduct extends Super {
     private setUserRev(d: Rates[]) {
         // @ts-ignore
         const userId = parseInt(this.d.userId);
-        const r = d.filter(x => x.user_id === userId)[0];
+        const r = d.filter((x, inx) => {
+            if (x.user_id === userId) {
+                this.d.userRev.index = inx;
+                return x;
+            }
+        })[0];
 
         if (r) {
-            this.d.userRev.userId = Number(r.user_id);
+            this.d.userRev.userId = userId;
+            this.d.userRev.id = Number(r.id);
             this.d.userRev.rate = Number(r.rate);
             this.d.userRev.message = r.message as string;
             this.d.userRev.alreadyReved = true;
@@ -111,7 +137,7 @@ export default class ShowProduct extends Super {
 
     mounted() {
         this.d.slug = this.getInpVal("productSlug");
-        this.d.userId = this.getInpVal("userId");
+        this.d.userId = parseInt(this.getInpVal("userId"));
 
         this.loadRevs();
     }

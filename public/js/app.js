@@ -17274,7 +17274,14 @@ var ShowProduct = /** @class */ (function (_super) {
             rateAvg: 0,
             loadingRates: false,
             userId: 0,
-            userRev: { userId: 0, rate: 0, message: "", alreadyReved: false },
+            userRev: {
+                userId: 0,
+                id: 0,
+                index: 0,
+                rate: 0,
+                message: "",
+                alreadyReved: false
+            },
             savingRev: false,
             lang: []
         };
@@ -17308,32 +17315,50 @@ var ShowProduct = /** @class */ (function (_super) {
     ShowProduct.prototype.addRev = function () {
         var _this = this;
         this.d.savingRev = true;
-        var method = 'post';
+        var method = "post", path = "p/" + this.d.slug + "/rates";
         if (this.d.userRev.alreadyReved) {
-            method = 'put';
+            method = "patch";
+            path = "/rates/" + this.d.userRev.id;
         }
         var r = {
-            rate: this.d.userRev.rate || null,
+            user_id: this.d.userId,
+            rate: this.d.userRev.rate,
             message: this.d.userRev.message
         };
-        axios__WEBPACK_IMPORTED_MODULE_3___default.a[method]("p/" + this.d.slug + "/rates", r).then(function (res) {
-            if (!res || !res.data || !res.data.created || !res.data.obj.user) {
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a[method](path, r).then(function (res) {
+            if (!res || !res.data || !res.data.obj) {
                 _this.d.savingRev = false;
                 _this.showToast(_this.getLang(0), _this.getLang(3), "danger");
                 return;
             }
             _this.showToast(_this.getLang(1), _this.getLang(4), "success");
-            _this.d.revData.unshift(res.data.obj);
+            if (_this.d.userRev.alreadyReved) {
+                _this.d.revData[_this.d.userRev.index].rate = res.data.obj.rate;
+                _this.d.revData[_this.d.userRev.index].message = res.data.obj.message;
+                _this.d.revData[_this.d.userRev.index].updated = res.data.obj.updated;
+            }
+            else {
+                _this.d.revData.unshift(res.data.obj);
+            }
+            _this.d.userRev.id = parseInt(res.data.obj.id);
+            _this.d.userRev.userId = parseInt(res.data.obj.user_id);
             _this.d.userRev.alreadyReved = true;
             _this.d.savingRev = false;
         });
     };
     ShowProduct.prototype.setUserRev = function (d) {
+        var _this = this;
         // @ts-ignore
         var userId = parseInt(this.d.userId);
-        var r = d.filter(function (x) { return x.user_id === userId; })[0];
+        var r = d.filter(function (x, inx) {
+            if (x.user_id === userId) {
+                _this.d.userRev.index = inx;
+                return x;
+            }
+        })[0];
         if (r) {
-            this.d.userRev.userId = Number(r.user_id);
+            this.d.userRev.userId = userId;
+            this.d.userRev.id = Number(r.id);
             this.d.userRev.rate = Number(r.rate);
             this.d.userRev.message = r.message;
             this.d.userRev.alreadyReved = true;
@@ -17348,7 +17373,7 @@ var ShowProduct = /** @class */ (function (_super) {
     };
     ShowProduct.prototype.mounted = function () {
         this.d.slug = this.getInpVal("productSlug");
-        this.d.userId = this.getInpVal("userId");
+        this.d.userId = parseInt(this.getInpVal("userId"));
         this.loadRevs();
     };
     ShowProduct = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
