@@ -16,20 +16,20 @@ class RateSeeder extends Seeder
      */
     public function run()
     {
-        
+        DB::beginTransaction();
         $users_ids = ((User::all())->pluck('id'))->toArray();
         $f = Factory::create();
-        DB::beginTransaction();
+        
         (Product::all())->each(function (Product $p) use ($users_ids, $f) {
-            for ($i = 0; $i < mt_rand(3, 8); $i++) {
+            for ($i = 0; $i < mt_rand(7, 15); $i++) {
                 Rate::create([
                     'user_id' => Arr::random($users_ids),
                     'product_id' => $p->id,
-                    'rate' => mt_rand(0, 5),
+                    'rate' => $f->randomFloat(1, 0, 5),
                     'message' => $f->text(254)
                 ]);
             }
         });
-         DB::commit();
+        DB::commit();
     }
 }

@@ -51,6 +51,14 @@ export default class Super extends Vue {
         (this.$refs.xToast as any).show();
     }
 
+    public showErrorToast(message?: string) {
+        this.showToast(
+            message || this.getLang(0),
+            this.getLang(3),
+            'danger'
+        );
+    }
+
     protected getInpVal(id: string, asArr: boolean = false): any {
         const el = document.getElementById(id) as HTMLInputElement;
 

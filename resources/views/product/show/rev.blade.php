@@ -15,7 +15,7 @@
                     <star-rate :percent="h.d.rateAvg"></star-rate>
                 </div>
                 <p class="text-muted mt-1">
-                    @{{h.d.revData.length}} @lang('t.show.ratings')
+                    @{{h.d.revCount}} @lang('t.show.ratings')
                 </p>
             </div>
             <div class="rateform">
@@ -69,6 +69,15 @@
                         @{{r.message}}
                     </p>
                     <hr class="mb-3" v-if="rteinx !== h.d.revData.length-1" />
+                </div>
+                <div class="mt-2">
+                    <button type='button'
+                        class="btn btn-primary btn-block btn-lg"
+                        v-on:click="h.d.loadRevs(true)"
+                        :disabled="!h.d.nextRevUrl">
+                        <x-btn-loader showIf="h.d.updatingRates"></x-btn-loader>
+                        @lang('t.show.loadMore')
+                    </button>
                 </div>
             </div>
         </div>

@@ -16,9 +16,11 @@ export interface Dynamic {
     slug: string;
     userId: number;
     revData: Rates[];
+    revCount: number;
     nextRevUrl: string;
     rateAvg: number;
     loadingRates: boolean;
+    updatingRates: boolean;
     userRev: UserRev;
     savingRev: boolean;
     lang: string[];
@@ -29,9 +31,11 @@ export default class ShowProduct extends Super {
     public d: Dynamic = {
         slug: "",
         revData: [],
+        revCount: 0,
         nextRevUrl: "",
         rateAvg: 0,
         loadingRates: false,
+        updatingRates: false,
         userId: 0,
         userRev: {
             userId: 0,
@@ -46,25 +50,34 @@ export default class ShowProduct extends Super {
     };
 
     public loadRevs(append: boolean = false, path: string = this.d.nextRevUrl) {
-        this.d.loadingRates = true;
+        this.d.updatingRates = true;
         if (!append) {
+            this.d.loadingRates = true;
             path = `p/${this.d.slug}/rates`;
         }
 
         Axios.get(path).then(res => {
             if (!res.data || !res.data.data) {
                 this.d.loadingRates = false;
+                this.d.updatingRates = false;
+                this.showErrorToast();
                 return;
             }
-            res.data = res.data.data;
+            res = res.data;
             if (!append) {
                 this.d.revData = [...res.data];
             } else {
-                this.d.revData.concat(res.data);
+                this.d.revData = [...this.d.revData.concat(res.data)];
+                console.log(this.d.revData);
             }
+            // @ts-ignore
+            this.d.nextRevUrl = res.next_page_url;
+            // @ts-ignore
+            this.d.revCount = res.total;
             this.d.rateAvg = this.getAvgRate();
             this.setUserRev(res.data);
             this.d.loadingRates = false;
+            this.d.updatingRates = false;
         });
     }
 
@@ -87,7 +100,7 @@ export default class ShowProduct extends Super {
         Axios[method](path, r).then(res => {
             if (!res || !res.data || !res.data.obj) {
                 this.d.savingRev = false;
-                this.showToast(this.getLang(0), this.getLang(3), "danger");
+                this.showErrorToast();
                 return;
             }
 
@@ -95,8 +108,10 @@ export default class ShowProduct extends Super {
 
             if (this.d.userRev.alreadyReved) {
                 this.d.revData[this.d.userRev.index].rate = res.data.obj.rate;
-                this.d.revData[this.d.userRev.index].message = res.data.obj.message;
-                this.d.revData[this.d.userRev.index].updated = res.data.obj.updated;
+                this.d.revData[this.d.userRev.index].message =
+                    res.data.obj.message;
+                this.d.revData[this.d.userRev.index].updated =
+                    res.data.obj.updated;
             } else {
                 this.d.revData.unshift(res.data.obj);
             }
@@ -132,7 +147,7 @@ export default class ShowProduct extends Super {
     }
 
     beforeMount() {
-        this.attachToGlobal(this, ["addRev"]);
+        this.attachToGlobal(this, ["addRev", "loadRevs"]);
     }
 
     mounted() {
