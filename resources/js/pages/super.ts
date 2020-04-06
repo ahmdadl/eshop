@@ -58,7 +58,7 @@ export default class Super extends Vue {
             return el.value;
         }
 
-        return asArr ? [] : null;
+        return asArr ? "[]" : null;
     }
 
     /**

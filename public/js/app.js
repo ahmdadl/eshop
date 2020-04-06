@@ -17426,7 +17426,7 @@ var Super = /** @class */ (function (_super) {
         if (el) {
             return el.value;
         }
-        return asArr ? [] : null;
+        return asArr ? "[]" : null;
     };
     /**
      *
