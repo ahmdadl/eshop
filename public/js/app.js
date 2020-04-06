@@ -3088,6 +3088,8 @@ var StarRate = /** @class */ (function (_super) {
         this.w = this.extractX(ev);
     };
     StarRate.prototype.mouseLeaved = function () {
+        if (!this.$props.run)
+            return;
         this.w = this.current;
     };
     StarRate.prototype.set = function (ev) {

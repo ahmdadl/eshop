@@ -58,6 +58,7 @@ export default class StarRate extends Vue {
     }
 
     public mouseLeaved(): void {
+        if (!this.$props.run) return;
         this.w = this.current;
     }
 
