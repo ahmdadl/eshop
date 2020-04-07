@@ -4073,19 +4073,17 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _c(
-                            "span",
-                            { class: _vm.is_land ? "ml-2" : "d-block" },
-                            [
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(_vm.lang[2]) +
-                                  " " +
-                                  _vm._s(_vm.p.youSave) +
-                                  "\n                                "
-                              )
-                            ]
-                          )
+                          _vm.is_land
+                            ? _c("span", { staticClass: "ml-2" }, [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(_vm.lang[2]) +
+                                    " " +
+                                    _vm._s(_vm.p.youSave) +
+                                    "\n                                "
+                                )
+                              ])
+                            : _vm._e()
                         ])
                       : _vm._e()
                   ])
@@ -17017,7 +17015,8 @@ var Product = /** @class */ (function (_super) {
                 conditions: ""
             },
             oldData: [],
-            scroll: 0
+            scroll: 0,
+            prosDataInp: ''
         };
         return _this;
     }
@@ -17065,7 +17064,11 @@ var Product = /** @class */ (function (_super) {
         if (subSlug === void 0) { subSlug = this.d.slug[1]; }
         if (nextPath === void 0) { nextPath = null; }
         var path = !nextPath ? "sub/" + subSlug : nextPath;
-        this.getDataFromServer(path, true);
+        if (subSlug && subSlug.length) {
+            this.getDataFromServer(path, true);
+            return;
+        }
+        this.setDataFromPHP();
     };
     Product.prototype.toogleCollabseButton = function (isShown, refId) {
         this.d.collabse.id = refId;
@@ -17131,6 +17134,26 @@ var Product = /** @class */ (function (_super) {
                 _this.getDataFromServer(_this.d.nextUrl, true, true);
             }
         };
+    };
+    Product.prototype.setDataFromPHP = function () {
+        var _this = this;
+        var d = document.getElementById('prosData').value;
+        var res = JSON.parse(d);
+        res.data.map(function (x) {
+            x.priceInt = x.price;
+            x.savedPriceInt = x.savedPrice;
+            x.youSave = _this.foramtMony(x.price - x.savedPrice);
+            x.price = _this.foramtMony(x.price);
+            x.savedPrice = _this.foramtMony(x.savedPrice);
+            return x;
+        });
+        this.d.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
+        this.sortData(1);
+        this.doCalc(true, false);
+        console.info(this.d.brands);
+        this.d.nextUrl = res.next_page_url;
+        console.log(this.d.nextUrl);
+        this.hideLoader();
     };
     Product.prototype.getDataFromServer = function (path, native, append) {
         var _this = this;
@@ -17230,9 +17253,9 @@ var Product = /** @class */ (function (_super) {
         ]);
         var _a = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(this.extractRoute(), 2), cat = _a[0], sub = _a[1];
         this.d.slug = [cat, sub];
-        this.loadData(sub);
     };
     Product.prototype.mounted = function () {
+        this.loadData(this.d.slug[1]);
         this.checkIfReachedBottom();
     };
     Product = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([

@@ -5,6 +5,7 @@ import ProductInterface from "../interfaces/product";
 import Rates from "../interfaces/rates";
 
 export interface Dynamic {
+    prosDataInp: string;
     data: ProductInterface[];
     oldData: ProductInterface[];
     nextUrl: string;
@@ -53,7 +54,8 @@ export default class Product extends Super {
             conditions: ""
         },
         oldData: [],
-        scroll: 0
+        scroll: 0,
+        prosDataInp: ''
     };
     // public d.oldData: ProductInterface[];
 
@@ -105,7 +107,11 @@ export default class Product extends Super {
         nextPath: string | null = null
     ): void {
         const path = !nextPath ? `sub/${subSlug}` : nextPath;
-        this.getDataFromServer(path, true);
+        if (subSlug && subSlug.length) {
+            this.getDataFromServer(path, true);
+            return;
+        }
+        this.setDataFromPHP();
     }
 
     public toogleCollabseButton(isShown: boolean, refId: string) {
@@ -196,6 +202,31 @@ export default class Product extends Super {
                 this.getDataFromServer(this.d.nextUrl, true, true);
             }
         };
+    }
+
+    private setDataFromPHP()
+    {
+        const d = (document.getElementById('prosData') as HTMLInputElement).value;
+        const res = JSON.parse(d);
+        res.data.map((x: ProductInterface) => {
+            x.priceInt = x.price as number;
+            x.savedPriceInt = x.savedPrice as number;
+            x.youSave = this.foramtMony(
+                (x.price as number) - (x.savedPrice as number)
+            );
+            x.price = this.foramtMony(x.price as number);
+            (x.savedPrice as number) = this.foramtMony(
+                x.savedPrice as number
+            );
+            return x;
+        });
+        this.d.oldData = [...res.data];
+        this.sortData(1);
+        this.doCalc(true, false);
+        console.info(this.d.brands);
+        this.d.nextUrl = res.next_page_url;
+        console.log(this.d.nextUrl);
+        this.hideLoader();
     }
 
     private getDataFromServer(
@@ -307,11 +338,10 @@ export default class Product extends Super {
 
         const [cat, sub] = this.extractRoute();
         this.d.slug = [cat, sub];
-
-        this.loadData(sub);
     }
 
     mounted() {
+        this.loadData(this.d.slug[1]);
         this.checkIfReachedBottom();
     }
 }

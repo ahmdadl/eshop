@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->string('slug')->nullable()->unique()->index();
             $table->timestamps();
 
             $table->foreign('category_id')

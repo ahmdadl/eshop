@@ -95,6 +95,26 @@ class ProductController extends Controller
         ]);
     }
 
+    public function find(string $q)
+    {
+        $p = Product::with(['rates', 'pCat'])
+            ->where('name', 'LIKE', "%$q%")
+            ->orWhere('brand', 'LIKE', '%$q%')
+            ->latest()
+            ->paginate(30);
+
+        if (request()->wantsJson()) {
+            return response()->json($p);
+        }
+
+        return view('product.index', [
+            'cats' => $this->getList(),
+            'slug' => ['search', ''],
+            'title' => ucwords($q),
+            'pros' => $p
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

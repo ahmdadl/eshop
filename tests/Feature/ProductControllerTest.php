@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Facades\Tests\Setup\CategoryFactory;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
@@ -114,5 +115,26 @@ class ProductControllerTest extends TestCase
         $this->get(app()->getLocale() . '/p/' . $p[0]->slug)
             ->assertOk()
             ->assertSee($p[0]->name);
+    }
+
+    public function testAnyOneCanSearchForProducts()
+    {
+        $this->withoutExceptionHandling();
+        /** @var \App\Category $c */
+        /** @var \App\Category $sc */
+        /** @var \App\Product[] $p */
+        [$c, $sc, $p] = CategoryFactory::wSub(1)->wPro(10)->create();
+
+        $p = $p[4];
+
+        $q = Str::lower(substr($p->name, 4, 5));
+
+        $this->get(app()->getLocale() . '/p/ser/' . $q)
+            ->assertOk();
+
+        $q = substr($p->brand, 1);
+
+        $this->get(app()->getLocale() . '/p/ser/' . $q)
+            ->assertOk();
     }
 }

@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+{{$pros[0]->name}}
 <div class="row">
     <div class="col-12 col-sm-6 text-left">
         <h4>{{$title}}</h4>
@@ -46,7 +47,8 @@
     </div>
 </div>
 <div class="row mt-3">
-    <div class="d-non d-md-block col-12 col-md-2">
+    @unless ($slug[0] === 'search')
+    <div class="d-none d-md-block col-12 col-md-2">
         <div class="card px-0">
             <div class="card-header px-0">
                 <button class="btn btn-info btn-sm float-left"
@@ -74,6 +76,7 @@
         @include('product.filters.range')
         @include('product.filters.rating')
     </div>
+    @endunless
     <div class="col-12 col-md-10 card-group">
         <my-product v-for="(p, pinx) in h.d.data" :product="p"
             :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')']"
@@ -81,7 +84,8 @@
         </my-product>
     </div>
 </div>
-<div :class="h.d.loadingPosts ? 'd-flex' : 'd-none'" class="d-none justify-content-center mt-2">
+<div :class="h.d.loadingPosts ? 'd-flex' : 'd-none'"
+    class="d-none justify-content-center mt-2">
     <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"
         role="status">
         <div class="spinner-grow text-danger" role="status">
@@ -89,4 +93,5 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="prosData" value="{{$pros->toJson()}}" />
 @endsection

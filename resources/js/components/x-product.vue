@@ -29,7 +29,7 @@
                                     <span class="text-dell">
                                         {{ p.price }}
                                     </span>
-                                    <span :class="is_land ? 'ml-2' : 'd-block'">
+                                    <span v-if="is_land" class="ml-2">
                                         {{ lang[2] }} {{ p.youSave }}
                                     </span>
                                 </p>
