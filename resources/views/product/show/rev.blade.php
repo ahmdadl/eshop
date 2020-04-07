@@ -23,7 +23,7 @@
                 <form class="needs-validation"
                     :class="h.d.userRev.message.length > 0 && h.d.userRev.message.length < 5 ? 'was-validated' : ''">
                     <div class="form-group">
-                        <star-rate :percent="h.d.userRev.rate" :run="true"
+                        <star-rate :percent="h.d.userRev.rate" :run="@auth true @else false @endauth"
                             v-on:rated="h.d.userRev.rate = $event"></star-rate>
                     </div>
                     @auth
@@ -49,7 +49,9 @@
                         </button>
                     </div>
                     @else
-                    adsasd
+                    @lang('t.show.signMess')
+                    <a  class="btn btn-outline-primary"
+                        href="{{ route('login') }}">{{ __('Login') }}</a>
                     @endauth
                 </form>
             </div>
