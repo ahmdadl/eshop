@@ -62,11 +62,11 @@
     <div class="d-none d-md-block col-12 col-md-2">
         <div class="card px-0">
             <div class="card-header px-0">
-                <button class="btn btn-info btn-sm float-left"
+                {{-- <button class="btn btn-info btn-sm float-left"
                     :disabled="h.d.loadingPosts">
                     @lang('t.nav.daily')
-                </button>
-                <button class="btn btn-danger float-right btn-sm"
+                </button> --}}
+                <button class="btn btn-danger btn-sm"
                     v-on:click="h.d.removeAllfilters()" :disabled="h.d.loadingPosts || (!h.d.selected.brands.length && !h.d.selected.colors.length && !h.d.selected.conditions.length &&
                     h.d.oldData.length === h.d.data.length)">
                     <x-btn-loader showIf="h.d.loadingPosts"></x-btn-loader>
@@ -89,7 +89,7 @@
     </div>
     @endunless
     <div class="col-12 col-md-10 card-group">
-        <div class="alert alert-danger mt-5" v-if="!h.d.oldData.length">
+        <div class="alert alert-danger mt-5 col-12 text-center font-weight-bolder" style="max-height: 50px" v-if="!h.d.oldData.length && !h.d.loadingPosts">
             @lang('t.show.noPros')
         </div>
         <my-product v-for="(p, pinx) in h.d.data" :product="p"
@@ -107,5 +107,7 @@
         </div>
     </div>
 </div>
+@isset ($pros)
 <input type="hidden" id="prosData" value="{{$pros->toJson()}}" />
+@endisset
 @endsection

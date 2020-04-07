@@ -104,9 +104,17 @@ export default class Product extends Super {
 
     public loadData(
         subSlug: string = this.d.slug[1],
-        nextPath: string | null = null
+        nextPath: string | null = null,
+        pslug: string = ''
     ): void {
         const path = !nextPath ? `sub/${subSlug}` : nextPath;
+        const pathName = window.location.pathname.split('/');
+        
+        if (pathName.some(x => x === 'daily') && pslug.length) {
+            location.href = `${pslug}/sub/${subSlug}`;
+            return;
+        }
+
         if (subSlug && subSlug.length) {
             this.getDataFromServer(path, true);
             return;

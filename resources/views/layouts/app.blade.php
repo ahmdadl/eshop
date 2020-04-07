@@ -172,7 +172,7 @@
                     <a class="dropdown-item"
                         href="{{LaravelLocalization::localizeUrl('c/'.$c->slug.'/sub/'.$sc->slug)}}"
                         @if($cpt==='product' )
-                        v-on:click.prevent="$refs.childCmp.loadData('{{$sc->slug}}')"
+                        v-on:click.prevent="$refs.childCmp.loadData('{{$sc->slug}}', null, '{{'/' .app()->getLocale() .'/c/'. $c->slug}}')"
                         @endif>
                         {{$sc->name}}
                     </a>

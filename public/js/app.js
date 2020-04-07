@@ -17060,10 +17060,16 @@ var Product = /** @class */ (function (_super) {
             _this.hideLoader();
         }, 500);
     };
-    Product.prototype.loadData = function (subSlug, nextPath) {
+    Product.prototype.loadData = function (subSlug, nextPath, pslug) {
         if (subSlug === void 0) { subSlug = this.d.slug[1]; }
         if (nextPath === void 0) { nextPath = null; }
+        if (pslug === void 0) { pslug = ''; }
         var path = !nextPath ? "sub/" + subSlug : nextPath;
+        var pathName = window.location.pathname.split('/');
+        if (pathName.some(function (x) { return x === 'daily'; }) && pslug.length) {
+            location.href = pslug + "/sub/" + subSlug;
+            return;
+        }
         if (subSlug && subSlug.length) {
             this.getDataFromServer(path, true);
             return;
