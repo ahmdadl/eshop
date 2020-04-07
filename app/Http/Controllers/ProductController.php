@@ -119,6 +119,23 @@ class ProductController extends Controller
         ]);
     }
 
+    public function dailyDeal()
+    {
+        $p = Product::with('daily')
+            ->paginate(30);
+
+        if (request()->wantsJson()) {
+            return response()->json($p);
+        }
+
+        return view('product.index', [
+            'cats' => $this->getList(),
+            'slug' => ['search', ''],
+            'title' => 'daily',
+            'pros' => $p
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

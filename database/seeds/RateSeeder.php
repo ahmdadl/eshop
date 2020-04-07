@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Faker\Factory;
+use Illuminate\Support\Facades\DB;
 
 class RateSeeder extends Seeder
 {
@@ -22,7 +23,10 @@ class RateSeeder extends Seeder
         
         (Product::all())->each(function (Product $p) use ($users_ids, $f) {
             for ($i = 0; $i < mt_rand(7, 15); $i++) {
-                Rate::create([
+                // Rate::create([
+                    
+                // ]);
+                DB::table('rates')->insert([
                     'user_id' => Arr::random($users_ids),
                     'product_id' => $p->id,
                     'rate' => $f->randomFloat(1, 0, 5),

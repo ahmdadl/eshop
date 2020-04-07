@@ -28,6 +28,7 @@ Route::group(
 
         Route::get('/p/ser', 'ProductController@find');
         Route::get('/p/{product}', 'ProductController@show');
+        Route::get('/daily', 'ProductController@dailyDeal');
     }
 );
 

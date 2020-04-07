@@ -51,6 +51,11 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function daily(): HasOne
+    {
+        return $this->hasOne(DailyDeal::class);
+    }
+
     public function getRateAvgAttribute(): float
     {
         return round($this->rates->average('rate'), 1);

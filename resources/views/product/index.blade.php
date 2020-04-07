@@ -1,13 +1,23 @@
 @extends('layouts.app', ['cpt' => 'product'])
 
 @section('title')
-{{$title ?? __('t.all_p')}}
+@isset ($title)
+{{$title === 'daily' ? __('t.show.daily') : $title}}
+@else
+@lang('t.all_p')
+@endisset
 @endsection
 
 @section('content')
 <div class="row">
     <div class="col-12 col-sm-6 text-left">
-        <h4>{{$title}}</h4>
+        <h4>
+            @isset ($title)
+            {{$title === 'daily' ? __('t.show.daily') : $title}}
+            @else
+            @lang('t.all_p')
+            @endisset
+        </h4>
     </div>
     <div class="col-12 col-sm-6 text-right">
         @lang('t.view')
@@ -26,7 +36,8 @@
         <span>
             @lang('t.sortBy'): <div class="btn-group dropleft">
                 <div class="dropdown d-inline">
-                <input type="hidden" id="filterLang" :value="{{json_encode(['["'.__('t.show.pop'). '"', '"'.__('t.show.rated'). '"', '"'.__('t.show.lowTo'). '"', '"'.__('t.show.highTo') .'"]'])}}" />
+                    <input type="hidden" id="filterLang"
+                        :value="{{json_encode(['["'.__('t.show.pop'). '"', '"'.__('t.show.rated'). '"', '"'.__('t.show.lowTo'). '"', '"'.__('t.show.highTo') .'"]'])}}" />
                     <button
                         class="btn btn-outline-info btn-clear dropdown-toggle text-capitalize"
                         type="button" id="dropdownMenuFilterList"

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Category;
+use App\DailyDeal;
 use App\Product;
 use App\ProductInfo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -140,5 +141,15 @@ class ProductControllerTest extends TestCase
             ->assertOk()
             ->assertSee($p->name)
             ->assertSee($p->price);
+    }
+
+    public function testLoadingDailyDeals()
+    {
+        $this->withoutExceptionHandling();
+        $deals = factory(DailyDeal::class, 20)->create();
+
+        $this->get('/' . app()->getLocale() . '/daily')
+            ->assertOk()
+            ->assertSee($deals[0]->product->name);
     }
 }
