@@ -31,6 +31,11 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'category_product');
     }
 
+    public function pCat(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_slug', 'slug');
+    }
+
     public function pi(): HasOne
     {
         return $this->hasOne(ProductInfo::class);
@@ -53,7 +58,7 @@ class Product extends Model
 
     public function getSavedPriceAttribute(): float
     {
-        return $this->price - ($this->save/100 * $this->price);
+        return $this->price - ($this->save / 100 * $this->price);
     }
 
     public function sluggable(): array

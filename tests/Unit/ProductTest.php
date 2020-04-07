@@ -136,4 +136,19 @@ class ProductTest extends TestCase
         $this->assertIsArray($p->pi->miniInfo);
         $this->assertCount(4, $p->pi->miniInfo);
     }
+
+    public function testItHasParentCategory()
+    {
+        /** @var \App\Category $c */
+        $c = factory(Category::class)->create();
+
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create([
+            'category_slug' => $c->slug
+        ]);
+
+        $p->load('pCat');
+
+        $this->assertSame($c->name, $p->pCat->name);
+    }
 }

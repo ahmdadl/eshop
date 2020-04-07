@@ -10,6 +10,7 @@ use Faker\Generator as Faker;
 $factory->define(Product::class, function (Faker $faker) {
     return [
         'user_id' => factory(User::class)->create(),
+        'category_slug' => (factory(Category::class)->create())->slug,
         'name' => $faker->sentence,
         'info' => $faker->text,
         'price' => $faker->randomFloat(1, 50, 100000),
