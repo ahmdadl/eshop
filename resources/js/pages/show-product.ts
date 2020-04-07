@@ -61,6 +61,7 @@ export default class ShowProduct extends Super {
                 this.d.loadingRates = false;
                 this.d.updatingRates = false;
                 this.showErrorToast();
+                this.d.revData = [];
                 return;
             }
             res = res.data;
@@ -68,7 +69,7 @@ export default class ShowProduct extends Super {
                 this.d.revData = [...res.data];
             } else {
                 this.d.revData = [...this.d.revData.concat(res.data)];
-                console.log(this.d.revData);
+                // console.log(this.d.revData);
             }
             // @ts-ignore
             this.d.nextRevUrl = res.next_page_url;
@@ -136,7 +137,7 @@ export default class ShowProduct extends Super {
             this.d.userRev.userId = userId;
             this.d.userRev.id = Number(r.id);
             this.d.userRev.rate = Number(r.rate);
-            this.d.userRev.message = r.message as string;
+            this.d.userRev.message = (r.message as string) || "";
             this.d.userRev.alreadyReved = true;
         }
     }

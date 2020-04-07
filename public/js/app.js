@@ -17332,6 +17332,7 @@ var ShowProduct = /** @class */ (function (_super) {
                 _this.d.loadingRates = false;
                 _this.d.updatingRates = false;
                 _this.showErrorToast();
+                _this.d.revData = [];
                 return;
             }
             res = res.data;
@@ -17340,7 +17341,7 @@ var ShowProduct = /** @class */ (function (_super) {
             }
             else {
                 _this.d.revData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(_this.d.revData.concat(res.data));
-                console.log(_this.d.revData);
+                // console.log(this.d.revData);
             }
             // @ts-ignore
             _this.d.nextRevUrl = res.next_page_url;
@@ -17402,7 +17403,7 @@ var ShowProduct = /** @class */ (function (_super) {
             this.d.userRev.userId = userId;
             this.d.userRev.id = Number(r.id);
             this.d.userRev.rate = Number(r.rate);
-            this.d.userRev.message = r.message;
+            this.d.userRev.message = r.message || "";
             this.d.userRev.alreadyReved = true;
         }
     };
