@@ -17016,7 +17016,7 @@ var Product = /** @class */ (function (_super) {
             },
             oldData: [],
             scroll: 0,
-            prosDataInp: ''
+            prosDataInp: ""
         };
         return _this;
     }
@@ -17137,8 +17137,13 @@ var Product = /** @class */ (function (_super) {
     };
     Product.prototype.setDataFromPHP = function () {
         var _this = this;
-        var d = document.getElementById('prosData').value;
+        var d = document.getElementById("prosData")
+            .value;
         var res = JSON.parse(d);
+        if (!res.data.length) {
+            this.d.oldData = [];
+            return;
+        }
         res.data.map(function (x) {
             x.priceInt = x.price;
             x.savedPriceInt = x.savedPrice;

@@ -127,14 +127,18 @@ class ProductControllerTest extends TestCase
 
         $p = $p[4];
 
-        $q = Str::lower(substr($p->name, 4, 5));
+        $q = urlencode(trim(Str::lower(substr($p->name, 4, 5))));
 
-        $this->get(app()->getLocale() . '/p/ser/' . $q)
-            ->assertOk();
+        $this->get(app()->getLocale() . '/p/ser/?q=' . $q)
+            ->assertOk()
+            ->assertSee($p->name)
+            ->assertSee($p->price);
 
         $q = substr($p->brand, 1);
 
-        $this->get(app()->getLocale() . '/p/ser/' . $q)
-            ->assertOk();
+        $this->get(app()->getLocale() . '/p/ser/?q=' . $q)
+            ->assertOk()
+            ->assertSee($p->name)
+            ->assertSee($p->price);
     }
 }

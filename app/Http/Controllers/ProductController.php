@@ -95,17 +95,21 @@ class ProductController extends Controller
         ]);
     }
 
-    public function find(string $q)
+    public function find(Request $request)
     {
+        $q = $request->get('q');
+
         $p = Product::with(['rates', 'pCat'])
             ->where('name', 'LIKE', "%$q%")
-            ->orWhere('brand', 'LIKE', '%$q%')
+            ->orWhere('brand', 'LIKE', "%$q%")
             ->latest()
             ->paginate(30);
 
         if (request()->wantsJson()) {
             return response()->json($p);
         }
+
+        $request->flash();
 
         return view('product.index', [
             'cats' => $this->getList(),

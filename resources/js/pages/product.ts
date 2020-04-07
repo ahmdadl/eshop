@@ -55,7 +55,7 @@ export default class Product extends Super {
         },
         oldData: [],
         scroll: 0,
-        prosDataInp: ''
+        prosDataInp: ""
     };
     // public d.oldData: ProductInterface[];
 
@@ -204,10 +204,14 @@ export default class Product extends Super {
         };
     }
 
-    private setDataFromPHP()
-    {
-        const d = (document.getElementById('prosData') as HTMLInputElement).value;
+    private setDataFromPHP() {
+        const d = (document.getElementById("prosData") as HTMLInputElement)
+            .value;
         const res = JSON.parse(d);
+        if (!res.data.length) {
+            this.d.oldData = [];
+            return;
+        }
         res.data.map((x: ProductInterface) => {
             x.priceInt = x.price as number;
             x.savedPriceInt = x.savedPrice as number;
@@ -215,9 +219,7 @@ export default class Product extends Super {
                 (x.price as number) - (x.savedPrice as number)
             );
             x.price = this.foramtMony(x.price as number);
-            (x.savedPrice as number) = this.foramtMony(
-                x.savedPrice as number
-            );
+            (x.savedPrice as number) = this.foramtMony(x.savedPrice as number);
             return x;
         });
         this.d.oldData = [...res.data];

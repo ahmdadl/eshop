@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-{{$pros[0]->name}}
 <div class="row">
     <div class="col-12 col-sm-6 text-left">
         <h4>{{$title}}</h4>
@@ -78,6 +77,9 @@
     </div>
     @endunless
     <div class="col-12 col-md-10 card-group">
+        <div class="alert alert-danger mt-5" v-if="!h.d.oldData.length">
+            @lang('t.show.noPros')
+        </div>
         <my-product v-for="(p, pinx) in h.d.data" :product="p"
             :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')']"
             :is_land="h.d.is_land_product" :key="pinx">

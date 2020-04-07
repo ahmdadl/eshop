@@ -26,7 +26,7 @@ Route::group(
         // load all products by a given sub category
         Route::get('/c/{c_slug}/sub/{sub_slug}', 'ProductController@index');
 
-        Route::get('/p/ser/{q}', 'ProductController@find')->where('q', '.*');
+        Route::get('/p/ser', 'ProductController@find');
         Route::get('/p/{product}', 'ProductController@show');
     }
 );

@@ -72,7 +72,7 @@
             </li>
         </ul>
         <nav
-            class="navbar sticky-top navbar-expand-sm navbar-light bg-white shadow-sm">
+            class="navbar sticky-top navbar-expand-sm navbar-dark bg-primary shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -90,6 +90,21 @@
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
+
+                    <form action="/{{app()->getLocale()}}/p/ser" method="GET"
+                        class="form form-inline">
+                        <div class="form-group">
+                            <input type="search" class="form-control" name="q"
+                                placeholder="@lang('t.show.serpl')"
+                                value="{{request()->old('q')}}" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit"
+                                class="btn btn-outline-info ml-1">
+                                <i class="fa fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -155,7 +170,10 @@
                 <div class="dropdown-menu">
                     @foreach ($c->subCat as $sc)
                     <a class="dropdown-item"
-                        href="{{LaravelLocalization::localizeUrl('c/'.$c->slug.'/sub/'.$sc->slug)}}" @if($cpt === 'product') v-on:click.prevent="$refs.childCmp.loadData('{{$sc->slug}}')" @endif>
+                        href="{{LaravelLocalization::localizeUrl('c/'.$c->slug.'/sub/'.$sc->slug)}}"
+                        @if($cpt==='product' )
+                        v-on:click.prevent="$refs.childCmp.loadData('{{$sc->slug}}')"
+                        @endif>
                         {{$sc->name}}
                     </a>
                     @endforeach
