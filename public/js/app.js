@@ -17049,7 +17049,7 @@ var Product = /** @class */ (function (_super) {
     Product.prototype.filterData = function (finx) {
         var _this = this;
         if (this.d.currentFilter === finx - 1) {
-            console.info("is same");
+            // console.info("is same");
             return;
         }
         this.d.currentFilter = finx - 1;
@@ -17260,6 +17260,7 @@ var Product = /** @class */ (function (_super) {
         this.d.slug = [cat, sub];
     };
     Product.prototype.mounted = function () {
+        this.d.filters = JSON.parse(document.getElementById("filterLang").value);
         this.loadData(this.d.slug[1]);
         this.checkIfReachedBottom();
     };

@@ -87,7 +87,7 @@ export default class Product extends Super {
 
     public filterData(finx: number): void {
         if (this.d.currentFilter === finx - 1) {
-            console.info("is same");
+            // console.info("is same");
             return;
         }
 
@@ -343,6 +343,9 @@ export default class Product extends Super {
     }
 
     mounted() {
+        this.d.filters = JSON.parse(
+            (document.getElementById("filterLang") as HTMLInputElement).value
+        );
         this.loadData(this.d.slug[1]);
         this.checkIfReachedBottom();
     }

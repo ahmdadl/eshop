@@ -26,6 +26,7 @@
         <span>
             @lang('t.sortBy'): <div class="btn-group dropleft">
                 <div class="dropdown d-inline">
+                <input type="hidden" id="filterLang" :value="{{json_encode(['["'.__('t.show.pop'). '"', '"'.__('t.show.rated'). '"', '"'.__('t.show.lowTo'). '"', '"'.__('t.show.highTo') .'"]'])}}" />
                     <button
                         class="btn btn-outline-info btn-clear dropdown-toggle text-capitalize"
                         type="button" id="dropdownMenuFilterList"
