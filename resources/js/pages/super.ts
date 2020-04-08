@@ -1,20 +1,29 @@
 import { Vue, Component } from "vue-property-decorator";
 import Category from "../interfaces/category";
 import Axios from "axios";
-import Echo from 'laravel-echo';
+import Echo from "laravel-echo";
+import ToastOption from "../interfaces/toast-option";
+import Cart from "../interfaces/cart";
+
+export interface Dynamic {
+    toast: ToastOption;
+    lang: string[];
+    cart: Cart[];
+}
 
 @Component({
     template: require("./index-template.html")
 })
 export default class Super extends Vue {
-    public d: any = {
+    public d: Dynamic | any = {
         toast: {
             show: false,
             type: "",
             title: "",
             message: ""
         },
-        lang: []
+        lang: [],
+        cart: []
     };
     public allData: Category[] = [];
     public formatter = new Intl.NumberFormat("en-US", {
@@ -76,7 +85,7 @@ export default class Super extends Vue {
      * @tutorial 4 => success title
      */
     protected getLang(inx: number): string {
-        return this.d.lang[inx] || null;
+        return this.d.lang[inx] || '';
     }
 
     public extractRoute(): string[] {

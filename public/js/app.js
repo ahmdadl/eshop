@@ -17466,7 +17466,8 @@ var Super = /** @class */ (function (_super) {
                 title: "",
                 message: ""
             },
-            lang: []
+            lang: [],
+            cart: []
         };
         _this.allData = [];
         _this.formatter = new Intl.NumberFormat("en-US", {
@@ -17522,7 +17523,7 @@ var Super = /** @class */ (function (_super) {
      * @tutorial 4 => success title
      */
     Super.prototype.getLang = function (inx) {
-        return this.d.lang[inx] || null;
+        return this.d.lang[inx] || '';
     };
     Super.prototype.extractRoute = function () {
         var arr = document.location.pathname.split("/");
