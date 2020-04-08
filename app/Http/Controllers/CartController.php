@@ -41,21 +41,17 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        $carts = session('cart');
+        if ($this->checkIfIdExsits($request->get('id'), $carts)) {
+            return response()->json(['exists' => true]);
+        }
+
         $cart = request()->validate([
             'id' => 'required|exists:products,id',
             'product' => 'required',
             'amount' => 'required|numeric',
             'total' => 'required|numeric'
         ]);
-
-        // check if product id was added before
-        foreach (session('cart') as $c) {
-            if ($c['id'] === $cart['id']) {
-                return response()->json([
-                    'exists' => true
-                ]);
-            }
-        }
 
         session()->push('cart', $cart);
 
