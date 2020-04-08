@@ -4,11 +4,14 @@ import Axios from "axios";
 import Echo from "laravel-echo";
 import ToastOption from "../interfaces/toast-option";
 import Cart from "../interfaces/cart";
+import ProductInterface from "../interfaces/product";
 
 export interface Dynamic {
     toast: ToastOption;
     lang: string[];
     cart: Cart[];
+    cartTotal: string;
+    cartLoader: boolean;
 }
 
 @Component({
@@ -23,7 +26,9 @@ export default class Super extends Vue {
             message: ""
         },
         lang: [],
-        cart: []
+        cart: [],
+        cartTotal: 0,
+        cartLoader: false
     };
     public allData: Category[] = [];
     public formatter = new Intl.NumberFormat("en-US", {
@@ -85,13 +90,55 @@ export default class Super extends Vue {
      * @tutorial 4 => success title
      */
     protected getLang(inx: number): string {
-        return this.d.lang[inx] || '';
+        return this.d.lang[inx] || "";
     }
 
     public extractRoute(): string[] {
         let arr = document.location.pathname.split("/");
 
         return [arr[3], arr[5]];
+    }
+
+    addToCartNative(product: any, amount: number = 1) {
+        // check if item already added to cart
+        const found = this.d.cart.some(x => x.id === product.id);
+        if (found) {
+            return;
+        }
+
+        const spinner = product.id + "spinnerLoader";
+        (document.getElementById(spinner) as HTMLSpanElement).classList.remove(
+            "d-none"
+        );
+        this.d.cartLoader = true;
+
+        const total = amount * product.savedPriceInt;
+
+        const ncart = {
+            id: product.id,
+            product,
+            amount,
+            total
+        };
+
+        Axios.post("/cart", ncart).then(res => {
+            if (res) {
+            }
+            (this.d as Dynamic).cart.push(ncart);
+
+            (this.d as Dynamic).cartTotal = this.formatter.format(
+                (this.d as Dynamic).cart.reduce((c, a) => {
+                    return (c += a.total);
+                }, 0)
+            );
+            (document.getElementById(spinner) as HTMLSpanElement).classList.add(
+                "d-none"
+            );
+            (this.d as Dynamic).cartLoader = false;
+        });
+
+        console.log((this.d as Dynamic).cart);
+        console.log(this.$refs);
     }
 
     beforeMount() {}

@@ -1,7 +1,7 @@
-import Product from '../pages/product';
+import ProductInterface from './product';
 export default interface Cart {
     id: number;
-    product: Product;
+    product: ProductInterface;
     amount: number;
     total: number;
 }

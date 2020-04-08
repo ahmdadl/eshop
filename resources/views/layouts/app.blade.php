@@ -33,177 +33,240 @@
 
 <body>
     <div id="app">
-        <ul class="nav justify-content-end bg-dark text-light col-12">
-            @guest
-            <li class="nav-item">
-                <a class="nav-link text-light"
-                    href="{{ LaravelLocalization::localizeUrl('register') }}">
-                    @lang('t.nav.account_create')
-                </a>
-            </li>
-            @endguest
-            <li class="nav-item">
-                <a class="nav-link text-light"
-                    href="{{ LaravelLocalization::localizeUrl('daily') }}">
-                    @lang('t.nav.daily')
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light"
-                    href="{{ LaravelLocalization::localizeUrl('addItem)') }}">
-                    @lang('t.nav.sellUs')
-                </a>
-            </li>
+        <{{$cpt ?? ''}} ref="childCmp">
+            <template v-slot="h">
+                <ul class="nav justify-content-end bg-dark text-light col-12">
+                    @guest
+                    <li class="nav-item">
+                        <a class="nav-link text-light"
+                            href="{{ LaravelLocalization::localizeUrl('register') }}">
+                            @lang('t.nav.account_create')
+                        </a>
+                    </li>
+                    @endguest
+                    <li class="nav-item">
+                        <a class="nav-link text-light"
+                            href="{{ LaravelLocalization::localizeUrl('daily') }}">
+                            @lang('t.nav.daily')
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light"
+                            href="{{ LaravelLocalization::localizeUrl('addItem)') }}">
+                            @lang('t.nav.sellUs')
+                        </a>
+                    </li>
 
-            <li class="nav-item">
-                @if (app()->isLocale('en'))
-                <a class="nav-link text-light" rel="alternate" hreflang="ar"
-                    href="/ar{{
+                    <li class="nav-item">
+                        @if (app()->isLocale('en'))
+                        <a class="nav-link text-light" rel="alternate"
+                            hreflang="ar" href="/ar{{
                         Str::after(url()->current(), LaravelLocalization::getCurrentLocale())
                     }}">العربية
-                </a>
-                @else
-                <a class="nav-link text-light" rel="alternate" hreflang="en"
-                    href="/en{{
+                        </a>
+                        @else
+                        <a class="nav-link text-light" rel="alternate"
+                            hreflang="en" href="/en{{
                         Str::after(url()->current(), LaravelLocalization::getCurrentLocale())
                     }}">English
-                </a>
-                @endif
-            </li>
-        </ul>
-        <nav
-            class="navbar sticky-top navbar-expand-sm navbar-dark bg-primary shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button"
-                    data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse"
-                    id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <form action="/{{app()->getLocale()}}/p/ser" method="GET"
-                        class="form form-inline">
-                        <div class="form-group">
-                            <input type="search" class="form-control" name="q"
-                                placeholder="@lang('t.show.serpl')"
-                                value="{{request()->old('q')}}" />
-                        </div>
-                        <div class="form-group">
-                            <button type="submit"
-                                class="btn btn-outline-info ml-1">
-                                <i class="fa fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                        <li class="nav-item">
-                            <a class="nav-link"
-                                href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link"
-                                href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
+                        </a>
                         @endif
-                        @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown"
-                                class="nav-link dropdown-toggle" href="#"
-                                role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"
-                                v-pre>
-                                {{ Auth::user()->name }} <span
-                                    class="caret"></span>
-                            </a>
+                    </li>
+                </ul>
+                <nav
+                    class="navbar sticky-top navbar-expand-sm navbar-dark bg-primary shadow-sm">
+                    <div class="container">
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            {{ config('app.name', 'Laravel') }}
+                        </a>
+                        <button class="navbar-toggler" type="button"
+                            data-toggle="collapse"
+                            data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="{{ __('Toggle navigation') }}">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                            <div class="dropdown-menu dropdown-menu-right"
-                                aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item"
-                                    href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
+                        <div class="collapse navbar-collapse"
+                            id="navbarSupportedContent">
+                            <!-- Left Side Of Navbar -->
+                            <ul class="navbar-nav mr-auto">
+
+                            </ul>
+
+                            <form action="/{{app()->getLocale()}}/p/ser"
+                                method="GET" class="form form-inline">
+                                <div class="form-group">
+                                    <input type="search" class="form-control"
+                                        name="q"
+                                        placeholder="@lang('t.show.serpl')"
+                                        value="{{request()->old('q')}}" />
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit"
+                                        class="btn btn-outline-info ml-1">
+                                        <i class="fa fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- Right Side Of Navbar -->
+                            <ul class="navbar-nav ml-auto">
+                                <!-- Authentication Links -->
+                                @guest
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                        href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                                @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                        href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                                @endif
+                                @else
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown"
+                                        class="nav-link dropdown-toggle"
+                                        href="#" role="button"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false" v-pre>
+                                        {{ Auth::user()->name }} <span
+                                            class="caret"></span>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right"
+                                        aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item"
+                                            href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
+                                            {{ __('Logout') }}
+                                        </a>
 
-                                <form id="logout-form"
-                                    action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
-                        @endguest
-                        <li class="nav-item dropdown">
-                            <a id="cartDropdown"
-                                class="nav-link dropdown-toggle" href="#"
-                                role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"
-                                v-pre>
-                                <i class="fa fas fa-cart-plus fa-2x"></i>
-                                <sup class="badge badge-danger">5</sup>
+                                        <form id="logout-form"
+                                            action="{{ route('logout') }}"
+                                            method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </div>
+                                </li>
+                                @endguest
+                                <li class="nav-item dropdown">
+                                    <a id="cartDropdown"
+                                        class="nav-link dropdown-toggle"
+                                        href="#" role="button"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <span v-if="h.d.cartLoader"
+                                            class="spinner-grow bg-light"
+                                            role="status"
+                                            aria-hidden="true"></span>
+                                        <i
+                                            class="fa fas fa-cart-plus fa-2x"></i>
+                                        <sup class="badge badge-danger">
+                                            @{{h.d.cart.length}}
+                                        </sup>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right"
+                                        aria-labelledby="cartDropdown" style="width: 25rem;    overflow-y: scroll;
+                                        max-height: 57vh;">
+                                        <ul class="list-unstyled">
+                                            <li class="media border-bottom py-1"
+                                                v-for="c in h.d.cart">
+                                                <img :src="'/img/' + c.product.img[0]"
+                                                    style="width: 7rem;"
+                                                    class="align-self-center mr-3 border p-1 border-light"
+                                                    :alt="c.product.name">
+                                                <div class="media-body pr-1">
+                                                    <h5 class="mt-0">
+                                                        <a
+                                                            :href="'/p/' + c.product.slug">
+                                                            @{{c.product.name}}
+                                                        </a>
+                                                    </h5>
+                                                    <p>
+                                                        <span
+                                                            class="float-left">
+                                                            @lang('t.index.QTY'):
+                                                            @{{c.amount}}
+                                                        </span>
+                                                        <span
+                                                            class="float-right text-danger">
+                                                            @lang('t.index.stock'):
+                                                            @{{c.product.amount}}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li class="mt-5">
+                                                <h5
+                                                    class="text-center font-weight-bolder">
+                                                    @lang('t.index.overTotal')
+                                                    @{{h.d.cartTotal}}
+                                                </h5>
+                                                <div
+                                                    class="form-group text-center">
+                                                    <button
+                                                        class="btn btn-secondary col-5">
+                                                        @lang('t.index.viewC')
+                                                    </button>
+                                                    <button
+                                                        class="btn btn-success col-5">
+                                                        @lang('t.index.checkout')
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                @if (isset($cats))
+                <ul class="nav nav-taps nav-fill navbar-light"
+                    style="background-color: #e3f2fd" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                            href="{{LaravelLocalization::localizeUrl('/')}}">All
+                            Categories</a>
+                    </li>
+                    @foreach ($cats as $c)
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                            data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">
+                            {{$c->name}}
+                        </a>
+                        <div class="dropdown-menu">
+                            @foreach ($c->subCat as $sc)
+                            <a class="dropdown-item"
+                                href="{{LaravelLocalization::localizeUrl('c/'.$c->slug.'/sub/'.$sc->slug)}}"
+                                @if($cpt==='product' )
+                                v-on:click.prevent="$refs.childCmp.loadData('{{$sc->slug}}', null, '{{'/' .app()->getLocale() .'/c/'. $c->slug}}')"
+                                @endif>
+                                {{$sc->name}}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right"
-                                aria-labelledby="cartDropdown">
-                                
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        @if (isset($cats))
-        <ul class="nav nav-taps nav-fill navbar-light"
-            style="background-color: #e3f2fd" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active"
-                    href="{{LaravelLocalization::localizeUrl('/')}}">All
-                    Categories</a>
-            </li>
-            @foreach ($cats as $c)
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                    href="#" role="button" aria-haspopup="true"
-                    aria-expanded="false">
-                    {{$c->name}}
-                </a>
-                <div class="dropdown-menu">
-                    @foreach ($c->subCat as $sc)
-                    <a class="dropdown-item"
-                        href="{{LaravelLocalization::localizeUrl('c/'.$c->slug.'/sub/'.$sc->slug)}}"
-                        @if($cpt==='product' )
-                        v-on:click.prevent="$refs.childCmp.loadData('{{$sc->slug}}', null, '{{'/' .app()->getLocale() .'/c/'. $c->slug}}')"
-                        @endif>
-                        {{$sc->name}}
-                    </a>
+                            @endforeach
+                        </div>
+                    </li>
                     @endforeach
-                </div>
-            </li>
-            @endforeach
-        </ul>
-        @endif
+                </ul>
+                @endif
 
-        <main class="py-4 container-fluid" id="component-container">
-            <{{$cpt ?? ''}} ref="childCmp">
-                <template v-slot="h">
+                <main class="py-4 container-fluid" id="component-container">
+
                     @yield('content')
-                </template>
-            </{{$cpt ?? ''}}>
-        </main>
+
+
+                </main>
+            </template>
+        </{{$cpt ?? ''}}>
     </div>
     <!-- Scripts -->
     <script src="https://js.pusher.com/5.1/pusher.min.js"></script>

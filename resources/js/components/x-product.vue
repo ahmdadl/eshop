@@ -49,7 +49,16 @@
                         class="card-footer text-center"
                         :class="is_land ? 'border-none bg-white' : ''"
                     >
-                        <button class="btn btn-primary btn-block">
+                        <button
+                            class="btn btn-primary btn-block"
+                            @click="$emit('added', p)"
+                        >
+                            <span
+                                :id="p.id + 'spinnerLoader'"
+                                class="d-none spinner-border spinner-border-sm mr-1"
+                                role="status"
+                                aria-hidden="true"
+                            ></span>
                             {{ lang[1] }}
                         </button>
                     </div>

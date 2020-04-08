@@ -94,7 +94,7 @@
         </div>
         <my-product v-for="(p, pinx) in h.d.data" :product="p"
             :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')']"
-            :is_land="h.d.is_land_product" :key="pinx">
+            :is_land="h.d.is_land_product" :key="pinx" v-on:added="h.d.addToCart($event)">
         </my-product>
     </div>
 </div>

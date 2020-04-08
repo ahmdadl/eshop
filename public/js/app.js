@@ -4120,13 +4120,33 @@ var render = function() {
                   class: _vm.is_land ? "border-none bg-white" : ""
                 },
                 [
-                  _c("button", { staticClass: "btn btn-primary btn-block" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(_vm.lang[1]) +
-                        "\n                    "
-                    )
-                  ])
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary btn-block",
+                      on: {
+                        click: function($event) {
+                          return _vm.$emit("added", _vm.p)
+                        }
+                      }
+                    },
+                    [
+                      _c("span", {
+                        staticClass:
+                          "d-none spinner-border spinner-border-sm mr-1",
+                        attrs: {
+                          id: _vm.p.id + "spinnerLoader",
+                          role: "status",
+                          "aria-hidden": "true"
+                        }
+                      }),
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.lang[1]) +
+                          "\n                    "
+                      )
+                    ]
+                  )
                 ]
               )
             ])
@@ -17070,10 +17090,10 @@ var Product = /** @class */ (function (_super) {
     Product.prototype.loadData = function (subSlug, nextPath, pslug) {
         if (subSlug === void 0) { subSlug = this.d.slug[1]; }
         if (nextPath === void 0) { nextPath = null; }
-        if (pslug === void 0) { pslug = ''; }
+        if (pslug === void 0) { pslug = ""; }
         var path = !nextPath ? "sub/" + subSlug : nextPath;
-        var pathName = window.location.pathname.split('/');
-        if (pathName.some(function (x) { return x === 'daily'; }) && pslug.length) {
+        var pathName = window.location.pathname.split("/");
+        if (pathName.some(function (x) { return x === "daily"; }) && pslug.length) {
             location.href = pslug + "/sub/" + subSlug;
             return;
         }
@@ -17147,6 +17167,9 @@ var Product = /** @class */ (function (_super) {
                 _this.getDataFromServer(_this.d.nextUrl, true, true);
             }
         };
+    };
+    Product.prototype.addToCart = function (product) {
+        return this.addToCartNative(product, 1);
     };
     Product.prototype.setDataFromPHP = function () {
         var _this = this;
@@ -17267,7 +17290,8 @@ var Product = /** @class */ (function (_super) {
             "rateFilter",
             "removeAllfilters",
             "filterByPrice",
-            "log"
+            "log",
+            "addToCart"
         ]);
         var _a = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(this.extractRoute(), 2), cat = _a[0], sub = _a[1];
         this.d.slug = [cat, sub];
@@ -17453,6 +17477,9 @@ var ShowProduct = /** @class */ (function (_super) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 var Super = /** @class */ (function (_super) {
@@ -17467,7 +17494,9 @@ var Super = /** @class */ (function (_super) {
                 message: ""
             },
             lang: [],
-            cart: []
+            cart: [],
+            cartTotal: 0,
+            cartLoader: false
         };
         _this.allData = [];
         _this.formatter = new Intl.NumberFormat("en-US", {
@@ -17523,11 +17552,42 @@ var Super = /** @class */ (function (_super) {
      * @tutorial 4 => success title
      */
     Super.prototype.getLang = function (inx) {
-        return this.d.lang[inx] || '';
+        return this.d.lang[inx] || "";
     };
     Super.prototype.extractRoute = function () {
         var arr = document.location.pathname.split("/");
         return [arr[3], arr[5]];
+    };
+    Super.prototype.addToCartNative = function (product, amount) {
+        var _this = this;
+        if (amount === void 0) { amount = 1; }
+        // check if item already added to cart
+        var found = this.d.cart.some(function (x) { return x.id === product.id; });
+        if (found) {
+            return;
+        }
+        var spinner = product.id + "spinnerLoader";
+        document.getElementById(spinner).classList.remove("d-none");
+        this.d.cartLoader = true;
+        var total = amount * product.savedPriceInt;
+        var ncart = {
+            id: product.id,
+            product: product,
+            amount: amount,
+            total: total
+        };
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/cart", ncart).then(function (res) {
+            if (res) {
+            }
+            _this.d.cart.push(ncart);
+            _this.d.cartTotal = _this.formatter.format(_this.d.cart.reduce(function (c, a) {
+                return (c += a.total);
+            }, 0));
+            document.getElementById(spinner).classList.add("d-none");
+            _this.d.cartLoader = false;
+        });
+        console.log(this.d.cart);
+        console.log(this.$refs);
     };
     Super.prototype.beforeMount = function () { };
     Super.prototype.mounted = function () {

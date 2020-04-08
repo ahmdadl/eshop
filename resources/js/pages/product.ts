@@ -105,12 +105,12 @@ export default class Product extends Super {
     public loadData(
         subSlug: string = this.d.slug[1],
         nextPath: string | null = null,
-        pslug: string = ''
+        pslug: string = ""
     ): void {
         const path = !nextPath ? `sub/${subSlug}` : nextPath;
-        const pathName = window.location.pathname.split('/');
-        
-        if (pathName.some(x => x === 'daily') && pslug.length) {
+        const pathName = window.location.pathname.split("/");
+
+        if (pathName.some(x => x === "daily") && pslug.length) {
             location.href = `${pslug}/sub/${subSlug}`;
             return;
         }
@@ -210,6 +210,10 @@ export default class Product extends Super {
                 this.getDataFromServer(this.d.nextUrl, true, true);
             }
         };
+    }
+
+    public addToCart(product: ProductInterface) {
+        return this.addToCartNative(product, 1);
     }
 
     private setDataFromPHP() {
@@ -343,7 +347,8 @@ export default class Product extends Super {
             "rateFilter",
             "removeAllfilters",
             "filterByPrice",
-            "log"
+            "log",
+            "addToCart"
         ]);
 
         const [cat, sub] = this.extractRoute();
