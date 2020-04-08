@@ -30,7 +30,11 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        $carts = session('cart', []);
+
+        if (request()->wantsJson()) {
+            return response()->json($carts);
+        }
     }
 
     /**
@@ -126,7 +130,7 @@ class CartController extends Controller
             return response()->json(['exists' => false]);
         }
 
-        
+
 
         $i = 0;
         foreach ($carts as &$cart) {

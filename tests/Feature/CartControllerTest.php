@@ -136,6 +136,26 @@ class CartControllerTest extends TestCase
             ->assertExactJson(['exists' => false]);
     }
 
+    public function testLoadingCartList()
+    {
+        $cart = $this->createCart();
+        $this->post('/api/cart', $cart)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart]);
+        $cart2 = $this->createCart();
+        $this->post('/api/cart', $cart2)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart, $cart2]);
+        $cart3 = $this->createCart();
+        $this->post('/api/cart', $cart3)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart, $cart2, $cart3]);
+
+        $this->getJson('/' . app()->getLocale() . '/cart')
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart, $cart2, $cart3]);
+    }
+
     private function createCart(
         ?object $product = null,
         ?int $amount = null,
