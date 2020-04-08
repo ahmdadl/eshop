@@ -59,6 +59,25 @@ class CartControllerTest extends TestCase
             ]);
     }
 
+    public function testCartAmountCanBeUpdated()
+    {
+        $cart = $this->createCart(null, 5);
+
+        /** @var \App\Product $p */
+        $p = $cart['product'];
+
+        $this->post('/api/cart', $cart)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart]);
+
+        $cart['amount'] = 25;
+
+        $this->patch('/api/cart/'.$p->id, ['amount' => 25])
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart])
+            ->assertExactJson(['updated' => true]);
+    }
+
     private function createCart(
         ?object $product = null,
         ?int $amount = null,

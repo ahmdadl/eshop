@@ -79,9 +79,26 @@ class CartController extends Controller
      * @param  \App\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cart $cart)
+    public function update(Request $request, int $pid)
     {
-        //
+        ['amount' => $amount] = request()->validate([
+            'amount' => 'required|numeric'
+        ]);
+
+        $updated = [];
+
+        foreach (session('cart') as $cart) {
+            if ($cart['id'] === $pid) {
+                $cart['amount'] = $amount;
+            }
+            $updated[] = $cart;
+        }
+
+        session()->put('cart', $updated);
+
+        return response()->json([
+            'updated' => true
+        ]);
     }
 
     /**
