@@ -17333,11 +17333,22 @@ var ShowCart = /** @class */ (function (_super) {
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(ShowCart, _super);
     function ShowCart() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.d = {};
+        _this.d = {
+            price: "",
+            priceInt: 0
+        };
         return _this;
     }
+    ShowCart.prototype.formatPrice = function (p) {
+        this.d.priceInt = p;
+        return this.formatter.format(p);
+    };
+    ShowCart.prototype.convertTo = function (currency) {
+        if (currency === void 0) { currency = "EGP"; }
+        this.d.price = this.convertToNative(currency, this.d.priceInt);
+    };
     ShowCart.prototype.beforeMount = function () {
-        this.attachToGlobal(this, []);
+        this.attachToGlobal(this, ["formatPrice", "convertTo"]);
     };
     ShowCart = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
@@ -17477,22 +17488,8 @@ var ShowProduct = /** @class */ (function (_super) {
         return this.formatter.format(p);
     };
     ShowProduct.prototype.convertTo = function (currency) {
-        if (currency === void 0) { currency = 'EGP'; }
-        var egp = 15.75;
-        var eu = 0.92;
-        var formatter = new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: currency
-        });
-        if (currency === "EUR") {
-            this.d.price = formatter.format(this.d.priceInt * eu);
-        }
-        else if (currency === 'EGP') {
-            this.d.price = formatter.format(this.d.priceInt * egp);
-        }
-        else {
-            this.d.price = this.formatter.format(this.d.priceInt);
-        }
+        if (currency === void 0) { currency = "EGP"; }
+        this.d.price = this.convertToNative(currency, this.d.priceInt);
     };
     ShowProduct.prototype.setUserRev = function (d) {
         var _this = this;
@@ -17569,7 +17566,7 @@ var Super = /** @class */ (function (_super) {
             },
             lang: [],
             cart: [],
-            cartTotal: '',
+            cartTotal: "",
             cartLoader: false
         };
         _this.allData = [];
@@ -17663,6 +17660,22 @@ var Super = /** @class */ (function (_super) {
             _this.calcCartTotal();
             _this.d.cartLoader = false;
         });
+    };
+    Super.prototype.convertToNative = function (currency, priceInt) {
+        if (currency === void 0) { currency = "EGP"; }
+        var egp = 15.75;
+        var eu = 0.92;
+        var formatter = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: currency
+        });
+        if (currency === "EUR") {
+            return formatter.format(priceInt * eu);
+        }
+        else if (currency === "EGP") {
+            return formatter.format(priceInt * egp);
+        }
+        return this.formatter.format(priceInt);
     };
     Super.prototype.loadCartItems = function () {
         var _this = this;

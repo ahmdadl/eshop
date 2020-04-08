@@ -91,10 +91,34 @@
             <div class="row col-md-10">
                 <div class="card card-body">
                     <h5>
-                        @lang('t.index.overTotal'):
-                        <strong class="text-primary">
-                            {{$c->total}}
-                        </strong>
+                        <span class="d-block">@lang('t.index.overTotal'):
+                        </span>
+                        <div class="btn-group">
+                            <button class="btn btn-clear" type="button">
+                                <h4 class="text-primary"
+                                    v-text="h.d.price || h.d.formatPrice({{$c->total}})">
+                                    ${{\number_format($c->total, 2)}}
+                                </h4>
+                            </button>
+                            <button type="button"
+                                class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu p-2">
+                                <a class="dropdown-item" href="#"
+                                    v-on:click.prevent="h.d.convertTo('EGP')">
+                                    @lang('t.show.conTo') @lang('t.show.EGP')
+                                </a>
+                                <a class="dropdown-item" href="#"
+                                    v-on:click.prevent="h.d.convertTo('EUR')">@lang('t.show.conTo')
+                                    @lang('t.show.EU')</a>
+                                <a class="dropdown-item" href="#"
+                                    v-on:click.prevent="h.d.convertTo('USD')">@lang('t.show.conTo')
+                                    @lang('t.show.USD')</a>
+                            </div>
+                        </div>
                     </h5>
                 </div>
                 <a href="#" class="btn btn-lg btn-block btn-primary mt-3">

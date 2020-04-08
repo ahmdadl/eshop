@@ -141,22 +141,8 @@ export default class ShowProduct extends Super {
         return this.formatter.format(p);
     }
 
-    public convertTo(currency: string = 'EGP') {
-        const egp = 15.75;
-        const eu = 0.92;
-
-        const formatter = new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency
-        });
-
-        if (currency === "EUR") {
-            this.d.price = formatter.format(this.d.priceInt * eu);
-        } else if (currency === 'EGP') {
-            this.d.price = formatter.format(this.d.priceInt * egp);
-        } else {
-            this.d.price = this.formatter.format(this.d.priceInt);
-        }
+    public convertTo(currency: string = "EGP") {
+        this.d.price = this.convertToNative(currency, this.d.priceInt);
     }
 
     private setUserRev(d: Rates[]) {

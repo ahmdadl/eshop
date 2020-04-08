@@ -27,7 +27,7 @@ export default class Super extends Vue {
         },
         lang: [],
         cart: [],
-        cartTotal: '',
+        cartTotal: "",
         cartLoader: false
     };
     public allData: Category[] = [];
@@ -99,7 +99,7 @@ export default class Super extends Vue {
         return [arr[3], arr[5]];
     }
 
-    addToCartNative(product: any, amount: number = 1) {
+    protected addToCartNative(product: any, amount: number = 1) {
         // check if item already added to cart
         const found = this.d.cart.some(x => x.id === product.id);
         if (found) {
@@ -139,6 +139,26 @@ export default class Super extends Vue {
             this.calcCartTotal();
             (this.d as Dynamic).cartLoader = false;
         });
+    }
+
+    protected convertToNative(
+        currency: string = "EGP",
+        priceInt: number
+    ): string {
+        const egp = 15.75;
+        const eu = 0.92;
+
+        const formatter = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency
+        });
+
+        if (currency === "EUR") {
+            return formatter.format(priceInt * eu);
+        } else if (currency === "EGP") {
+            return formatter.format(priceInt * egp);
+        }
+        return this.formatter.format(priceInt);
     }
 
     loadCartItems() {

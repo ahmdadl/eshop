@@ -8,7 +8,7 @@
                 </h4>
             </button>
             <button type="button"
-                class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
                 data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
