@@ -11,19 +11,23 @@
     </div>
     @endif
 
-    <div class="row">
-        <div class="col-12">
-            <h3>{{$p->brand}} {{$p->name}}</h3>
-            <hr />
+    <div class="col-12 col-md-9">
+        <div class="row">
+            <div class="col-12">
+                <h3>{{$p->brand}} {{$p->name}}</h3>
+                <hr />
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <x-img-slider :imgArr="$p->img"></x-img-slider>
+        <div class="row">
+            <div class="col-12">
+                <x-img-slider :imgArr="$p->img"></x-img-slider>
+            </div>
+        </div>
+
+        @include('product.show.info')
+        @include('product.show.social')
+        @include('product.show.spec')
+        @include('product.show.rev')
     </div>
 
-    @include('product.show.info')
-    @include('product.show.social')
-    @include('product.show.spec')
-    @include('product.show.rev')
-    
-@endsection
+    @endsection

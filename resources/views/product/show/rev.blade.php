@@ -4,7 +4,7 @@
     <input id="xlang" type="hidden" value="{{json_encode([
     __('t.show.errMess'), __('t.show.succMess'), __('t.show.alertTitle'), __('t.show.dangerTitle'), __('t.show.succTitle')
     ])}}" />
-    <div class="col-12 col-md-9">
+    <div class="col-12">
         <h3 id='revs'>@lang('t.show.rev')</h3>
         <div class="card card-body col-12" v-if="!h.d.loadingRates">
             <div class="d-block mx-auto w-75 text-center">
