@@ -1,6 +1,7 @@
 import { Vue, Component } from "vue-property-decorator";
 import Category from "../interfaces/category";
 import Axios from "axios";
+import Echo from 'laravel-echo';
 
 @Component({
     template: require("./index-template.html")
@@ -52,11 +53,7 @@ export default class Super extends Vue {
     }
 
     public showErrorToast(message?: string) {
-        this.showToast(
-            message || this.getLang(0),
-            this.getLang(3),
-            'danger'
-        );
+        this.showToast(message || this.getLang(0), this.getLang(3), "danger");
     }
 
     protected getInpVal(id: string, asArr: boolean = false): any {
@@ -70,8 +67,8 @@ export default class Super extends Vue {
     }
 
     /**
-     * 
-     * @param inx 
+     *
+     * @param inx
      * @tutorial 0 => error message
      * @tutorial 1 => success message
      * @tutorial 2 => alert title
@@ -92,5 +89,11 @@ export default class Super extends Vue {
 
     mounted() {
         this.d.lang = JSON.parse(this.getInpVal("xlang", true));
+
+        // @ts-ignore
+        // var channel = window.Echo.channel("my-channel");
+        // channel.listen(".my-event", function(data) {
+        //     console.log(data);
+        // });
     }
 }

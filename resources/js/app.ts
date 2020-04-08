@@ -38,12 +38,12 @@ Axios.interceptors.response.use(
 );
 
 // @ts-ignore
-window.Echo = new Echo({
-    broadcaster: "pusher",
-    key: "ccaa79127d69aae057ea",
-    cluster: "eu",
-    forceTLS: true
-});
+// window.Echo = new Echo({
+//     broadcaster: "pusher",
+//     key: "ccaa79127d69aae057ea",
+//     cluster: "eu",
+//     forceTLS: true
+// });
 
 Vue.config.productionTip = false;
 

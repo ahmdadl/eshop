@@ -206,6 +206,7 @@
         </main>
     </div>
     <!-- Scripts -->
+    <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
     <script src="{{ mix('js/app.js') }}" defer></script>
     <script src="{{ asset('js/bootstrap-native-v4.min.js') }}" defer></script>
 </body>
