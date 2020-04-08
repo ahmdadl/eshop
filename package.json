@@ -30,6 +30,8 @@
         "@fortawesome/fontawesome-free": "^5.13.0",
         "@types/bootstrap": "^4.3.1",
         "bootstrap.native": "^2.0.27",
+        "laravel-echo": "^1.7.0",
+        "pusher-js": "^5.1.1",
         "typescript": "^3.8.3",
         "vue-class-component": "^7.2.3",
         "vue-property-decorator": "^8.4.1"
