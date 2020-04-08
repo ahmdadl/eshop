@@ -2,6 +2,7 @@ import { Component } from "vue-property-decorator";
 import Super from "./super";
 import Rates from "../interfaces/rates";
 import Axios from "axios";
+import ProductInterface from "../interfaces/product";
 
 export interface UserRev {
     userId: number;
@@ -24,6 +25,8 @@ export interface Dynamic {
     userRev: UserRev;
     savingRev: boolean;
     lang: string[];
+    cartAmount: number;
+    addingToCart: boolean;
 }
 
 @Component
@@ -46,7 +49,9 @@ export default class ShowProduct extends Super {
             alreadyReved: false
         },
         savingRev: false,
-        lang: []
+        lang: [],
+        cartAmount: 1,
+        addingToCart: false,
     };
 
     public loadRevs(append: boolean = false, path: string = this.d.nextRevUrl) {
@@ -123,6 +128,13 @@ export default class ShowProduct extends Super {
         });
     }
 
+    public addToCart(
+        product: string,
+        amount: number = this.d.cartAmount
+    ) {
+        this.addToCartNative(JSON.parse(product), amount);
+    }
+
     private setUserRev(d: Rates[]) {
         // @ts-ignore
         const userId = parseInt(this.d.userId);
@@ -148,7 +160,7 @@ export default class ShowProduct extends Super {
     }
 
     beforeMount() {
-        this.attachToGlobal(this, ["addRev", "loadRevs"]);
+        this.attachToGlobal(this, ["addRev", "loadRevs", "addToCart"]);
     }
 
     mounted() {

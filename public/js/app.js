@@ -17351,7 +17351,9 @@ var ShowProduct = /** @class */ (function (_super) {
                 alreadyReved: false
             },
             savingRev: false,
-            lang: []
+            lang: [],
+            cartAmount: 1,
+            addingToCart: false,
         };
         return _this;
     }
@@ -17426,6 +17428,10 @@ var ShowProduct = /** @class */ (function (_super) {
             _this.d.savingRev = false;
         });
     };
+    ShowProduct.prototype.addToCart = function (product, amount) {
+        if (amount === void 0) { amount = this.d.cartAmount; }
+        this.addToCartNative(JSON.parse(product), amount);
+    };
     ShowProduct.prototype.setUserRev = function (d) {
         var _this = this;
         // @ts-ignore
@@ -17449,7 +17455,7 @@ var ShowProduct = /** @class */ (function (_super) {
         return parseFloat((sum / this.d.revData.length || 0).toFixed(1));
     };
     ShowProduct.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ["addRev", "loadRevs"]);
+        this.attachToGlobal(this, ["addRev", "loadRevs", "addToCart"]);
     };
     ShowProduct.prototype.mounted = function () {
         this.d.slug = this.getInpVal("productSlug");
@@ -17569,7 +17575,7 @@ var Super = /** @class */ (function (_super) {
         var spinner = product.id + "spinnerLoader";
         document.getElementById(spinner).classList.remove("d-none");
         this.d.cartLoader = true;
-        var total = amount * product.savedPriceInt;
+        var total = amount * (product.savedPriceInt || product.savedPrice);
         var ncart = {
             id: product.id,
             product: product,

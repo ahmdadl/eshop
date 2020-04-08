@@ -16,9 +16,24 @@
     </div>
     <div class="col-12 col-sm-6">
         <div class="d-block">
-            <button class="btn btn-primary btn-block mb-2">
-                @lang('t.addCart')
-            </button>
+            <div class="row">
+                <div class="col-4">
+                    <select class="custom-select" name="cartAmount"
+                        v-model="h.d.cartAmount">
+                        @foreach (range(1, $p->amount) as $i)
+                        <option :value='{{$i}}'>{{$i}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-8">
+                    <button class="btn btn-primary btn-block mb-2"
+                        v-on:click="h.d.addToCart('{{$p->toJson()}}', h.d.cartAmount)">
+                        <x-btn-loader :id="$p->id.'spinnerLoader'">
+                        </x-btn-loader>
+                        @lang('t.addCart')
+                    </button>
+                </div>
+            </div>
             <strong class="text-danger">{{$p->amount}}
                 @lang('t.show.stock')</strong>
         </div>

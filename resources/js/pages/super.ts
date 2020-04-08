@@ -112,7 +112,7 @@ export default class Super extends Vue {
         );
         this.d.cartLoader = true;
 
-        const total = amount * product.savedPriceInt;
+        const total = amount * (product.savedPriceInt || product.savedPrice);
 
         const ncart = {
             id: product.id,
@@ -144,16 +144,18 @@ export default class Super extends Vue {
         (this.d as Dynamic).cart = [];
         this.d.cartLoader = true;
 
-        Axios.get(`cart`, { baseURL: `/${this.getLocale()}/` }).then((res:any) => {
-            if (!res || !res.data) {
+        Axios.get(`cart`, { baseURL: `/${this.getLocale()}/` }).then(
+            (res: any) => {
+                if (!res || !res.data) {
+                    this.d.cartLoader = false;
+                    this.showErrorToast();
+                    return;
+                }
+
+                (this.d as Dynamic).cart = res.data;
                 this.d.cartLoader = false;
-                this.showErrorToast();
-                return;
             }
-            
-            (this.d as Dynamic).cart = res.data;
-            this.d.cartLoader = false;
-        });
+        );
     }
 
     private getLocale(): string {
