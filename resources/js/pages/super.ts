@@ -27,7 +27,7 @@ export default class Super extends Vue {
         },
         lang: [],
         cart: [],
-        cartTotal: 0,
+        cartTotal: '',
         cartLoader: false
     };
     public allData: Category[] = [];
@@ -136,6 +136,7 @@ export default class Super extends Vue {
             (document.getElementById(spinner) as HTMLSpanElement).classList.add(
                 "d-none"
             );
+            this.calcCartTotal();
             (this.d as Dynamic).cartLoader = false;
         });
     }
@@ -153,9 +154,19 @@ export default class Super extends Vue {
                 }
 
                 (this.d as Dynamic).cart = res.data;
+                this.calcCartTotal();
                 this.d.cartLoader = false;
             }
         );
+    }
+
+    private calcCartTotal() {
+        const total = (this.d as Dynamic).cart.reduce(
+            (t, c) => (t += c.total),
+            0
+        );
+
+        (this.d as Dynamic).cartTotal = this.formatter.format(total);
     }
 
     private getLocale(): string {

@@ -17501,7 +17501,7 @@ var Super = /** @class */ (function (_super) {
             },
             lang: [],
             cart: [],
-            cartTotal: 0,
+            cartTotal: '',
             cartLoader: false
         };
         _this.allData = [];
@@ -17592,6 +17592,7 @@ var Super = /** @class */ (function (_super) {
                 return (c += a.total);
             }, 0));
             document.getElementById(spinner).classList.add("d-none");
+            _this.calcCartTotal();
             _this.d.cartLoader = false;
         });
     };
@@ -17606,8 +17607,13 @@ var Super = /** @class */ (function (_super) {
                 return;
             }
             _this.d.cart = res.data;
+            _this.calcCartTotal();
             _this.d.cartLoader = false;
         });
+    };
+    Super.prototype.calcCartTotal = function () {
+        var total = this.d.cart.reduce(function (t, c) { return (t += c.total); }, 0);
+        this.d.cartTotal = this.formatter.format(total);
     };
     Super.prototype.getLocale = function () {
         return document.documentElement.lang || "en";
