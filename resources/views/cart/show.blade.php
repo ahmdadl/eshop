@@ -36,22 +36,24 @@
                                 <p
                                     class="card-text text-primary font-weight-bold">
                                     <span class="d-block">
-                                        {{$c->product['savedPrice']}}
+                                        ${{\number_format($c->total, 2)}}
                                     </span>
-                                    @if ($c->product['save'] > 0)
-                                    <span
-                                        class="card-text text-muted font-weight-bold">
-                                        <del>{{$c->product['price']}}</del>
+                                    @if ($c->amount > 1)
+                                    <span class="text-muted">
+                                        ${{\number_format($c->product['savedPrice'], 2)}}
+                                        @lang('t.scart.per')
                                     </span>
                                     @endif
                                 </p>
                             </div>
                             <div class="col-md-6">
                                 <select class="custom-select col-5"
-                                    name="cartAmount" v-model="h.d.cartAmount">
+                                    name="cartAmount">
                                     @foreach (range(1, $c->product['amount']) as
                                     $i)
-                                    <option :value='{{$i}}'>{{$i}}</option>
+                                    <option :value='{{$i}}'
+                                        {{$i === $c->amount ? 'selected' : ''}}>
+                                        {{$i}}</option>
                                     @endforeach
                                 </select>
                                 <p class="text-danger font-weight-bold">
