@@ -72,10 +72,52 @@ class CartControllerTest extends TestCase
 
         $cart['amount'] = 25;
 
-        $this->patch('/api/cart/'.$p->id, ['amount' => 25])
+        $this->patch('/api/cart/' . $p->id, ['amount' => 25])
             ->assertOk()
             ->assertSessionHas('cart', [$cart])
             ->assertExactJson(['updated' => true]);
+    }
+
+    public function testCartCanBeDeleted()
+    {
+        $cart = $this->createCart();
+        $cats2 = $this->createCart();
+
+        $id = $cart['id'];
+
+        $this->post('/api/cart', $cart)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart]);
+
+        $this->post('/api/cart', $cats2)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart, $cats2]);
+
+        $this->delete('/api/cart/' . $id)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cats2])
+            ->assertExactJson([
+                'deleted' => true
+            ]);
+    }
+
+    public function testRemovingAnItemFromCartErrors()
+    {
+
+        // trying to remove while cart is empty
+        $this->delete('/api/cart/55')
+            ->assertOk()
+            ->assertExactJson(['empty' => true]);
+
+        // remove cart with invalid id
+        $cart = $this->createCart();
+        $this->post('/api/cart', $cart)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart]);
+        
+        $this->delete('/api/cart/' . 55)
+            ->assertOk()
+            ->assertExactJson(['exists' => false]);
     }
 
     private function createCart(

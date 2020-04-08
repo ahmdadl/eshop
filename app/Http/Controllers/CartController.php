@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class CartController extends Controller
 {
@@ -107,8 +108,35 @@ class CartController extends Controller
      * @param  \App\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart)
+    public function destroy(int $id)
     {
-        //
+        $carts = session('cart');
+
+        if (empty($carts)) {
+            return response()->json(['empty' => true]);
+        }
+
+        if (!$this->checkIfIdExsits($id, $carts)) {
+            return response()->json(['exists' => false]);
+        }
+
+        
+
+        $i = 0;
+        foreach ($carts as &$cart) {
+            if ($cart['id'] === $id) {
+                unset($carts[$i]);
+            }
+            $i++;
+        }
+
+        session()->put('cart', array_values($carts));
+
+        return response()->json(['deleted' => true]);
+    }
+
+    private function checkIfIdExsits(int $id, array $carts): bool
+    {
+        return in_array($id, array_column($carts, 'id'));
     }
 }
