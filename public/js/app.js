@@ -17576,7 +17576,9 @@ var Super = /** @class */ (function (_super) {
             amount: amount,
             total: total
         };
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/cart", ncart).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("cart", ncart, {
+            baseURL: "/" + this.getLocale() + "/"
+        }).then(function (res) {
             if (res) {
             }
             _this.d.cart.push(ncart);
@@ -17586,12 +17588,28 @@ var Super = /** @class */ (function (_super) {
             document.getElementById(spinner).classList.add("d-none");
             _this.d.cartLoader = false;
         });
-        console.log(this.d.cart);
-        console.log(this.$refs);
+    };
+    Super.prototype.loadCartItems = function () {
+        var _this = this;
+        this.d.cart = [];
+        this.d.cartLoader = true;
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("cart", { baseURL: "/" + this.getLocale() + "/" }).then(function (res) {
+            if (!res || !res.data) {
+                _this.d.cartLoader = false;
+                _this.showErrorToast();
+                return;
+            }
+            _this.d.cart = res.data;
+            _this.d.cartLoader = false;
+        });
+    };
+    Super.prototype.getLocale = function () {
+        return document.documentElement.lang || "en";
     };
     Super.prototype.beforeMount = function () { };
     Super.prototype.mounted = function () {
         this.d.lang = JSON.parse(this.getInpVal("xlang", true));
+        this.loadCartItems();
         // @ts-ignore
         // var channel = window.Echo.channel("my-channel");
         // channel.listen(".my-event", function(data) {

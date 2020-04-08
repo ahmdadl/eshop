@@ -30,7 +30,11 @@ Route::group(
         Route::get('/p/{product}', 'ProductController@show');
         Route::get('/daily', 'ProductController@dailyDeal');
 
+        // sessions not working on api routes
         Route::get('/cart', 'CartController@index');
+        Route::post('/cart', 'CartController@store');
+        Route::patch('/cart/{id}', 'CartController@update');
+        Route::delete('/cart/{id}', 'CartController@destroy');
     }
 );
 

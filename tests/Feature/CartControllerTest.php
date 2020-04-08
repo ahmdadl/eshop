@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class CartControllerTest extends TestCase
@@ -13,7 +14,7 @@ class CartControllerTest extends TestCase
 
     public function testAnyOneCanAddToCart()
     {
-        $this->withoutExceptionHandling();
+        $this->initSessionArray();
         $p = factory(Product::class)->create();
 
         $cart = [
@@ -23,7 +24,7 @@ class CartControllerTest extends TestCase
             'total' => 26
         ];
 
-        $this->post('/api/cart', $cart)->assertOk()
+        $this->post('/' . app()->getLocale() . '/cart', $cart)->assertOk()
             ->assertJsonPath('amount', 2)
             ->assertSessionHas('cart', [$cart]);
 
@@ -36,23 +37,24 @@ class CartControllerTest extends TestCase
             'total' => 26
         ];
 
-        $this->post('/api/cart', $cart2)->assertOk()
+        $this->post('/' . app()->getLocale() . '/cart', $cart2)->assertOk()
             ->assertJsonPath('amount', 30)
             ->assertSessionHas('cart', [$cart, $cart2]);
     }
 
     public function testAnyOneCanNotAddTheSameProductTwice()
     {
+        $this->initSessionArray();
         $cart = $this->createCart();
 
         /** @var \App\Product $p */
         $p = $cart['product'];
 
-        $this->post('/api/cart', $cart)
+        $this->post('/' . app()->getLocale() . '/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
-        $this->post('/api/cart', $cart)
+        $this->post('/' . app()->getLocale() . '/cart', $cart)
             ->assertOk()
             ->assertExactJson([
                 'exists' => true
@@ -61,18 +63,19 @@ class CartControllerTest extends TestCase
 
     public function testCartAmountCanBeUpdated()
     {
+        $this->initSessionArray();
         $cart = $this->createCart(null, 5);
 
         /** @var \App\Product $p */
         $p = $cart['product'];
 
-        $this->post('/api/cart', $cart)
+        $this->post('/' . app()->getLocale() . '/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
         $cart['amount'] = 25;
 
-        $this->patch('/api/cart/' . $p->id, ['amount' => 25])
+        $this->patch('/' . app()->getLocale() . '/cart/' . $p->id, ['amount' => 25])
             ->assertOk()
             ->assertSessionHas('cart', [$cart])
             ->assertExactJson(['updated' => true]);
@@ -80,36 +83,38 @@ class CartControllerTest extends TestCase
 
     public function testUpdatingCartRequiresItemExists()
     {
-        $this->patch('/api/cart/55', [])
+        $this->initSessionArray();
+        $this->patch('/' . app()->getLocale() . '/cart/55', [])
             ->assertOk()
             ->assertExactJson(['empty' => true]);
 
         $cart = $this->createCart();
-        $this->post('/api/cart', $cart)
+        $this->post('/' . app()->getLocale() . '/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
-        $this->patch('/api/cart/445')
+        $this->patch('/' . app()->getLocale() . '/cart/445')
             ->assertOk()
             ->assertExactJson(['exists' => false]);
     }
 
     public function testCartCanBeDeleted()
     {
+        $this->initSessionArray();
         $cart = $this->createCart();
         $cats2 = $this->createCart();
 
         $id = $cart['id'];
 
-        $this->post('/api/cart', $cart)
+        $this->post('/' . app()->getLocale() . '/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
-        $this->post('/api/cart', $cats2)
+        $this->post('/' . app()->getLocale() . '/cart', $cats2)
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cats2]);
 
-        $this->delete('/api/cart/' . $id)
+        $this->delete('/' . app()->getLocale() . '/cart/' . $id)
             ->assertOk()
             ->assertSessionHas('cart', [$cats2])
             ->assertExactJson([
@@ -119,35 +124,37 @@ class CartControllerTest extends TestCase
 
     public function testRemovingAnItemFromCartErrors()
     {
+        $this->initSessionArray();
 
         // trying to remove while cart is empty
-        $this->delete('/api/cart/55')
+        $this->delete('/' . app()->getLocale() . '/cart/55')
             ->assertOk()
             ->assertExactJson(['empty' => true]);
 
         // remove cart with invalid id
         $cart = $this->createCart();
-        $this->post('/api/cart', $cart)
+        $this->post('/' . app()->getLocale() . '/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
-        $this->delete('/api/cart/' . 55)
+        $this->delete('/' . app()->getLocale() . '/cart/' . 55)
             ->assertOk()
             ->assertExactJson(['exists' => false]);
     }
 
     public function testLoadingCartList()
     {
+        $this->initSessionArray();
         $cart = $this->createCart();
-        $this->post('/api/cart', $cart)
+        $this->post('/' . app()->getLocale() . '/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
         $cart2 = $this->createCart();
-        $this->post('/api/cart', $cart2)
+        $this->post('/' . app()->getLocale() . '/cart', $cart2)
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cart2]);
         $cart3 = $this->createCart();
-        $this->post('/api/cart', $cart3)
+        $this->post('/' . app()->getLocale() . '/cart', $cart3)
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cart2, $cart3]);
 
@@ -168,5 +175,12 @@ class CartControllerTest extends TestCase
             'amount' => $amount ?? $this->faker->randomDigit,
             'total' => $total ?? $this->faker->randomFloat(1, 0, 10000)
         ];
+    }
+
+    private function initSessionArray()
+    {
+        if (!session()->has('cart')) {
+            session()->put('cart', []);
+        }
     }
 }

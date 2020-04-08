@@ -6,6 +6,7 @@ use App\Product;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -18,7 +19,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(string $c_slug, string $sub)
-    {
+    {        
         return view('product.index', [
             'cats' => $this->getList(),
             'slug' => [$c_slug, $sub],

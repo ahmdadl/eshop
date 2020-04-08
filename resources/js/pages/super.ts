@@ -121,7 +121,9 @@ export default class Super extends Vue {
             total
         };
 
-        Axios.post("/cart", ncart).then(res => {
+        Axios.post("cart", ncart, {
+            baseURL: `/${this.getLocale()}/`
+        }).then(res => {
             if (res) {
             }
             (this.d as Dynamic).cart.push(ncart);
@@ -136,16 +138,33 @@ export default class Super extends Vue {
             );
             (this.d as Dynamic).cartLoader = false;
         });
+    }
 
-        console.log((this.d as Dynamic).cart);
-        console.log(this.$refs);
+    loadCartItems() {
+        (this.d as Dynamic).cart = [];
+        this.d.cartLoader = true;
+
+        Axios.get(`cart`, { baseURL: `/${this.getLocale()}/` }).then((res:any) => {
+            if (!res || !res.data) {
+                this.d.cartLoader = false;
+                this.showErrorToast();
+                return;
+            }
+            
+            (this.d as Dynamic).cart = res.data;
+            this.d.cartLoader = false;
+        });
+    }
+
+    private getLocale(): string {
+        return document.documentElement.lang || "en";
     }
 
     beforeMount() {}
 
     mounted() {
         this.d.lang = JSON.parse(this.getInpVal("xlang", true));
-
+        this.loadCartItems();
         // @ts-ignore
         // var channel = window.Echo.channel("my-channel");
         // channel.listen(".my-event", function(data) {

@@ -25,7 +25,3 @@ Route::get('/sub/{category_slug}/filterCondition/{is_used}', 'ProductController@
 Route::get('/sub/{category_slug}/priceFilter/{from}/{to}', 'ProductController@filterByPrice');
 
 Route::get('/p/{product}/rates', 'RateController@index');
-
-Route::post('/cart', 'CartController@store');
-Route::patch('/cart/{id}', 'CartController@update');
-Route::delete('/cart/{id}', 'CartController@destroy');

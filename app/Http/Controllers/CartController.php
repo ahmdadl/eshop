@@ -16,12 +16,6 @@ class CartController extends Controller
      * * amount
      * * total
      */
-    public function __construct()
-    {
-        if (!session()->has('cart')) {
-            session()->put('cart', []);
-        }
-    }
 
     /**
      * Display a listing of the resource.
@@ -30,7 +24,11 @@ class CartController extends Controller
      */
     public function index()
     {
-        $carts = session('cart', []);
+        if (!session()->has('cart')) {
+            session()->put('cart', []);
+        }
+
+        $carts = session('cart');
 
         if (request()->wantsJson()) {
             return response()->json($carts);
@@ -45,7 +43,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $carts = session('cart');
+        $carts = session('cart', []);
         if ($this->checkIfIdExsits($request->get('id'), $carts)) {
             return response()->json(['exists' => true]);
         }
@@ -82,7 +80,7 @@ class CartController extends Controller
      */
     public function update(Request $request, int $pid)
     {
-        $carts = session('cart');
+        $carts = session('cart', []);
 
         if (empty($carts)) {
             return response()->json(['empty' => true]);
@@ -120,7 +118,7 @@ class CartController extends Controller
      */
     public function destroy(int $id)
     {
-        $carts = session('cart');
+        $carts = session('cart', []);
 
         if (empty($carts)) {
             return response()->json(['empty' => true]);
