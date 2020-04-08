@@ -1,6 +1,31 @@
 <div class="row pt-5">
     <div class="col-12 col-sm-6">
-        <h4 class="text-primary">${{number_format($p->savedPrice, 2)}}</h4>
+        <div class="btn-group">
+            <button class="btn btn-clear" type="button">
+                <h4 class="text-primary"
+                    v-text="h.d.price || h.d.formatPrice({{$p->savedPrice}})">
+                    ${{\number_format($p->savedPrice, 2)}}
+                </h4>
+            </button>
+            <button type="button"
+                class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu p-2">
+                <a class="dropdown-item" href="#"
+                    v-on:click.prevent="h.d.convertTo('EGP')">
+                    @lang('t.show.conTo') @lang('t.show.EGP')
+                </a>
+                <a class="dropdown-item" href="#"
+                    v-on:click.prevent="h.d.convertTo('EUR')">@lang('t.show.conTo')
+                    @lang('t.show.EU')</a>
+                <a class="dropdown-item" href="#"
+                    v-on:click.prevent="h.d.convertTo('USD')">@lang('t.show.conTo')
+                    @lang('t.show.USD')</a>
+            </div>
+        </div>
         @if ($p->save)
         <h5><del class="text-muted">${{\number_format($p->price, 2)}}</del>
         </h5>

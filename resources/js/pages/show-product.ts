@@ -27,6 +27,8 @@ export interface Dynamic {
     lang: string[];
     cartAmount: number;
     addingToCart: boolean;
+    price: string;
+    priceInt: number;
 }
 
 @Component
@@ -52,6 +54,8 @@ export default class ShowProduct extends Super {
         lang: [],
         cartAmount: 1,
         addingToCart: false,
+        price: "",
+        priceInt: 0
     };
 
     public loadRevs(append: boolean = false, path: string = this.d.nextRevUrl) {
@@ -128,11 +132,31 @@ export default class ShowProduct extends Super {
         });
     }
 
-    public addToCart(
-        product: string,
-        amount: number = this.d.cartAmount
-    ) {
+    public addToCart(product: string, amount: number = this.d.cartAmount) {
         this.addToCartNative(JSON.parse(product), amount);
+    }
+
+    public formatPrice(p: number) {
+        this.d.priceInt = p;
+        return this.formatter.format(p);
+    }
+
+    public convertTo(currency: string = 'EGP') {
+        const egp = 15.75;
+        const eu = 0.92;
+
+        const formatter = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency
+        });
+
+        if (currency === "EUR") {
+            this.d.price = formatter.format(this.d.priceInt * eu);
+        } else if (currency === 'EGP') {
+            this.d.price = formatter.format(this.d.priceInt * egp);
+        } else {
+            this.d.price = this.formatter.format(this.d.priceInt);
+        }
     }
 
     private setUserRev(d: Rates[]) {
@@ -160,7 +184,13 @@ export default class ShowProduct extends Super {
     }
 
     beforeMount() {
-        this.attachToGlobal(this, ["addRev", "loadRevs", "addToCart"]);
+        this.attachToGlobal(this, [
+            "addRev",
+            "loadRevs",
+            "addToCart",
+            "formatPrice",
+            "convertTo"
+        ]);
     }
 
     mounted() {
