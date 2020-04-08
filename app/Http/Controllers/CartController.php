@@ -82,20 +82,30 @@ class CartController extends Controller
      */
     public function update(Request $request, int $pid)
     {
+        $carts = session('cart');
+
+        if (empty($carts)) {
+            return response()->json(['empty' => true]);
+        }
+
+        if (!$this->checkIfIdExsits($pid, $carts)) {
+            return response()->json(['exists' => false]);
+        }
+
         ['amount' => $amount] = request()->validate([
             'amount' => 'required|numeric'
         ]);
 
-        $updated = [];
+        // $updated = [];
 
-        foreach (session('cart') as $cart) {
+        foreach ($carts as &$cart) {
             if ($cart['id'] === $pid) {
                 $cart['amount'] = $amount;
             }
-            $updated[] = $cart;
+            // $updated[] = $cart;
         }
 
-        session()->put('cart', $updated);
+        session()->put('cart', $carts);
 
         return response()->json([
             'updated' => true

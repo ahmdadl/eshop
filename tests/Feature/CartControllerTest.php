@@ -78,6 +78,22 @@ class CartControllerTest extends TestCase
             ->assertExactJson(['updated' => true]);
     }
 
+    public function testUpdatingCartRequiresItemExists()
+    {
+        $this->patch('/api/cart/55', [])
+            ->assertOk()
+            ->assertExactJson(['empty' => true]);
+
+        $cart = $this->createCart();
+        $this->post('/api/cart', $cart)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart]);
+
+        $this->patch('/api/cart/445')
+            ->assertOk()
+            ->assertExactJson(['exists' => false]);
+    }
+
     public function testCartCanBeDeleted()
     {
         $cart = $this->createCart();
@@ -114,7 +130,7 @@ class CartControllerTest extends TestCase
         $this->post('/api/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
-        
+
         $this->delete('/api/cart/' . 55)
             ->assertOk()
             ->assertExactJson(['exists' => false]);
