@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 
 class CartController extends Controller
 {
+    use GetCategoryList;
 
     /**
      * cart blueprint
@@ -66,9 +67,12 @@ class CartController extends Controller
      * @param  \App\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function show(Cart $cart)
+    public function show()
     {
-        //
+        return view('cart.show', [
+            'cats' => $this->getList(),
+            'cart' => session('cart')
+        ]);
     }
 
     /**

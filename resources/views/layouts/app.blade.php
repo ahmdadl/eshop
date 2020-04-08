@@ -211,10 +211,10 @@
                                                 </h5>
                                                 <div
                                                     class="form-group text-center">
-                                                    <button
+                                                    <a href="/{{app()->getLocale()}}/viewCart"
                                                         class="btn btn-secondary col-5">
                                                         @lang('t.index.viewC')
-                                                    </button>
+                                                    </a>
                                                     <button
                                                         class="btn btn-success col-5">
                                                         @lang('t.index.checkout')

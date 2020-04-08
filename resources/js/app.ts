@@ -7,6 +7,7 @@ import StarRate from "./components/StarRate.vue";
 import XProduct from "./components/x-product.vue";
 import Toastr from "./components/toast.vue";
 import ShowProduct from "./pages/show-product";
+import ShowCart from './pages/show-cart';
 
 Axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 Axios.defaults.baseURL = `/api/`;
@@ -56,6 +57,7 @@ const app = new Vue({
     components: {
         Home,
         Product,
-        ShowProduct
+        ShowProduct,
+        ShowCart
     }
 });
