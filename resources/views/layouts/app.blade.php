@@ -148,6 +148,20 @@
                             </div>
                         </li>
                         @endguest
+                        <li class="nav-item dropdown">
+                            <a id="cartDropdown"
+                                class="nav-link dropdown-toggle" href="#"
+                                role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"
+                                v-pre>
+                                <i class="fa fas fa-cart-plus fa-2x"></i>
+                                <sup class="badge badge-danger">5</sup>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right"
+                                aria-labelledby="cartDropdown">
+                                
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
