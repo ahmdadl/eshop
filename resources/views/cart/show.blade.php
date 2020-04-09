@@ -85,7 +85,7 @@
         </div>
     </div>
     <div class="col-12 col-sm-4">
-        <div class="position-sticky">
+        <div class="position-sticky" style="top:10rem">
             <div class="row col-md-10">
                 <div class="card card-body">
                     <h5>
