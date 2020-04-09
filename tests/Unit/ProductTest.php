@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Category;
 use App\CategoryProduct;
+use App\Order;
 use App\Product;
 use App\ProductInfo;
 use App\Rate;
@@ -150,5 +151,17 @@ class ProductTest extends TestCase
         $p->load('pCat');
 
         $this->assertSame($c->name, $p->pCat->name);
+    }
+
+    public function testItHasOrders()
+    {
+        /** @var \App\Product $p */
+        $p = factory(Product::class)->create();
+
+        factory(Order::class)->create(['product_id' => $p->id]);
+
+        $this->assertIsIterable($p->orders);
+
+        $this->assertCount(1, $p->orders);
     }
 }

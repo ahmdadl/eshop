@@ -71,4 +71,27 @@ class UserControllerTest extends TestCase
             ->assertDontSee($orders->find(30)->address)
             ->assertSee('page-item');
     }
+
+    public function testUserCanSeeHisProducts()
+    {
+        $user = $this->signIn();
+
+        $products = $user->products()->saveMany(
+            factory(Product::class, 70)->make()
+        );
+
+        $this->get('/' . app()->getLocale() . '/user/' . $user->id . '/products')
+            ->assertOk()
+            ->assertSee($products->first()->name)
+            ->assertSee($products->find(20)->name)
+            ->assertDontSee($products->find(70)->name)
+            ->assertSee("page-item");
+
+        // visit page two
+        $this->get('/' . app()->getLocale() . '/user/' . $user->id . '/products?page=2')
+            ->assertOk()
+            ->assertSee($products->find(70)->name)
+            ->assertDontSee($products->find(30)->name)
+            ->assertSee('page-item');
+    }
 }

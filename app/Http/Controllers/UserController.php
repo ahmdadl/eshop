@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\Product;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -50,5 +51,14 @@ class UserController extends Controller
             ->paginate(40);
 
         return view('user.orders', compact('user', 'orders'));
+    }
+
+    public function getProducts(User $user)
+    {
+        $products = Product::with('orders')
+            ->where('user_id', $user->id)
+            ->paginate(40);
+
+        return view('user.products', compact('user', 'products'));
     }
 }

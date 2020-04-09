@@ -56,6 +56,11 @@ class Product extends Model
         return $this->hasOne(DailyDeal::class);
     }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function getRateAvgAttribute(): float
     {
         return round($this->rates->average('rate'), 1);
