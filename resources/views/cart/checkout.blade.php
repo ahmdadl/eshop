@@ -7,8 +7,18 @@
 @section('content')
 <div class="row">
     <div class="col-sm-10 col-md-8">
+        @if ($errors->any())
+        <div class="alert alert-danger text-center">
+            <p>
+                <i class="fa fas fa-times border border-dark rounded-circle py-1 px-2 fa-2x"></i>
+            </p>
+            @foreach ($errors->all() as $err)
+                <strong class="d-block">{{$err}}</strong>
+            @endforeach
+        </div>
+        @endif
         @unless (Session::has('success') && Session::get('success', false))
-        <form action="/{{app()->getLocale()}}/cart/checkout" method="post"
+        <form novalidate action="/{{app()->getLocale()}}/cart/checkout" method="post"
             class="need-validation was-validated">
             @csrf
             <div class="row form-group">
