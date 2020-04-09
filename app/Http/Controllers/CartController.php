@@ -36,7 +36,16 @@ class CartController extends Controller
         }
     }
 
-    public function create() {
+    public function create(\Faker\Generator $faker) {
+        return view('cart.checkout', [
+            'cats' => $this->getList(),
+            'userName' => explode(' ', auth()->user()->name),
+            'address' => $faker->address,
+            'card' => $faker->creditCardNumber
+        ]);
+    }
+
+    public function done(Request $request) {
         
     }
 
@@ -75,7 +84,7 @@ class CartController extends Controller
     {
         return view('cart.show', [
             'cats' => $this->getList(),
-            'cart' => session('cart')
+            // 'cart' => session('cart')
         ]);
     }
 

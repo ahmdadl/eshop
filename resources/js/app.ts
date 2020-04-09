@@ -8,6 +8,7 @@ import XProduct from "./components/x-product.vue";
 import Toastr from "./components/toast.vue";
 import ShowProduct from "./pages/show-product";
 import ShowCart from './pages/show-cart';
+import CartCheckout from './pages/cart-checkout';
 
 Axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 Axios.defaults.baseURL = `/api/`;
@@ -58,6 +59,7 @@ const app = new Vue({
         Home,
         Product,
         ShowProduct,
-        ShowCart
+        ShowCart,
+        CartCheckout
     }
 });
