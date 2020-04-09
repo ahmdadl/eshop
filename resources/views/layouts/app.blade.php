@@ -258,6 +258,9 @@
                     @endforeach
                 </ul>
                 @endif
+                <input id="xlang" type="hidden" value="{{json_encode([
+                    __('t.show.errMess'), __('t.show.succMess'), __('t.show.alertTitle'), __('t.show.dangerTitle'), __('t.show.succTitle')
+                    ])}}" />
                 <main class="py-4 container-fluid" id="component-container">
 
                     @yield('content')

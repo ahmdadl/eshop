@@ -9,7 +9,7 @@
     <div class="col-12 col-sm-8">
         <h4>
             @lang('t.scart.shopp')
-            ({{sizeof($cart)}})
+            (@{{h.d.cart.length}})
         </h4>
         <div class="card mb-3" v-for="(c, cinx) in h.d.cart">
             <div class="row no-gutters p-2">
@@ -78,8 +78,8 @@
                     </div>
                 </div>
                 <div class="col-12 border-top pt-2">
-                    <button
-                        class="btn btn-outline-danger text-uppecase">@lang('t.scart.del')</button>
+                    <button class="btn btn-outline-danger text-uppecase"
+                        v-on:click.prevent="h.d.removeItem(cinx, c.id)">@lang('t.scart.del')</button>
                 </div>
             </div>
         </div>
@@ -94,7 +94,8 @@
                         <div class="btn-group">
                             <button class="btn btn-clear" type="button">
                                 <h4 class="text-primary">
-                                    <x-btn-loader showIf='h.d.cartLoader'></x-btn-loader>
+                                    <x-btn-loader showIf='h.d.cartLoader'>
+                                    </x-btn-loader>
                                     @{{h.d.totalPrice}}
                                 </h4>
                             </button>

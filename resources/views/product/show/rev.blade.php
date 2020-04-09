@@ -1,9 +1,6 @@
 <div class="row mt-3">
     <input id="productSlug" type="hidden" value="{{$p->slug}}" />
     <input id="userId" type="hidden" value="{{auth()->id()}}" />
-    <input id="xlang" type="hidden" value="{{json_encode([
-    __('t.show.errMess'), __('t.show.succMess'), __('t.show.alertTitle'), __('t.show.dangerTitle'), __('t.show.succTitle')
-    ])}}" />
     <div class="col-12">
         <h3 id='revs'>@lang('t.show.rev')</h3>
         <div class="card card-body col-12" v-if="!h.d.loadingRates">

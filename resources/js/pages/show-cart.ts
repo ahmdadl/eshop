@@ -64,6 +64,11 @@ export default class ShowCart extends Super {
             },
             { baseURL: "" }
         ).then(res => {
+            if (!res.data || !res.data.updated) {
+                this.d.cartLoader = false;
+                this.showErrorToast();
+                return;
+            }
             this.d.cart[inx].amount = val;
             this.d.cart[inx].totalInt = total;
             this.d.cart[inx].total = this.formatter.format(total);
@@ -72,8 +77,23 @@ export default class ShowCart extends Super {
         });
     }
 
+    public removeItem(inx: number, id: number) {
+        this.d.cartLoader = true;
+
+        Axios.delete(`/${this.getLocale()}/cart/${id}`)
+            .then(res => {
+                if (!res.data || !res.data.deleted) {
+                    this.d.cartLoader = false;
+                    this.showErrorToast();
+                    return;
+                }
+                this.d.cart.splice(inx, 1);
+                this.d.cartLoader = false;
+            });
+    }
+
     beforeMount() {
-        this.attachToGlobal(this, ["convertTo", "changeAmount"]);
+        this.attachToGlobal(this, ["convertTo", "changeAmount", "removeItem"]);
     }
 
     mounted() {

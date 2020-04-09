@@ -17377,6 +17377,11 @@ var ShowCart = /** @class */ (function (_super) {
             amount: val,
             total: total
         }, { baseURL: "" }).then(function (res) {
+            if (!res.data || !res.data.updated) {
+                _this.d.cartLoader = false;
+                _this.showErrorToast();
+                return;
+            }
             _this.d.cart[inx].amount = val;
             _this.d.cart[inx].totalInt = total;
             _this.d.cart[inx].total = _this.formatter.format(total);
@@ -17384,8 +17389,22 @@ var ShowCart = /** @class */ (function (_super) {
             _this.d.cartLoader = false;
         });
     };
+    ShowCart.prototype.removeItem = function (inx, id) {
+        var _this = this;
+        this.d.cartLoader = true;
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.delete("/" + this.getLocale() + "/cart/" + id)
+            .then(function (res) {
+            if (!res.data || !res.data.deleted) {
+                _this.d.cartLoader = false;
+                _this.showErrorToast();
+                return;
+            }
+            _this.d.cart.splice(inx, 1);
+            _this.d.cartLoader = false;
+        });
+    };
     ShowCart.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ["convertTo", "changeAmount"]);
+        this.attachToGlobal(this, ["convertTo", "changeAmount", "removeItem"]);
     };
     ShowCart.prototype.mounted = function () {
         var _this = this;
