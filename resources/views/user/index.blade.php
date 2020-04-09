@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('title')
-
+@lang('t.user.title.index')
 @endsection
 
 @section('myContent')

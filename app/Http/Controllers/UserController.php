@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,5 +41,14 @@ class UserController extends Controller
             'products',
             'totalPaid'
         ));
+    }
+
+    public function getOrders(User $user)
+    {
+        $orders = Order::where('user_id', $user->id)
+            ->with('product')
+            ->paginate(40);
+
+        return view('user.orders', compact('user', 'orders'));
     }
 }

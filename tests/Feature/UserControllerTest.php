@@ -17,7 +17,7 @@ class UserControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->get('/'.app()->getLocale().'/user/'.$user->id)
+        $this->get('/' . app()->getLocale() . '/user/' . $user->id)
             ->assertStatus(302)
             ->assertRedirect(route('login'));
     }
@@ -27,7 +27,7 @@ class UserControllerTest extends TestCase
         $user = $this->signIn();
         $user2 = factory(User::class)->create();
 
-        $this->get('/'.app()->getLocale().'/user/'.$user2->id)
+        $this->get('/' . app()->getLocale() . '/user/' . $user2->id)
             ->assertStatus(403);
     }
 
@@ -43,9 +43,32 @@ class UserControllerTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $this->get('/'.app()->getLocale().'/user/'.$user->id)
+        $this->get('/' . app()->getLocale() . '/user/' . $user->id)
             ->assertOk()
             ->assertSee(5)
             ->assertSee(30);
+    }
+
+    public function testUserCanSeeHisOrders()
+    {
+        $user = $this->signIn();
+
+        $orders = $user->orders()->saveMany(
+            factory(Order::class, 80)->make()
+        );
+
+        $this->get('/' . app()->getLocale() . '/user/' . $user->id . '/orders')
+            ->assertOk()
+            ->assertSee($orders->first()->address)
+            ->assertSee($orders->find(20)->address)
+            ->assertDontSee($orders->find(70)->address)
+            ->assertSee("page-item");
+
+        // visit page two
+        $this->get('/' . app()->getLocale() . '/user/' . $user->id . '/orders?page=2')
+            ->assertOk()
+            ->assertSee($orders->find(70)->address)
+            ->assertDontSee($orders->find(30)->address)
+            ->assertSee('page-item');
     }
 }
