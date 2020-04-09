@@ -40,6 +40,8 @@ Route::group(
         Route::middleware('auth')->group(function () {
             Route::get('/cart/checkout', 'CartController@create');
             Route::post('/cart/checkout', 'CartController@done');
+
+            Route::get('/user/{user}', 'UserController@index')->name('profile');
         });
     }
 );
