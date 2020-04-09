@@ -17392,7 +17392,7 @@ var ShowCart = /** @class */ (function (_super) {
     ShowCart.prototype.removeItem = function (inx, id) {
         var _this = this;
         this.d.cartLoader = true;
-        axios__WEBPACK_IMPORTED_MODULE_3___default.a.delete("/" + this.getLocale() + "/cart/" + id)
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.delete("/" + this.getLocale() + "/cart/" + id, { baseURL: '' })
             .then(function (res) {
             if (!res.data || !res.data.deleted) {
                 _this.d.cartLoader = false;

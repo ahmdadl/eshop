@@ -79,7 +79,7 @@
                 </div>
                 <div class="col-12 border-top pt-2">
                     <button class="btn btn-outline-danger text-uppecase"
-                        v-on:click.prevent="h.d.removeItem(cinx, c.id)">@lang('t.scart.del')</button>
+                        v-on:click.prevent="h.d.removeItem(cinx, c.product.id)">@lang('t.scart.del')</button>
                 </div>
             </div>
         </div>

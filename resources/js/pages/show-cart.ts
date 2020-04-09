@@ -80,7 +80,7 @@ export default class ShowCart extends Super {
     public removeItem(inx: number, id: number) {
         this.d.cartLoader = true;
 
-        Axios.delete(`/${this.getLocale()}/cart/${id}`)
+        Axios.delete(`/${this.getLocale()}/cart/${id}`, {baseURL: ''})
             .then(res => {
                 if (!res.data || !res.data.deleted) {
                     this.d.cartLoader = false;
