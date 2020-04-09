@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -36,7 +37,8 @@ class CartController extends Controller
         }
     }
 
-    public function create(\Faker\Generator $faker) {
+    public function create(\Faker\Generator $faker)
+    {
         return view('cart.checkout', [
             'cats' => $this->getList(),
             'userName' => explode(' ', auth()->user()->name),
@@ -45,8 +47,31 @@ class CartController extends Controller
         ]);
     }
 
-    public function done(Request $request) {
-        
+    public function done(Request $request)
+    {
+        $req = request()->validate([
+            'fname' => 'required|string',
+            'lname' => 'required|string',
+            'address' => 'required|string|min:10',
+            'card' => 'required|numeric|min:1000000'
+        ]);
+
+        $carts = session('cart');
+
+        abort_unless(!!sizeof($carts), 404);
+
+        foreach ($carts as $cart) {
+            auth()->user()->orders()->create([
+                'product_id' => $cart['id'],
+                'address' => $req['address'],
+                'amount' => $cart['amount'],
+                'total' => $cart['total']
+            ]);
+        }
+
+        session()->put('cart', []);
+
+        return back();
     }
 
     /**

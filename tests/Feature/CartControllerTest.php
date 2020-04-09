@@ -164,6 +164,51 @@ class CartControllerTest extends TestCase
             ->assertSessionHas('cart', [$cart, $cart2, $cart3]);
     }
 
+    public function testOnlyAuthriedUsersCanCheckout()
+    {
+        $this->get('/' . app()->getLocale() . '/cart/checkout')
+            ->assertStatus(302);
+
+        $this->post('/' . app()->getLocale() . '/cart/checkout', [])
+            ->assertStatus(302);
+    }
+
+    public function testUserCanNotChekoutCartWithInvalidData()
+    {
+        $this->signIn();
+
+        $this->post('/' . app()->getLocale() . '/cart/checkout', [])
+            ->assertStatus(302)
+            ->assertSessionHasErrors(['fname', 'lname', 'address', 'card']);
+    }
+
+    public function testUserCanCheckoutCart()
+    {
+        $this->withoutExceptionHandling();
+        $user = $this->signIn();
+
+        $cart = $this->createCart();
+        $this->post('/' . app()->getLocale() . '/cart', $cart);
+        $cart = $this->createCart();
+        $this->post('/' . app()->getLocale() . '/cart', $cart);
+        $cart3 = $this->createCart();
+        $this->post('/' . app()->getLocale() . '/cart', $cart3);
+
+        $userNameArr = explode(' ', $user->name);
+
+        $this->post('/' . app()->getLocale() . '/cart/checkout', [
+            'fname' => $userNameArr[0],
+            'lname' => $userNameArr[1],
+            'address' => $this->faker->address,
+            'card' => $this->faker->creditCardNumber
+        ])->assertStatus(302)
+            ->assertSessionDoesntHaveErrors()
+            ->assertSessionHas('cart', []);
+
+        $this->assertDatabaseHas('orders', ['product_id' => $cart['id']]);
+        $this->assertDatabaseHas('orders', ['product_id' => $cart3['id']]);
+    }
+
     private function createCart(
         ?object $product = null,
         ?int $amount = null,
