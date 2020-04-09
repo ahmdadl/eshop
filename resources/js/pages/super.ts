@@ -114,11 +114,11 @@ export default class Super extends Vue {
 
         const total = amount * (product.savedPriceInt || product.savedPrice);
 
-        const ncart = {
+        const ncart: Cart = {
             id: product.id,
             product,
             amount,
-            total
+            total: total.toFixed(2)
         };
 
         Axios.post("cart", ncart, {
@@ -174,6 +174,7 @@ export default class Super extends Vue {
                 }
 
                 (this.d as Dynamic).cart = res.data;
+                this.$emit('cartDataLoaded', true);
                 this.calcCartTotal();
                 this.d.cartLoader = false;
             }
@@ -189,7 +190,7 @@ export default class Super extends Vue {
         (this.d as Dynamic).cartTotal = this.formatter.format(total);
     }
 
-    private getLocale(): string {
+    protected getLocale(): string {
         return document.documentElement.lang || "en";
     }
 

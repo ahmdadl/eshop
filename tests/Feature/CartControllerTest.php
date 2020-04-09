@@ -74,8 +74,9 @@ class CartControllerTest extends TestCase
             ->assertSessionHas('cart', [$cart]);
 
         $cart['amount'] = 25;
+        $cart['total'] = 60;
 
-        $this->patch('/' . app()->getLocale() . '/cart/' . $p->id, ['amount' => 25])
+        $this->patch('/' . app()->getLocale() . '/cart/' . $p->id, ['amount' => 25, 'total' => 60])
             ->assertOk()
             ->assertSessionHas('cart', [$cart])
             ->assertExactJson(['updated' => true]);

@@ -1,28 +1,84 @@
 import { Component } from "vue-property-decorator";
 import Super from "./super";
+import Cart from "../interfaces/cart";
+import Axios from "axios";
 
 export interface Dynamic {
-    price: string;
-    priceInt: number;
+    cart: Cart[];
+    cartLoader: boolean;
+    totalPrice: string;
+    totalPriceInt: number;
 }
 
 @Component
 export default class ShowCart extends Super {
     public d: Dynamic = {
-        price: "",
-        priceInt: 0
+        cart: [],
+        cartLoader: false,
+        totalPrice: "",
+        totalPriceInt: 0
     };
 
-    public formatPrice(p: number) {
-        this.d.priceInt = p;
-        return this.formatter.format(p);
+    public calcTotalPrice() {
+        this.d.totalPriceInt = this.d.cart.reduce(
+            (t, c) => (t += parseFloat(c.totalInt || c.total)),
+            0
+        );
+
+        this.d.totalPrice = this.formatter.format(this.d.totalPriceInt);
+    }
+
+    public updateCartTotal(firstTime: boolean = false) {
+        this.d.cart.map(x => {
+            if (firstTime) {
+                x.totalInt = parseFloat(x.total);
+            }
+            x.total = this.formatter.format(x.totalInt as number);
+            return x;
+        });
+    }
+
+    public run() {
+        this.calcTotalPrice();
+        this.updateCartTotal(true);
     }
 
     public convertTo(currency: string = "EGP") {
-        this.d.price = this.convertToNative(currency, this.d.priceInt);
+        this.d.totalPrice = this.convertToNative(
+            currency,
+            this.d.totalPriceInt
+        );
+    }
+
+    public changeAmount(ev, inx: number, price: any, id: number) {
+        this.d.cartLoader = true;
+        const val = parseInt(ev.target.value) || 0;
+        price = parseFloat(price.replace(/\$|,/gi, ""));
+        const total = val * price;
+
+        Axios.patch(
+            `/${this.getLocale()}/cart/${id}`,
+            {
+                amount: val,
+                total
+            },
+            { baseURL: "" }
+        ).then(res => {
+            this.d.cart[inx].amount = val;
+            this.d.cart[inx].totalInt = total;
+            this.d.cart[inx].total = this.formatter.format(total);
+            this.calcTotalPrice();
+            this.d.cartLoader = false;
+        });
     }
 
     beforeMount() {
-        this.attachToGlobal(this, ["formatPrice", "convertTo"]);
+        this.attachToGlobal(this, ["convertTo", "changeAmount"]);
+    }
+
+    mounted() {
+        this.$on("cartDataLoaded", d => {
+            this.run();
+        });
     }
 }

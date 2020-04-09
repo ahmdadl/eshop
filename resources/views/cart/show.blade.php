@@ -11,24 +11,21 @@
             @lang('t.scart.shopp')
             ({{sizeof($cart)}})
         </h4>
-        @foreach ($cart as $c)
-        @php $c = (object)$c @endphp
-        <div class="card mb-3">
+        <div class="card mb-3" v-for="(c, cinx) in h.d.cart">
             <div class="row no-gutters p-2">
                 <div class="col-sm-4">
-                    @if ($c->product['save'] > 0)
-                    <span class="badge badge-danger p-2 position-absolute">
-                        @lang('t.offTxt') {{$c->product['save']}} %
+                    <span class="badge badge-danger p-2 position-absolute"
+                        v-if="c.product.save">
+                        @lang('t.offTxt') @{{c.product.save}} %
                     </span>
-                    @endif
-                    <img src="/img/{{$c->product['img'][0]}}"
-                        class="card-img pt-3 pl-1" alt="...">
+                    <img :src="'/img/' + c.product.img[0]"
+                        class="card-img pt-3 pl-1" alt="">
                 </div>
                 <div class="col-sm-8">
                     <div class="card-body">
                         <h5 class="card-title">
-                            <a href="/p/{{$c->product['slug']}}">
-                                {{$c->product['name']}}
+                            <a :href="'/p/' + c.product.slug">
+                                @{{c.product.slug}}
                             </a>
                         </h5>
                         <div class="row">
@@ -36,29 +33,28 @@
                                 <p
                                     class="card-text text-primary font-weight-bold">
                                     <span class="d-block">
-                                        ${{\number_format($c->total, 2)}}
+                                        @{{c.total}}
                                     </span>
-                                    @if ($c->amount > 1)
-                                    <span class="text-muted">
-                                        ${{\number_format($c->product['savedPrice'], 2)}}
+                                    <span class="text-muted"
+                                        v-if="c.amount > 1">
+                                        @{{c.product.savedPrice}}
                                         @lang('t.scart.per')
                                     </span>
-                                    @endif
                                 </p>
                             </div>
                             <div class="col-md-6">
                                 <select class="custom-select col-5"
-                                    name="cartAmount">
-                                    @foreach (range(1, $c->product['amount']) as
-                                    $i)
-                                    <option :value='{{$i}}'
-                                        {{$i === $c->amount ? 'selected' : ''}}>
-                                        {{$i}}</option>
-                                    @endforeach
+                                    name="cartAmount"
+                                    v-on:change="h.d.changeAmount($event, cinx, c.product.savedPrice, c.product.id)">
+                                    <option
+                                        v-for="i in [...Array(c.product.amount).keys()]"
+                                        :value="i+1"
+                                        :selected="i+1 === c.amount">@{{i+1}}
+                                    </option>
                                 </select>
                                 <p class="text-danger font-weight-bold">
                                     @lang('t.show.stock')
-                                    {{$c->product['amount']}}
+                                    @{{c.product.amount}}
                                 </p>
                             </div>
                         </div>
@@ -66,13 +62,16 @@
                             <div class="col-12 text-muted">
                                 <p>
                                     <strong>@lang('t.show.cond'):</strong>
-                                    <span>
-                                        {{$c->product['is_used'] ? __('t.show.used') : __('t.show.new')}}
+                                    <span v-if="c.product.is_used">
+                                        {{__('t.show.used')}}
+                                    </span>
+                                    <span v-else>
+                                        {{__('t.show.new')}}
                                     </span>
                                 </p>
                                 <p>
                                     <strong>@lang('t.show.color'):</strong>
-                                    <span>{{$c->product['color'][0]}}</span>
+                                    <span>@{{c.product.color[0]}}</span>
                                 </p>
                             </div>
                         </div>
@@ -84,10 +83,9 @@
                 </div>
             </div>
         </div>
-        @endforeach
     </div>
     <div class="col-12 col-sm-4">
-        <div class="position-fixed">
+        <div class="position-sticky">
             <div class="row col-md-10">
                 <div class="card card-body">
                     <h5>
@@ -95,9 +93,9 @@
                         </span>
                         <div class="btn-group">
                             <button class="btn btn-clear" type="button">
-                                <h4 class="text-primary"
-                                    v-text="h.d.price || h.d.formatPrice({{$c->total}})">
-                                    ${{\number_format($c->total, 2)}}
+                                <h4 class="text-primary">
+                                    <x-btn-loader showIf='h.d.cartLoader'></x-btn-loader>
+                                    @{{h.d.totalPrice}}
                                 </h4>
                             </button>
                             <button type="button"
@@ -125,6 +123,16 @@
                     @lang('t.index.checkout')
                 </a>
             </div>
+        </div>
+    </div>
+
+</div>
+<div :class="h.d.cartLoader ? 'd-flex' : 'd-none'"
+    class="d-none justify-content-center mt-2">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"
+        role="status">
+        <div class="spinner-grow text-danger" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
     </div>
 </div>

@@ -3,5 +3,6 @@ export default interface Cart {
     id: number;
     product: ProductInterface;
     amount: number;
-    total: number;
+    total: any | string | number;
+    totalInt?: number;
 }

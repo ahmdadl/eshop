@@ -17326,6 +17326,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
 /* harmony import */ var _super__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./super */ "./resources/js/pages/super.ts");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -17334,21 +17337,61 @@ var ShowCart = /** @class */ (function (_super) {
     function ShowCart() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.d = {
-            price: "",
-            priceInt: 0
+            cart: [],
+            cartLoader: false,
+            totalPrice: "",
+            totalPriceInt: 0
         };
         return _this;
     }
-    ShowCart.prototype.formatPrice = function (p) {
-        this.d.priceInt = p;
-        return this.formatter.format(p);
+    ShowCart.prototype.calcTotalPrice = function () {
+        this.d.totalPriceInt = this.d.cart.reduce(function (t, c) { return (t += parseFloat(c.totalInt || c.total)); }, 0);
+        this.d.totalPrice = this.formatter.format(this.d.totalPriceInt);
+    };
+    ShowCart.prototype.updateCartTotal = function (firstTime) {
+        var _this = this;
+        if (firstTime === void 0) { firstTime = false; }
+        this.d.cart.map(function (x) {
+            if (firstTime) {
+                x.totalInt = parseFloat(x.total);
+            }
+            x.total = _this.formatter.format(x.totalInt);
+            return x;
+        });
+    };
+    ShowCart.prototype.run = function () {
+        this.calcTotalPrice();
+        this.updateCartTotal(true);
     };
     ShowCart.prototype.convertTo = function (currency) {
         if (currency === void 0) { currency = "EGP"; }
-        this.d.price = this.convertToNative(currency, this.d.priceInt);
+        this.d.totalPrice = this.convertToNative(currency, this.d.totalPriceInt);
+    };
+    ShowCart.prototype.changeAmount = function (ev, inx, price, id) {
+        var _this = this;
+        this.d.cartLoader = true;
+        var val = parseInt(ev.target.value) || 0;
+        price = parseFloat(price.replace(/\$|,/gi, ""));
+        var total = val * price;
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.patch("/" + this.getLocale() + "/cart/" + id, {
+            amount: val,
+            total: total
+        }, { baseURL: "" }).then(function (res) {
+            _this.d.cart[inx].amount = val;
+            _this.d.cart[inx].totalInt = total;
+            _this.d.cart[inx].total = _this.formatter.format(total);
+            _this.calcTotalPrice();
+            _this.d.cartLoader = false;
+        });
     };
     ShowCart.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ["formatPrice", "convertTo"]);
+        this.attachToGlobal(this, ["convertTo", "changeAmount"]);
+    };
+    ShowCart.prototype.mounted = function () {
+        var _this = this;
+        this.$on("cartDataLoaded", function (d) {
+            _this.run();
+        });
     };
     ShowCart = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
@@ -17645,7 +17688,7 @@ var Super = /** @class */ (function (_super) {
             id: product.id,
             product: product,
             amount: amount,
-            total: total
+            total: total.toFixed(2)
         };
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("cart", ncart, {
             baseURL: "/" + this.getLocale() + "/"
@@ -17688,6 +17731,7 @@ var Super = /** @class */ (function (_super) {
                 return;
             }
             _this.d.cart = res.data;
+            _this.$emit('cartDataLoaded', true);
             _this.calcCartTotal();
             _this.d.cartLoader = false;
         });

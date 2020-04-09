@@ -94,17 +94,16 @@ class CartController extends Controller
             return response()->json(['exists' => false]);
         }
 
-        ['amount' => $amount] = request()->validate([
-            'amount' => 'required|numeric'
+        ['amount' => $amount, 'total' => $total] = request()->validate([
+            'amount' => 'required|numeric',
+            'total' => 'required|numeric'
         ]);
-
-        // $updated = [];
 
         foreach ($carts as &$cart) {
             if ($cart['id'] === $pid) {
                 $cart['amount'] = $amount;
+                $cart['total'] = $total;
             }
-            // $updated[] = $cart;
         }
 
         session()->put('cart', $carts);
