@@ -36,6 +36,10 @@ Route::group(
         Route::post('/cart', 'CartController@store');
         Route::patch('/cart/{id}', 'CartController@update');
         Route::delete('/cart/{id}', 'CartController@destroy');
+
+        Route::middleware('auth')->group(function () {
+            Route::get('/cart/checkout', 'CartController@create');
+        });
     }
 );
 

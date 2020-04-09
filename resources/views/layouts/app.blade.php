@@ -215,10 +215,10 @@
                                                         class="btn btn-secondary col-5">
                                                         @lang('t.index.viewC')
                                                     </a>
-                                                    <button
+                                                    <a href="/{{app()->getlocale()}}/cart/checkout"
                                                         class="btn btn-success col-5">
                                                         @lang('t.index.checkout')
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </li>
                                         </ul>

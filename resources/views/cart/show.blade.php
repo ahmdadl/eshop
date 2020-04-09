@@ -120,7 +120,8 @@
                         </div>
                     </h5>
                 </div>
-                <a href="#" class="btn btn-lg btn-block btn-primary mt-3">
+                <a href="/{{app()->getlocale()}}/cart/checkout"
+                    class="btn btn-lg btn-block btn-primary mt-3">
                     @lang('t.index.checkout')
                 </a>
             </div>
