@@ -203,7 +203,8 @@ class CartControllerTest extends TestCase
             'card' => $this->faker->creditCardNumber
         ])->assertStatus(302)
             ->assertSessionDoesntHaveErrors()
-            ->assertSessionHas('cart', []);
+            ->assertSessionHas('cart', [])
+            ->assertSessionHas('success');
 
         $this->assertDatabaseHas('orders', ['product_id' => $cart['id']]);
         $this->assertDatabaseHas('orders', ['product_id' => $cart3['id']]);

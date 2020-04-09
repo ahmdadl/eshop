@@ -7,8 +7,10 @@
 @section('content')
 <div class="row">
     <div class="col-sm-10 col-md-8">
+        @unless (Session::has('success') && Session::get('success', false))
         <form action="/{{app()->getLocale()}}/cart/checkout" method="post"
             class="need-validation was-validated">
+            @csrf
             <div class="row form-group">
                 <label for="fname"
                     class="col-sm-3 col-form-label">@lang('t.check.fname')</label>
@@ -18,8 +20,8 @@
                             <i class="fa fas fa-user"></i>
                         </span>
                     </div>
-                    <input type="text" class="form-control"
-                        name="fname" id="fname" aria-describedby="fnameHelp"
+                    <input type="text" class="form-control" name="fname"
+                        id="fname" aria-describedby="fnameHelp"
                         placeholder="@lang('t.check.fname')"
                         value="{{$userName[0]}}" required>
                 </div>
@@ -33,8 +35,8 @@
                             <i class="fa fas fa-user"></i>
                         </span>
                     </div>
-                    <input type="text" class="form-control"
-                        name="lname" id="lname" aria-describedby="lnameHelp"
+                    <input type="text" class="form-control" name="lname"
+                        id="lname" aria-describedby="lnameHelp"
                         placeholder="@lang('t.check.lname')"
                         value="{{$userName[1]}}" required>
                 </div>
@@ -49,9 +51,8 @@
                             <i class="fa fas fa-address-card"></i>
                         </span>
                     </div>
-                    <input type="text" class="form-control"
-                        name="address" id="address"
-                        aria-describedby="addressHelp"
+                    <input type="text" class="form-control" name="address"
+                        id="address" aria-describedby="addressHelp"
                         placeholder="@lang('t.check.address')"
                         value="{{$address}}" required>
                 </div>
@@ -66,8 +67,8 @@
                             <i class="fa fas fa-credit-card"></i>
                         </span>
                     </div>
-                    <input type="number" class="form-control"
-                        name="card" id="card" aria-describedby="cardHelp"
+                    <input type="number" class="form-control" name="card"
+                        id="card" aria-describedby="cardHelp"
                         placeholder="@lang('t.check.card')" value="{{$card}}"
                         required>
                 </div>
@@ -80,5 +81,16 @@
                 </button>
             </div>
         </form>
+        @else
+        <div class="alert alert-success text-center">
+            <p>
+                <i
+                    class="fa fas fa-check border border-dark rounded-circle p-3 fa-2x"></i>
+            </p>
+            <strong>
+                @lang('t.check.success')
+            </strong>
+        </div>
+        @endunless
     </div>
 </div> @endsection

@@ -71,7 +71,7 @@ class CartController extends Controller
 
         session()->put('cart', []);
 
-        return back();
+        return back()->with('success', true);
     }
 
     /**
