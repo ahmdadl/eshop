@@ -79,11 +79,17 @@
         </div>
         <div class="row">
             <div class="col-6">
-
+                @can('update', $p)
+                <a href="/{{app()->getLocale()}}/user/{{auth()->id()}}/p/{{$p->slug}}/edit"
+                    class="btn btn-info">
+                    <i class="fa fas fa-edit"></i>
+                    @lang('t.user.edit')
+                </a>
+                @endcan
             </div>
             <div class="col-6">
                 @can ('delete', $p)
-                <button class="btn btn-danger btn-block ml-1"
+                <button class="btn btn-danger btn-block"
                     onclick="document.querySelector('#delSpinner').classList.remove('d-none');document.querySelector('#deleteForm').submit()">
                     <x-btn-loader id="delSpinner">
                     </x-btn-loader>
@@ -91,7 +97,8 @@
                     @lang('t.user.delete')
                 </button>
                 <form class="d-none" id="deleteForm"
-                    action="/{{app()->getLocale()}}/p/{{$p->slug}}" method="post">
+                    action="/{{app()->getLocale()}}/p/{{$p->slug}}"
+                    method="post">
                     @csrf
                     @method('DELETE')
                     <input type="submit" />

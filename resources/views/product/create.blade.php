@@ -126,7 +126,7 @@
                 </label>
                 <input type="string" required class="form-control col-sm-9"
                     name="color" id="pcolor" aria-describedby="pcolorhelpId"
-                    placeholder="@lang('t.user.pcolor')" value="{{old('pcolor') ?? implode(',', $p->color) ?? ''}}" />
+                    placeholder="@lang('t.user.pcolor')" value="{{old('pcolor') ?? implode(',', $p->color ?? []) ?? ''}}" />
                 <small id="pcolorhelpId" class="text-muted">
                     @lang('t.user.pcolorHelp')
                 </small>
@@ -135,7 +135,7 @@
                 <div class="custom-control custom-switch col-12">
                     <input type="checkbox" class="custom-control-input"
                         name='is_new' id="isNewProduct"
-                        {{old('is_new') || (!$p->is_used) ? 'checked' : ''}}>
+                        {{old('is_new') || ($p->is_used ?? true) ? 'checked' : ''}}>
                     <label class="custom-control-label" for="isNewProduct">
                         @lang('t.user.newProduct')
                     </label>

@@ -166,7 +166,7 @@ class ProductControllerTest extends TestCase
         $user = factory(User::class)->create();
 
         $this->post('/en/user/' . $user->id . '/p', [])
-            ->assertStatus(403);
+            ->assertStatus(302);
     }
 
     public function testUserCanNotAddProductWithInvalidData()
@@ -322,5 +322,48 @@ class ProductControllerTest extends TestCase
         $this->patch('/' . app()->getLocale() . '/p/' . $p->slug, [])
             ->assertStatus(302)
             ->assertSessionHasErrors(['name', 'brand', 'info', 'price', 'amount', 'save', 'color']);
+    }
+
+    /**
+     * @dataProvider updateProductDataProvider
+     */
+    public function testUserCanUpdateHisProduct(int $role)
+    {
+        $user = $this->signIn(['role' => $role]);
+
+        $p = $user->products()->save(
+            factory(Product::class)->make()
+        );
+
+        $p->name = $this->faker->sentence;
+        $p->price = 37037;
+        $p->color = implode(',', $p->color);
+
+        $this->patch('/' . app()->getLocale() . '/p/' . $p->slug, $p->only([
+            'name',
+            'price',
+            'brand',
+            'info',
+            'amount',
+            'save',
+            'color',
+            'is_used'
+        ]))->assertStatus(302)
+            ->assertSessionDoesntHaveErrors()
+            ->assertRedirect('/' . app()->getLocale() . '/p/' . $p->slug);
+
+        $this->assertDatabaseHas('products', $p->only([
+            'name',
+            'price',
+        ]));
+    }
+
+    public function updateProductDataProvider(): array
+    {
+        return [
+            [User::NormalUser],
+            [User::AdminRole],
+            [User::SuperRole]
+        ];
     }
 }

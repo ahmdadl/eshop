@@ -99,7 +99,7 @@ class ProductController extends Controller
 
         $req->user_id = $user_id;
         $req->category_slug = $subCat->slug;
-        $req->is_used = !!$req->is_new;
+        $req->is_used = isset($req->is_new) ? false : true;
         $req->color = explode(',', $req->color);
         $req->img = $this->getImgArr();
 
@@ -194,7 +194,20 @@ class ProductController extends Controller
      */
     public function update(UpdateProduct $request, Product $product)
     {
-        //
+        $req = (object) $request->validated();
+
+        $product->name = $req->name;
+        $product->brand = $req->brand;
+        $product->info = $req->info;
+        $product->price = $req->price;
+        $product->amount = $req->amount;
+        $product->save = $req->save;
+        $product->color = explode(',', $req->color);
+        $product->is_used = isset($req->is_new) ? false : true;
+
+        $product->update();
+
+        return redirect('/' . app()->getLocale() . '/p/' . $product->slug);
     }
 
     /**
