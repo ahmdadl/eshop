@@ -83,7 +83,8 @@
                     </div>
                     <input type="number" required class="form-control"
                         name="price" id="pprice" aria-describedby="pricehelpId"
-                        placeholder="@lang('t.user.pprice')" min="1" step="0.01" />
+                        placeholder="@lang('t.user.pprice')" min="1"
+                        step="0.01" />
                 </div>
             </div>
             <div class="row form-group">
@@ -131,16 +132,26 @@
                 </div>
             </div>
             <div class="row form-group">
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input"
-                        id="productImg">
-                    <label class="custom-file-label" for="productImg">
-                        @lang('t.user.img')
-                    </label>
+                <div class="col-4 col-md-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input"
+                            id="productImg" v-on:change="h.d.previewImg($event)"
+                            accept=".png,.jpeg,.jpg,.gif">
+                        <label class="custom-file-label" for="productImg">
+                            @lang('t.user.img')
+                        </label>
+                    </div>
+                    <strong class="text-danger">
+                        * @lang('t.user.noImgTxt')
+                    </strong>
                 </div>
-                <strong class="text-danger">
-                    * @lang('t.user.noImgTxt')
-                </strong>
+                <div class="col-6 mx-auto">
+                    <img :src="h.d.pimg" class="img-thumbnail">
+                </div>
+
+            </div>
+            <div class="row form-group">
+
             </div>
             <div class="row form-group">
                 <div class="col-6">

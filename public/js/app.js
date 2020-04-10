@@ -17809,7 +17809,8 @@ var UserProfile = /** @class */ (function (_super) {
         _this.d = {
             cats: [],
             subCat: [],
-            savingProduct: false
+            savingProduct: false,
+            pimg: ""
         };
         return _this;
     }
@@ -17831,8 +17832,22 @@ var UserProfile = /** @class */ (function (_super) {
             }
         });
         if (!form.classList.contains("was-validated")) {
+            this.d.savingProduct = true;
             form.submit();
         }
+    };
+    UserProfile.prototype.previewImg = function (ev) {
+        var _this = this;
+        var inp = ev.target;
+        if (!inp.files || !inp.files[0]) {
+            this.d.pimg = '';
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            _this.d.pimg = e.target.result;
+        };
+        reader.readAsDataURL(inp.files[0]);
     };
     UserProfile.prototype.loadCats = function () {
         var cats = document.getElementById("catsData");
@@ -17842,7 +17857,11 @@ var UserProfile = /** @class */ (function (_super) {
         this.d.cats = JSON.parse(cats.value) || [];
     };
     UserProfile.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ["onCatChange", "validateForm"]);
+        this.attachToGlobal(this, [
+            "onCatChange",
+            "validateForm",
+            "previewImg"
+        ]);
     };
     UserProfile.prototype.mounted = function () {
         this.loadCats();
