@@ -17727,9 +17727,6 @@ var Super = /** @class */ (function (_super) {
             if (res) {
             }
             _this.d.cart.push(ncart);
-            _this.d.cartTotal = _this.formatter.format(_this.d.cart.reduce(function (c, a) {
-                return (c += a.total);
-            }, 0));
             document.getElementById(spinner).classList.add("d-none");
             _this.calcCartTotal();
             _this.d.cartLoader = false;
@@ -17768,7 +17765,7 @@ var Super = /** @class */ (function (_super) {
         });
     };
     Super.prototype.calcCartTotal = function () {
-        var total = this.d.cart.reduce(function (t, c) { return (t += c.total); }, 0);
+        var total = this.d.cart.reduce(function (t, c) { return (t += parseFloat(c.total)); }, 0);
         this.d.cartTotal = this.formatter.format(total);
     };
     Super.prototype.getLocale = function () {

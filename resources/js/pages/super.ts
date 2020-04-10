@@ -132,12 +132,6 @@ export default class Super extends Vue {
             if (res) {
             }
             (this.d as Dynamic).cart.push(ncart);
-
-            (this.d as Dynamic).cartTotal = this.formatter.format(
-                (this.d as Dynamic).cart.reduce((c, a) => {
-                    return (c += a.total);
-                }, 0)
-            );
             (document.getElementById(spinner) as HTMLSpanElement).classList.add(
                 "d-none"
             );
@@ -188,7 +182,7 @@ export default class Super extends Vue {
 
     private calcCartTotal() {
         const total = (this.d as Dynamic).cart.reduce(
-            (t, c) => (t += c.total),
+            (t, c) => (t += parseFloat(c.total)),
             0
         );
 
