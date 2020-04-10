@@ -1,0 +1,21 @@
+{
+    "Login": "",
+    "E-Mail Address": "",
+    "Password": "",
+    "Remember Me": "",
+    "Forgot Your Password?": "",
+    "Confirm Password": "",
+    "Please confirm your password before continuing.": "",
+    "Reset Password": "",
+    "Send Password Reset Link": "",
+    "Register": "",
+    "Name": "",
+    "Verify Your Email Address": "",
+    "A fresh verification link has been sent to your email address.": "",
+    "Before proceeding, please check your email for a verification link.": "",
+    "If you did not receive the email": "",
+    "click here to request another": "",
+    "Toggle navigation": "",
+    "Logout": "",
+    "t.' . strtolower($title))<\/span>\r\n        <span class=\"float-right\">\r\n            <button class=\"btn btn-primary\" type=\"button\" data-toggle=\"collapse\"\r\n                data-target=\"#collabse{{$title}}List\" aria-expanded=\"true\"\r\n                aria-controls=\"collabse{{$title}}List\"\r\n                v-on:click=\"h.d.toogleCollabseButton($refs.collabse{{$title}}.classList.contains('show": ""
+}

@@ -27,9 +27,9 @@ return array (
   ),
   'nav' => 
   array (
-    'account_create' => 'Create an Account',
-    'daily' => 'Daily Deals',
-    'sellUs' => 'Sell with Us',
+    'account_create' => '',
+    'daily' => '',
+    'sellUs' => '',
   ),
   'offTxt' => '',
   'product' => 
