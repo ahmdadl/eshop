@@ -7,7 +7,8 @@
 @section('myContent')
 <div class="container-fluid">
     <div class="row">
-        <form novalidate class="form w-100 needs-validation"
+        <x-errors></x-errors>
+        <form novalidate class="form col-12 needs-validation"
             action="/{{app()->getLocale()}}/user/{{auth()->id()}}/p"
             method="post" v-on:submit.prevent.stop="h.d.validateForm($event)">
             @csrf

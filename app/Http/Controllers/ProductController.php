@@ -100,7 +100,7 @@ class ProductController extends Controller
 
         $req->user_id = $user_id;
         $req->category_slug = $subCat->slug;
-        $req->is_used = $req->is_new;
+        $req->is_used = !!$req->is_new;
         $req->color = explode(',', $req->color);
         $req->img = $this->getImgArr();
 
