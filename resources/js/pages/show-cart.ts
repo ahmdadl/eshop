@@ -26,6 +26,8 @@ export default class ShowCart extends Super {
         );
 
         this.d.totalPrice = this.formatter.format(this.d.totalPriceInt);
+        // @ts-ignore
+        this.d.cartTotal = this.formatter.format(this.d.totalPriceInt);
     }
 
     public updateCartTotal(firstTime: boolean = false) {
@@ -53,7 +55,9 @@ export default class ShowCart extends Super {
     public changeAmount(ev, inx: number, price: any, id: number) {
         this.d.cartLoader = true;
         const val = parseInt(ev.target.value) || 0;
-        price = parseFloat(price.replace(/\$|,/gi, ""));
+        if (typeof price === 'string') {
+            price = parseFloat(price.replace(/\$|,/gi, ""));
+        }
         const total = val * price;
 
         Axios.patch(
@@ -88,6 +92,8 @@ export default class ShowCart extends Super {
                     return;
                 }
                 this.d.cart.splice(inx, 1);
+                this.updateCartTotal();
+                this.calcTotalPrice();
                 this.d.cartLoader = false;
             });
     }

@@ -17355,6 +17355,8 @@ var ShowCart = /** @class */ (function (_super) {
     ShowCart.prototype.calcTotalPrice = function () {
         this.d.totalPriceInt = this.d.cart.reduce(function (t, c) { return (t += parseFloat(c.totalInt || c.total)); }, 0);
         this.d.totalPrice = this.formatter.format(this.d.totalPriceInt);
+        // @ts-ignore
+        this.d.cartTotal = this.formatter.format(this.d.totalPriceInt);
     };
     ShowCart.prototype.updateCartTotal = function (firstTime) {
         var _this = this;
@@ -17379,7 +17381,9 @@ var ShowCart = /** @class */ (function (_super) {
         var _this = this;
         this.d.cartLoader = true;
         var val = parseInt(ev.target.value) || 0;
-        price = parseFloat(price.replace(/\$|,/gi, ""));
+        if (typeof price === 'string') {
+            price = parseFloat(price.replace(/\$|,/gi, ""));
+        }
         var total = val * price;
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.patch("/" + this.getLocale() + "/cart/" + id, {
             amount: val,
@@ -17408,6 +17412,8 @@ var ShowCart = /** @class */ (function (_super) {
                 return;
             }
             _this.d.cart.splice(inx, 1);
+            _this.updateCartTotal();
+            _this.calcTotalPrice();
             _this.d.cartLoader = false;
         });
     };
