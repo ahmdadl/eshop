@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col-sm-3 mb-4">
             <nav class="nav flex-column">
-                <a class="nav-link rounded"
-                    href="/{{app()->getLocale()}}/user/{{auth()->id()}}">@lang('t.user.menu.profile')</a>
+                <a class="nav-link @if (request()->is('*/user/*/profile')) bg-primary text-light rounded @endif"
+                    href="/{{app()->getLocale()}}/user/{{auth()->id()}}/profile">@lang('t.user.menu.profile')</a>
                 <a class="nav-link @if (request()->is('*/user/*/orders')) bg-primary text-light rounded @endif"
                     href="/{{app()->getLocale()}}/user/{{auth()->id()}}/orders">
                     @lang('t.user.menu.order')

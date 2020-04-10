@@ -41,7 +41,7 @@ Route::group(
             Route::get('/cart/checkout', 'CartController@create');
             Route::post('/cart/checkout', 'CartController@done');
 
-            Route::get('/user/{user}', 'UserController@index');
+            Route::get('/user/{user}/profile', 'UserController@index');
             Route::get('/user/{user}/orders', 'UserController@getOrders');
             Route::get('/user/{user}/products', 'UserController@getProducts');
 

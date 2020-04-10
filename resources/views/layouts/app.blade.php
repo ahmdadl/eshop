@@ -134,8 +134,16 @@
                                     <div class="dropdown-menu dropdown-menu-right"
                                         aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item"
-                                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}">
+                                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/profile">
                                             @lang('t.index.profile')
+                                        </a>
+                                        <a class="dropdown-item"
+                                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/orders">
+                                            @lang('t.index.orders')
+                                        </a>
+                                        <a class="dropdown-item"
+                                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/products">
+                                            @lang('t.index.products')
                                         </a>
                                         <a class="dropdown-item"
                                             href="{{ route('logout') }}"
