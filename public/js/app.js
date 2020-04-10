@@ -3216,7 +3216,7 @@ var Toastr = /** @class */ (function (_super) {
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(Toastr, _super);
     function Toastr() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.cls = "fade";
+        _this.cls = "d-none";
         return _this;
     }
     Toastr.prototype.show = function () {
@@ -3228,7 +3228,7 @@ var Toastr = /** @class */ (function (_super) {
         var _this = this;
         this.cls = "fade";
         setTimeout(function () {
-            _this.cls += " d-none";
+            _this.cls = "d-none";
         }, 200);
     };
     Toastr.prototype.mounted = function () {

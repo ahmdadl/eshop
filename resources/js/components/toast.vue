@@ -35,7 +35,7 @@ export default class Toastr extends Vue {
     @Prop({ type: String, required: true }) public title: string;
     @Prop({ type: String, required: true }) public message: string;
     @Prop({ type: String, required: true }) public type: string;
-    public cls: string = "fade";
+    public cls: string = "d-none";
 
     public show() {
         this.cls = "showing";
@@ -45,7 +45,7 @@ export default class Toastr extends Vue {
     public hide() {
         this.cls = "fade";
         setTimeout(() => {
-            this.cls += " d-none";
+            this.cls = "d-none";
         }, 200);
     }
 
