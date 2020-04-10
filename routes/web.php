@@ -54,4 +54,6 @@ Route::group(
 Route::prefix('/api')->middleware('auth')->group(function () {
     Route::post('/p/{product}/rates', 'RateController@store');
     Route::patch('/rates/{rate}', 'RateController@update');
+    
+    Route::delete('/p/{product}', 'ProductController@destroy');
 });

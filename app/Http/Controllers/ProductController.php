@@ -111,7 +111,7 @@ class ProductController extends Controller
         $subCat->products()->create((array) $req);
 
         return redirect(
-            '/' . app()->getLocale() . '/user/'. $user_id . '/products'
+            '/' . app()->getLocale() . '/user/' . $user_id . '/products'
         );
     }
 
@@ -203,6 +203,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $this->authorize('delete', $product);
+
+        $product->delete();
+
+        return response()->json(['deleted' => true]);
     }
 }

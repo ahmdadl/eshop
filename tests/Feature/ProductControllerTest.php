@@ -219,4 +219,53 @@ class ProductControllerTest extends TestCase
             'category_slug' => $sc->slug
         ]);
     }
+
+    public function testGuestCanNotDeleteProduct()
+    {
+        $this->delete('/en/p/some-name')
+            ->assertStatus(302);
+    }
+
+    public function testUserCanDeleteOnlyHisProducts()
+    {
+        $user = factory(User::class)->create();
+
+        $user2 = $this->signIn();
+
+        $slug = Str::slug('some of me is here');
+        $user->products()->save(
+            factory(Product::class)->make([
+                'slug' => $slug
+            ])
+        );
+
+        $this->delete('/api/p/' . $slug)
+            ->assertStatus(403);
+
+        $this->actingAs($user)->delete('/api/p/' . $slug)
+            ->assertOk()
+            ->assertExactJson(['deleted' => true]);
+
+        $this->assertDatabaseMissing('products', ['slug' => $slug]);
+    }
+
+    public function testAdminCanDeleteAnyProduct()
+    {
+        $user = $this->signIn();
+
+        $user2 = factory(User::class)->create();
+
+        $slug = Str::slug('some of me is here');
+        $user2->products()->save(
+            factory(Product::class)->make([
+                'slug' => $slug
+            ])
+        );
+
+        $this->delete('/api/p/' . $slug)
+            ->assertOk()
+            ->assertExactJson(['deleted' => true]);
+
+        $this->assertDatabaseMissing('products', ['slug' => $slug]);
+    }
 }
