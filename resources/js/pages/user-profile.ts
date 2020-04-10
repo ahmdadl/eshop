@@ -13,7 +13,7 @@ export default class UserProfile extends Super {
     public d: Dynamic = {
         cats: [],
         subCat: [],
-        savingProduct: false,
+        savingProduct: false
     };
 
     public onCatChange(ev) {
@@ -24,8 +24,22 @@ export default class UserProfile extends Super {
         this.d.subCat = arr[0].sub_cat as Category[];
     }
 
-    public validateForm (ev){
+    public validateForm(ev) {
+        const form: HTMLFormElement = ev.target;
 
+        document
+            .querySelectorAll(":required")
+            .forEach((x: HTMLInputElement) => {
+                form.classList.remove("was-validated");
+
+                if (!x.value || !(x.value as string).length) {
+                    form.classList.add("was-validated");
+                }
+            });
+
+        if (!form.classList.contains("was-validated")) {
+            form.submit();
+        }
     }
 
     private loadCats() {

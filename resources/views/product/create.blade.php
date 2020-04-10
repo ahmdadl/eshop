@@ -7,12 +7,10 @@
 @section('myContent')
 <div class="container-fluid">
     <div class="row">
-        <form novalidate class="form w-100"
+        <form novalidate class="form w-100 needs-validation"
             action="/{{app()->getLocale()}}/user/{{auth()->id()}}/p"
             method="post" v-on:submit.prevent.stop="h.d.validateForm($event)">
             @csrf
-            <input id="catsData" required type="hidden" class="d-none"
-                value="{{$cats->toJson()}}" />
             <div class="row">
                 <div class="col-sm-6">
                     <div class="row form-group pr-1">
@@ -21,7 +19,8 @@
                             @lang('t.user.choscat')
                         </label>
                         <select id="catChooser" class="custom-select col-md-8"
-                            name="cat" v-on:change="h.d.onCatChange($event)">
+                            name="cat" v-on:change="h.d.onCatChange($event)"
+                            required>
                             <option selected>
                                 @lang('t.user.choscat')
                             </option>
@@ -40,7 +39,8 @@
                             @lang('t.user.chossubcat')
                         </label>
                         <select id="subCatChooser"
-                            class="custom-select col-md-8" name="subCat">
+                            class="custom-select col-md-8" name="subCat"
+                            required>
                             <option v-for="(sc, scinx) in h.d.subCat"
                                 :value="sc.id">@{{sc.name}}</option>
                         </select>
@@ -53,7 +53,8 @@
                 </label>
                 <input type="text" class="form-control col-sm-9" name="name"
                     id="pname" aria-describedby="namehelpId"
-                    placeholder=" @lang('t.user.pname')" required />
+                    placeholder=" @lang('t.user.pname')" minlength="1"
+                    required />
             </div>
             <div class="row form-group">
                 <label for="pbrand" class="form-label-col col-sm-3">
@@ -82,7 +83,7 @@
                     </div>
                     <input type="number" required class="form-control"
                         name="price" id="pprice" aria-describedby="pricehelpId"
-                        placeholder="@lang('t.user.pprice')" min="1" />
+                        placeholder="@lang('t.user.pprice')" min="1" step="0.01" />
                 </div>
             </div>
             <div class="row form-group">
@@ -155,6 +156,8 @@
                 </div>
             </div>
         </form>
+        <input id="catsData" required type="hidden" class="d-none"
+            value="{{$cats->toJson()}}" />
     </div>
 </div>
 @endsection

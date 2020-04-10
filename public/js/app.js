@@ -17809,7 +17809,7 @@ var UserProfile = /** @class */ (function (_super) {
         _this.d = {
             cats: [],
             subCat: [],
-            savingProduct: false,
+            savingProduct: false
         };
         return _this;
     }
@@ -17821,6 +17821,18 @@ var UserProfile = /** @class */ (function (_super) {
         this.d.subCat = arr[0].sub_cat;
     };
     UserProfile.prototype.validateForm = function (ev) {
+        var form = ev.target;
+        document
+            .querySelectorAll(":required")
+            .forEach(function (x) {
+            form.classList.remove("was-validated");
+            if (!x.value || !x.value.length) {
+                form.classList.add("was-validated");
+            }
+        });
+        if (!form.classList.contains("was-validated")) {
+            form.submit();
+        }
     };
     UserProfile.prototype.loadCats = function () {
         var cats = document.getElementById("catsData");
