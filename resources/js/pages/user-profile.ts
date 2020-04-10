@@ -5,13 +5,15 @@ import Category from "../interfaces/category";
 export interface Dynamic {
     cats: Category[];
     subCat: Category[];
+    savingProduct: boolean;
 }
 
 @Component
 export default class UserProfile extends Super {
     public d: Dynamic = {
         cats: [],
-        subCat: []
+        subCat: [],
+        savingProduct: false,
     };
 
     public onCatChange(ev) {
@@ -20,6 +22,10 @@ export default class UserProfile extends Super {
         let arr = this.d.cats.filter(x => x.id === val);
         // @ts-ignore
         this.d.subCat = arr[0].sub_cat as Category[];
+    }
+
+    public validateForm (ev){
+
     }
 
     private loadCats() {
@@ -33,7 +39,7 @@ export default class UserProfile extends Super {
     }
 
     beforeMount() {
-        this.attachToGlobal(this, ["onCatChange"]);
+        this.attachToGlobal(this, ["onCatChange", "validateForm"]);
     }
 
     mounted() {

@@ -17808,7 +17808,8 @@ var UserProfile = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.d = {
             cats: [],
-            subCat: []
+            subCat: [],
+            savingProduct: false,
         };
         return _this;
     }
@@ -17819,6 +17820,8 @@ var UserProfile = /** @class */ (function (_super) {
         // @ts-ignore
         this.d.subCat = arr[0].sub_cat;
     };
+    UserProfile.prototype.validateForm = function (ev) {
+    };
     UserProfile.prototype.loadCats = function () {
         var cats = document.getElementById("catsData");
         if (!cats) {
@@ -17827,7 +17830,7 @@ var UserProfile = /** @class */ (function (_super) {
         this.d.cats = JSON.parse(cats.value) || [];
     };
     UserProfile.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ["onCatChange"]);
+        this.attachToGlobal(this, ["onCatChange", "validateForm"]);
     };
     UserProfile.prototype.mounted = function () {
         this.loadCats();

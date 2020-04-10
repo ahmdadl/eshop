@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-3 mb-4">
             <nav class="nav flex-column">
                 <a class="nav-link rounded"
                     href="/{{app()->getLocale()}}/user/{{auth()->id()}}">@lang('t.user.menu.profile')</a>
