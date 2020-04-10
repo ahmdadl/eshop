@@ -74,7 +74,7 @@
                     </li>
                 </ul>
                 <nav
-                    class="navbar sticky-top navbar-expand-sm navbar-dark bg-primary shadow-sm">
+                    class="navbar sticky-top navbar-expand-md navbar-dark bg-primary shadow-sm">
                     <div class="container">
                         <a class="navbar-brand" href="{{ url('/') }}">
                             {{ config('app.name', 'Laravel') }}
@@ -96,14 +96,14 @@
                             </ul>
 
                             <form action="/{{app()->getLocale()}}/p/ser"
-                                method="GET" class="form form-inline">
-                                <div class="form-group">
-                                    <input type="search" class="form-control"
-                                        name="q"
+                                method="GET" class="form form-inline col-md-9">
+                                <div class="form-group col-8">
+                                    <input type="search"
+                                        class="form-control col-12" name="q"
                                         placeholder="@lang('t.show.serpl')"
                                         value="{{request()->old('q')}}" />
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-4">
                                     <button type="submit"
                                         class="btn btn-outline-info ml-1">
                                         <i class="fa fas fa-search"></i>
