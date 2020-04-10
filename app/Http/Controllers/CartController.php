@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\Order;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -67,6 +68,9 @@ class CartController extends Controller
                 'amount' => $cart['amount'],
                 'total' => $cart['total']
             ]);
+            $p = Product::find($cart['id']);
+            $p->amount -= (int) $cart['amount'];
+            $p->update();
         }
 
         session()->put('cart', []);
