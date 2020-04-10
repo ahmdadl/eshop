@@ -77,5 +77,27 @@
                 </span>
             </p>
         </div>
+        <div class="row">
+            <div class="col-6">
+
+            </div>
+            <div class="col-6">
+                @can ('delete', $p)
+                <button class="btn btn-danger btn-block ml-1"
+                    onclick="document.querySelector('#delSpinner').classList.remove('d-none');document.querySelector('#deleteForm').submit()">
+                    <x-btn-loader id="delSpinner">
+                    </x-btn-loader>
+                    <i class="fa fas fa-times"></i>
+                    @lang('t.user.delete')
+                </button>
+                <form class="d-none" id="deleteForm"
+                    action="/{{app()->getLocale()}}/p/{{$p->slug}}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <input type="submit" />
+                </form>
+                @endcan
+            </div>
+        </div>
     </div>
 </div>

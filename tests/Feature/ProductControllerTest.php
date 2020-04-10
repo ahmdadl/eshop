@@ -239,10 +239,10 @@ class ProductControllerTest extends TestCase
             ])
         );
 
-        $this->delete('/api/p/' . $slug)
+        $this->delete('/en/p/' . $slug)
             ->assertStatus(403);
 
-        $this->actingAs($user)->delete('/api/p/' . $slug)
+        $this->actingAs($user)->deleteJson('/en/p/' . $slug)
             ->assertOk()
             ->assertExactJson(['deleted' => true]);
 
@@ -262,7 +262,7 @@ class ProductControllerTest extends TestCase
             ])
         );
 
-        $this->delete('/api/p/' . $slug)
+        $this->deleteJson('/en/p/' . $slug)
             ->assertOk()
             ->assertExactJson(['deleted' => true]);
 

@@ -174,7 +174,7 @@ export default class Super extends Vue {
                 }
 
                 (this.d as Dynamic).cart = res.data;
-                this.$emit('cartDataLoaded', true);
+                this.$emit("cartDataLoaded", true);
                 this.calcCartTotal();
                 this.d.cartLoader = false;
             }
@@ -192,6 +192,24 @@ export default class Super extends Vue {
 
     protected getLocale(): string {
         return document.documentElement.lang || "en";
+    }
+
+    protected addClass(selector: string, cls: string) {
+        const el = document.querySelector(selector) as HTMLElement;
+        if (!el) return;
+        el.classList.add(cls);
+    }
+
+    protected removeClass(selector: string, cls: string) {
+        const el = document.querySelector(selector) as HTMLElement;
+        if (!el) return;
+        el.classList.remove(cls);
+    }
+
+    protected removeEl(selector: string) {
+        const el = document.querySelector(selector) as HTMLElement;
+        if (!el) return;
+        (el.parentNode as Node).removeChild(el);
     }
 
     beforeMount() {}

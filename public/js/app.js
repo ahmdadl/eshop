@@ -17757,7 +17757,7 @@ var Super = /** @class */ (function (_super) {
                 return;
             }
             _this.d.cart = res.data;
-            _this.$emit('cartDataLoaded', true);
+            _this.$emit("cartDataLoaded", true);
             _this.calcCartTotal();
             _this.d.cartLoader = false;
         });
@@ -17768,6 +17768,24 @@ var Super = /** @class */ (function (_super) {
     };
     Super.prototype.getLocale = function () {
         return document.documentElement.lang || "en";
+    };
+    Super.prototype.addClass = function (selector, cls) {
+        var el = document.querySelector(selector);
+        if (!el)
+            return;
+        el.classList.add(cls);
+    };
+    Super.prototype.removeClass = function (selector, cls) {
+        var el = document.querySelector(selector);
+        if (!el)
+            return;
+        el.classList.remove(cls);
+    };
+    Super.prototype.removeEl = function (selector) {
+        var el = document.querySelector(selector);
+        if (!el)
+            return;
+        el.parentNode.removeChild(el);
     };
     Super.prototype.beforeMount = function () { };
     Super.prototype.mounted = function () {
@@ -17803,6 +17821,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
 /* harmony import */ var _super__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./super */ "./resources/js/pages/super.ts");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -17844,7 +17865,7 @@ var UserProfile = /** @class */ (function (_super) {
         var _this = this;
         var inp = ev.target;
         if (!inp.files || !inp.files[0]) {
-            this.d.pimg = '';
+            this.d.pimg = "";
             return;
         }
         var reader = new FileReader();
@@ -17853,6 +17874,19 @@ var UserProfile = /** @class */ (function (_super) {
         };
         reader.readAsDataURL(inp.files[0]);
     };
+    UserProfile.prototype.deleteProduct = function (slug, id, inx) {
+        var _this = this;
+        this.removeClass("#spinner" + id, "d-none");
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.delete("/" + this.getLocale() + "/p/" + slug, { baseURL: '' }).then(function (res) {
+            if (res.data && res.data.deleted) {
+                _this.addClass("#card" + inx, "fade");
+                setTimeout(function (_) { return _this.removeEl("#card" + inx); }, 400);
+                _this.showToast(_this.getMessages(0), "------", "success");
+                return;
+            }
+            _this.showErrorToast();
+        });
+    };
     UserProfile.prototype.loadCats = function () {
         var cats = document.getElementById("catsData");
         if (!cats) {
@@ -17860,11 +17894,17 @@ var UserProfile = /** @class */ (function (_super) {
         }
         this.d.cats = JSON.parse(cats.value) || [];
     };
+    UserProfile.prototype.getMessages = function (num) {
+        var val = document.querySelector("#userLang")
+            .value;
+        return JSON.parse(val)[num];
+    };
     UserProfile.prototype.beforeMount = function () {
         this.attachToGlobal(this, [
             "onCatChange",
             "validateForm",
-            "previewImg"
+            "previewImg",
+            "deleteProduct"
         ]);
     };
     UserProfile.prototype.mounted = function () {
