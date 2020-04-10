@@ -3225,7 +3225,11 @@ var Toastr = /** @class */ (function (_super) {
         setTimeout(function (_) { return _this.hide(); }, 3000);
     };
     Toastr.prototype.hide = function () {
+        var _this = this;
         this.cls = "fade";
+        setTimeout(function () {
+            _this.cls += " d-none";
+        }, 200);
     };
     Toastr.prototype.mounted = function () {
         // this.show();

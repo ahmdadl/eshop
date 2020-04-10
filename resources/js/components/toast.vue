@@ -44,6 +44,9 @@ export default class Toastr extends Vue {
 
     public hide() {
         this.cls = "fade";
+        setTimeout(() => {
+            this.cls += " d-none";
+        }, 200);
     }
 
     mounted() {
