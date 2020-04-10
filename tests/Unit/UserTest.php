@@ -41,4 +41,11 @@ class UserTest extends TestCase
 
         $this->assertCount(1, $user->products);
     }
+
+    public function testItCanBeAdmin()
+    {
+        $user = factory(User::class)->create();
+
+        $this->assertTrue($user->isAdmin());
+    }
 }

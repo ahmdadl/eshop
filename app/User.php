@@ -38,6 +38,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function isAdmin(): bool
+    {
+        return $this->id === 1;
+    }
+
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
