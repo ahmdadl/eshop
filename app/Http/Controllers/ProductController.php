@@ -178,9 +178,12 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(int $user_id, Product $product)
     {
-        //
+        return view('product.create', [
+            'cats' => $this->getList(),
+            'p' => $product
+        ]);
     }
 
     /**

@@ -268,4 +268,32 @@ class ProductControllerTest extends TestCase
 
         $this->assertDatabaseMissing('products', ['slug' => $slug]);
     }
+
+    public function testOnlyAuthrizedUsersCanAccessEditProductRoute()
+    {
+        $admin = factory(User::class)->create(['role' => User::AdminRole]);
+        $super = factory(User::class)->create(['role' => User::SuperRole]);
+        $normal = factory(User::class)->create(['role' => User::NormalUser]);
+
+        $user = factory(User::class)->create();
+
+        $p = $user->products()->save(
+            factory(Product::class)->make()
+        );
+
+        $this->actingAs($normal)->get(
+            '/' . app()->getLocale() . '/user/' . $normal->id . '/p/' . $p->slug . '/edit'
+        )->assertStatus(403);
+
+        $this->actingAs($super)->get(
+            '/' . app()->getLocale() . '/user/' . $super->id . '/p/' . $p->slug . '/edit'
+        )->assertOk()
+        ->assertSee($p->name);
+
+
+        $this->actingAs($admin)->get(
+            '/' . app()->getLocale() . '/user/' . $admin->id . '/p/' . $p->slug . '/edit'
+        )->assertOk()
+        ->assertSee($p->name);
+    }
 }

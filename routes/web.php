@@ -47,7 +47,10 @@ Route::group(
 
             Route::get('/user/{user}/p/create', 'ProductController@create');
             Route::post('/user/{user}/p', 'ProductController@store');
-
+            Route::get(
+                '/user/{user}/p/{product}/edit',
+                'ProductController@edit'
+            )->middleware("can:update,product");
             Route::delete('/p/{product}', 'ProductController@destroy')->middleware("can:delete,product");
         });
     }

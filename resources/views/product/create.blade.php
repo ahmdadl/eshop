@@ -8,10 +8,14 @@
 <div class="container-fluid">
     <div class="row">
         <x-errors></x-errors>
-        <form novalidate class="form col-12 needs-validation"
-            action="/{{app()->getLocale()}}/user/{{auth()->id()}}/p"
+        <form novalidate class="form col-12 needs-validation" @isset ($p)
+            action="/{{app()->getLocale()}}/p/{{$p->slug}}" @else
+            action="/{{app()->getLocale()}}/user/{{auth()->id()}}/p" @endisset
             method="post" v-on:submit.prevent.stop="h.d.validateForm($event)">
             @csrf
+            @isset ($p)
+            @method('PATCH')
+            @else
             <div class="row">
                 <div class="col-sm-6">
                     <div class="row form-group pr-1">
@@ -48,6 +52,7 @@
                     </div>
                 </div>
             </div>
+            @endisset
             <div class="row form-group">
                 <label for="pname" class="form-label-col col-sm-3">
                     @lang('t.user.pname')
@@ -55,7 +60,7 @@
                 <input type="text" class="form-control col-sm-9" name="name"
                     id="pname" aria-describedby="namehelpId"
                     placeholder=" @lang('t.user.pname')" minlength="1"
-                    required />
+                    value="{{old('pname') ?? $p->name ?? ''}}" required />
             </div>
             <div class="row form-group">
                 <label for="pbrand" class="form-label-col col-sm-3">
@@ -63,7 +68,8 @@
                 </label>
                 <input type="text" class="form-control col-sm-9" name="brand"
                     id="pbrand" aria-describedby="brandhelpId"
-                    placeholder="@lang('t.user.pbrand')" required />
+                    placeholder="@lang('t.user.pbrand')"
+                    value="{{old('pbrand') ?? $p->brand ?? ''}}" required />
             </div>
             <div class="row form-group">
                 <label for="pinfo" class="form-label-col col-sm-3">
@@ -71,7 +77,7 @@
                 </label>
                 <textarea type="text" class="form-control col-sm-9" name="info"
                     id="pinfo" placeholder="@lang('t.user.pinfo')"
-                    required></textarea>
+                    required>{{old('pname') ?? $p->name ?? ''}}</textarea>
             </div>
             <div class="row form-group">
                 <label for="pprice" class="form-label-col col-sm-3">
@@ -84,8 +90,8 @@
                     </div>
                     <input type="number" required class="form-control"
                         name="price" id="pprice" aria-describedby="pricehelpId"
-                        placeholder="@lang('t.user.pprice')" min="1"
-                        step="0.01" />
+                        placeholder="@lang('t.user.pprice')" min="1" step="0.01"
+                        value="{{old('price') ?? $p->price ?? ''}}" />
                 </div>
             </div>
             <div class="row form-group">
@@ -94,7 +100,8 @@
                 </label>
                 <input type="number" required class="form-control col-sm-9"
                     name="amount" id="pamount" aria-describedby="amounthelpId"
-                    placeholder="@lang('t.user.pamount')" min="1" />
+                    placeholder="@lang('t.user.pamount')" min="1"
+                    value="{{old('amount') ?? $p->amount ?? ''}}" />
             </div>
             <div class="row form-group">
                 <label for="psave" class="form-label-col col-sm-3">
@@ -106,7 +113,8 @@
                     </div>
                     <input type="number" required class="form-control"
                         name="save" id="psave" aria-describedby="savehelpId"
-                        placeholder="@lang('t.user.psave')" min="0" max="100" />
+                        placeholder="@lang('t.user.psave')" min="0" max="100"
+                        value="{{old('psave') ?? $p->save ?? ''}}" />
                     <div class="input-group-append">
                         <span class="input-group-text">%</span>
                     </div>
@@ -118,7 +126,7 @@
                 </label>
                 <input type="string" required class="form-control col-sm-9"
                     name="color" id="pcolor" aria-describedby="pcolorhelpId"
-                    placeholder="@lang('t.user.pcolor')" />
+                    placeholder="@lang('t.user.pcolor')" value="{{old('pcolor') ?? implode(',', $p->color) ?? ''}}" />
                 <small id="pcolorhelpId" class="text-muted">
                     @lang('t.user.pcolorHelp')
                 </small>
@@ -126,7 +134,8 @@
             <div class="row form-group">
                 <div class="custom-control custom-switch col-12">
                     <input type="checkbox" class="custom-control-input"
-                        name='is_new' id="isNewProduct" checked>
+                        name='is_new' id="isNewProduct"
+                        {{old('is_new') || (!$p->is_used) ? 'checked' : ''}}>
                     <label class="custom-control-label" for="isNewProduct">
                         @lang('t.user.newProduct')
                     </label>

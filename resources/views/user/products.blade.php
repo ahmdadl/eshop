@@ -34,10 +34,11 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col-6">
-                        <button class="btn btn-info btn-sm">
+                        <a href="/{{app()->getLocale()}}/user/{{auth()->id()}}/p/{{$product->slug}}/edit"
+                            class="btn btn-info btn-sm">
                             <i class="fa fas fa-edit"></i>
                             @lang('t.user.edit')
-                        </button>
+                        </a>
                     </div>
                     <div class="col-6">
                         <button class="btn btn-danger btn-sm"

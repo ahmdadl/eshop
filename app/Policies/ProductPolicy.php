@@ -53,7 +53,9 @@ class ProductPolicy
      */
     public function update(User $user, Product $product)
     {
-        //
+        return $user->isAdmin() ||
+            $user->isSuper() ||
+            $user->id === (int) $product->user_id;
     }
 
     /**
