@@ -11,6 +11,10 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public const AdminRole = 2; // delete | edit | add 
+    public const SuperRole = 1; // edit | add
+    public const NormalUser = 0;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -40,7 +44,12 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->id === 1;
+        return $this->role === self::AdminRole;
+    }
+
+    public function isSuper(): bool
+    {
+        return $this->role === self::SuperRole;
     }
 
     public function orders(): HasMany

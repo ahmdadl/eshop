@@ -44,8 +44,19 @@ class UserTest extends TestCase
 
     public function testItCanBeAdmin()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create([
+            'role' => User::AdminRole
+        ]);
 
         $this->assertTrue($user->isAdmin());
+    }
+
+    public function testUserCanBeSuper()
+    {
+        $user = factory(User::class)->create([
+            'role' => User::SuperRole
+        ]);
+
+        $this->assertTrue($user->isSuper());
     }
 }
