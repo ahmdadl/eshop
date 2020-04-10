@@ -16621,7 +16621,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_toast_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/toast.vue */ "./resources/js/components/toast.vue");
 /* harmony import */ var _pages_show_product__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/show-product */ "./resources/js/pages/show-product.ts");
 /* harmony import */ var _pages_show_cart__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/show-cart */ "./resources/js/pages/show-cart.ts");
-/* harmony import */ var _pages_cart_checkout__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/cart-checkout */ "./resources/js/pages/cart-checkout.ts");
+/* harmony import */ var _pages_user_profile__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/user-profile */ "./resources/js/pages/user-profile.ts");
 
 
 
@@ -16677,7 +16677,7 @@ var app = new vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"]({
         Product: _pages_product__WEBPACK_IMPORTED_MODULE_3__["default"],
         ShowProduct: _pages_show_product__WEBPACK_IMPORTED_MODULE_7__["default"],
         ShowCart: _pages_show_cart__WEBPACK_IMPORTED_MODULE_8__["default"],
-        CartCheckout: _pages_cart_checkout__WEBPACK_IMPORTED_MODULE_9__["default"]
+        UserProfile: _pages_user_profile__WEBPACK_IMPORTED_MODULE_9__["default"]
     }
 });
 
@@ -16941,41 +16941,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_x_product_vue_vue_type_template_id_664f5442_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
-
-
-/***/ }),
-
-/***/ "./resources/js/pages/cart-checkout.ts":
-/*!*********************************************!*\
-  !*** ./resources/js/pages/cart-checkout.ts ***!
-  \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
-/* harmony import */ var _super__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./super */ "./resources/js/pages/super.ts");
-
-
-
-var CartCheckout = /** @class */ (function (_super) {
-    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(CartCheckout, _super);
-    function CartCheckout() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.d = {};
-        return _this;
-    }
-    CartCheckout.prototype.beforeMount = function () {
-        this.attachToGlobal(this, []);
-    };
-    CartCheckout = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-        vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
-    ], CartCheckout);
-    return CartCheckout;
-}(_super__WEBPACK_IMPORTED_MODULE_2__["default"]));
-/* harmony default export */ __webpack_exports__["default"] = (CartCheckout);
 
 
 /***/ }),
@@ -17818,6 +17783,61 @@ var Super = /** @class */ (function (_super) {
     return Super;
 }(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Vue"]));
 /* harmony default export */ __webpack_exports__["default"] = (Super);
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/user-profile.ts":
+/*!********************************************!*\
+  !*** ./resources/js/pages/user-profile.ts ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
+/* harmony import */ var _super__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./super */ "./resources/js/pages/super.ts");
+
+
+
+var UserProfile = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(UserProfile, _super);
+    function UserProfile() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.d = {
+            cats: [],
+            subCat: []
+        };
+        return _this;
+    }
+    UserProfile.prototype.onCatChange = function (ev) {
+        var val = parseInt(ev.target.value);
+        console.log(val);
+        var arr = this.d.cats.filter(function (x) { return x.id === val; });
+        // @ts-ignore
+        this.d.subCat = arr[0].sub_cat;
+    };
+    UserProfile.prototype.loadCats = function () {
+        var cats = document.getElementById("catsData");
+        if (!cats) {
+            return;
+        }
+        this.d.cats = JSON.parse(cats.value) || [];
+    };
+    UserProfile.prototype.beforeMount = function () {
+        this.attachToGlobal(this, ["onCatChange"]);
+    };
+    UserProfile.prototype.mounted = function () {
+        this.loadCats();
+    };
+    UserProfile = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
+    ], UserProfile);
+    return UserProfile;
+}(_super__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (UserProfile);
 
 
 /***/ }),

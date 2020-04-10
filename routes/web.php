@@ -44,6 +44,8 @@ Route::group(
             Route::get('/user/{user}', 'UserController@index');
             Route::get('/user/{user}/orders', 'UserController@getOrders');
             Route::get('/user/{user}/products', 'UserController@getProducts');
+
+            Route::get('/user/{user}/p/create', 'ProductController@create');
         });
     }
 );

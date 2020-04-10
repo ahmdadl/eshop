@@ -6,6 +6,6 @@ export default interface Category {
     category_id?: number;
     created_at: string;
     updated_at: string;
-    supCate?: Category;
+    sub_cat?: Category[];
     products?: Product;
 }

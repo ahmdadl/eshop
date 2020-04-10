@@ -19,7 +19,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(string $c_slug, string $sub)
-    {        
+    {
         return view('product.index', [
             'cats' => $this->getList(),
             'slug' => [$c_slug, $sub],
@@ -66,7 +66,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('product.create', [
+            'cats' => $this->getList(),
+        ]);
     }
 
     /**

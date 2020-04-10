@@ -1,4 +1,4 @@
-@extends('layouts.app', ['cpt' => 'home'])
+@extends('layouts.app', ['cpt' => 'user-profile'])
 
 @section('content')
 <div class="container-fluid">
@@ -15,8 +15,8 @@
                     href="/{{app()->getLocale()}}/user/{{auth()->id()}}/products">
                     @lang('t.user.menu.prod')
                 </a>
-                <a class="nav-link @if (request()->is('*/user/*/sell')) bg-primary text-light rounded @endif"
-                    href="/{{app()->getLocale()}}/user/{{auth()->id()}}/sell">
+                <a class="nav-link @if (request()->is('*/user/*/p/create')) bg-primary text-light rounded @endif"
+                    href="/{{app()->getLocale()}}/user/{{auth()->id()}}/p/create">
                     @lang('t.user.menu.sellItem')
                 </a>
             </nav>
