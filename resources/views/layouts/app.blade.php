@@ -79,14 +79,83 @@
                         <a class="navbar-brand" href="{{ url('/') }}">
                             {{ config('app.name', 'Laravel') }}
                         </a>
-                        <button class="navbar-toggler" type="button"
-                            data-toggle="collapse"
-                            data-target="#navbarSupportedContent"
-                            aria-controls="navbarSupportedContent"
-                            aria-expanded="false"
-                            aria-label="{{ __('Toggle navigation') }}">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+                        <ul class="unstyled-list">
+                            <li class="nav-item dropdown float-left d-inline text-light d-md-none">
+                                <a id="cartDropdown"
+                                    class="nav-link dropdown-toggle text-light" href="#"
+                                    role="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span v-if="h.d.cartLoader"
+                                        class="spinner-grow bg-light"
+                                        role="status" aria-hidden="true"></span>
+                                    <i class="fa fas fa-cart-plus fa-2x"></i>
+                                    <sup class="badge badge-danger">
+                                        @{{h.d.cart.length}}
+                                    </sup>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right"
+                                    aria-labelledby="cartDropdown" style="width: 25rem;    overflow-y: scroll;
+                                    max-height: 57vh;">
+                                    <ul class="list-unstyled">
+                                        <li class="media border-bottom py-1"
+                                            v-for="c in h.d.cart">
+                                            <img :src="'/img/' + c.product.img[0]"
+                                                style="width: 7rem;"
+                                                class="align-self-center mr-3 border p-1 border-light"
+                                                :alt="c.product.name">
+                                            <div class="media-body pr-1">
+                                                <h5 class="mt-0">
+                                                    <a
+                                                        :href="'/p/' + c.product.slug">
+                                                        @{{c.product.name}}
+                                                    </a>
+                                                </h5>
+                                                <p>
+                                                    <span class="float-left">
+                                                        @lang('t.index.QTY'):
+                                                        @{{c.amount}}
+                                                    </span>
+                                                    <span
+                                                        class="float-right text-danger">
+                                                        @lang('t.index.stock'):
+                                                        @{{c.product.amount}}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li class="mt-5">
+                                            <h5
+                                                class="text-center font-weight-bolder">
+                                                @lang('t.index.overTotal')
+                                                @{{h.d.cartTotal}}
+                                            </h5>
+                                            <div class="form-group text-center">
+                                                <a href="/{{app()->getLocale()}}/viewCart"
+                                                    class="btn btn-secondary col-5">
+                                                    @lang('t.index.viewC')
+                                                </a>
+                                                <a href="/{{app()->getlocale()}}/cart/checkout"
+                                                    class="btn btn-success col-5">
+                                                    @lang('t.index.checkout')
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown float-left d-inline">
+                                <button class="navbar-toggler" type="button"
+                                    data-toggle="collapse"
+                                    data-target="#navbarSupportedContent"
+                                    aria-controls="navbarSupportedContent"
+                                    aria-expanded="false"
+                                    aria-label="{{ __('Toggle navigation') }}">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </li>
+                        </ul>
+
+
 
                         <div class="collapse navbar-collapse"
                             id="navbarSupportedContent">
@@ -161,7 +230,7 @@
                                     </div>
                                 </li>
                                 @endguest
-                                <li class="nav-item dropdown">
+                                <li class="nav-item dropdown d-none d-md-block">
                                     <a id="cartDropdown"
                                         class="nav-link dropdown-toggle"
                                         href="#" role="button"
