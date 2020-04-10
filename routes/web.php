@@ -48,7 +48,7 @@ Route::group(
             Route::get('/user/{user}/p/create', 'ProductController@create');
             Route::post('/user/{user}/p', 'ProductController@store');
 
-            Route::delete('/p/{product}', 'ProductController@destroy');
+            Route::delete('/p/{product}', 'ProductController@destroy')->middleware("can:delete,product");
         });
     }
 );

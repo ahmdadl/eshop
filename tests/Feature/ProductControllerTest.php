@@ -233,7 +233,7 @@ class ProductControllerTest extends TestCase
         $user2 = $this->signIn();
 
         $slug = Str::slug('some of me is here');
-        $user->products()->save(
+        $p = $user->products()->save(
             factory(Product::class)->make([
                 'slug' => $slug
             ])
@@ -251,7 +251,7 @@ class ProductControllerTest extends TestCase
 
     public function testAdminCanDeleteAnyProduct()
     {
-        $user = $this->signIn();
+        $user = $this->signIn(['role' => User::AdminRole]);
 
         $user2 = factory(User::class)->create();
 
