@@ -27,9 +27,9 @@ class ProductSeeder extends Seeder
             );
         });
 
-        // User::find(2)->products()->saveMany(
-        //     factory(Product::class, mt_rand(15, 35))->make()
-        // );
+        User::find(3)->products()->saveMany(
+            factory(Product::class, mt_rand(15, 35))->make()
+        );
 
         DB::commit();
     }
