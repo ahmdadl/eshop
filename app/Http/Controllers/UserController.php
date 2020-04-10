@@ -48,6 +48,7 @@ class UserController extends Controller
     {
         $orders = Order::where('user_id', $user->id)
             ->with('product')
+            ->latest()
             ->paginate(40);
 
         return view('user.orders', compact('user', 'orders'));
@@ -57,6 +58,7 @@ class UserController extends Controller
     {
         $products = Product::with('orders')
             ->where('user_id', $user->id)
+            ->latest()
             ->paginate(40);
 
         return view('user.products', compact('user', 'products'));

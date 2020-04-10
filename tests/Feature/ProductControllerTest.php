@@ -6,6 +6,7 @@ use App\Category;
 use App\DailyDeal;
 use App\Product;
 use App\ProductInfo;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Facades\Tests\Setup\CategoryFactory;
@@ -151,5 +152,71 @@ class ProductControllerTest extends TestCase
         $this->get('/' . app()->getLocale() . '/daily')
             ->assertOk()
             ->assertSee($deals[0]->product->name);
+    }
+
+    public function testGuestCanNotAddProduct()
+    {
+        $this->post('/' . app()->getLocale() . '/user/1/p', [])
+            ->assertStatus(302);
+    }
+
+    public function testUserCanAddProductForHimSelfOnly()
+    {
+        $this->signIn();
+        $user = factory(User::class)->create();
+
+        $this->post('/en/user/' . $user->id . '/p', [])
+            ->assertStatus(403);
+    }
+
+    public function testUserCanNotAddProductWithInvalidData()
+    {
+        // $this->withoutExceptionHandling();
+        $user = $this->signIn();
+
+        $this->post('/en/user/' . $user->id . '/p', [])
+            ->assertStatus(302)
+            ->assertSessionHasErrors(['name', 'brand', 'info', 'price', 'amount', 'save', 'color']);
+    }
+
+    public function testUserCanAddProduct()
+    {
+        // $this->withoutExceptionHandling();
+        $user = $this->signIn();
+
+        /** @var \App\Category $c */
+        /** @var \App\Category $sc */
+        /** @var \App\Product $p */
+        [$c, $sc] = CategoryFactory::wSub()->create();
+
+        $p = factory(Product::class)->make([
+            'category_id' => $sc->id
+        ]);
+
+        $pData = [
+            'cat' => $c->id,
+            'subCat' => $sc->id,
+            'name' => $p->name,
+            'brand' => $p->brand,
+            'info' => $p->info,
+            'price' => $p->price,
+            'amount' => $p->amount,
+            'save' => $p->save,
+            'color' => implode(',', $p->color),
+            'is_new' => $p->is_used
+        ];
+
+        $this->post('/en/user/' . $user->id . '/p', $pData)
+            ->assertStatus(302)
+            ->assertSessionDoesntHaveErrors();
+
+        $this->get('/en/user/' . $user->id . '/products')
+            ->assertSee($p->name)
+            ->assertSee($p->rate_avg);
+
+        $this->assertDatabaseHas('products', [
+            'name' => $p->name,
+            'category_slug' => $sc->slug
+        ]);
     }
 }

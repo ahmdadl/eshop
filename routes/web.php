@@ -46,6 +46,7 @@ Route::group(
             Route::get('/user/{user}/products', 'UserController@getProducts');
 
             Route::get('/user/{user}/p/create', 'ProductController@create');
+            Route::post('/user/{user}/p', 'ProductController@store');
         });
     }
 );

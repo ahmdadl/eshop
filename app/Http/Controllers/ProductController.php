@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Product;
+use App\User;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -77,9 +79,40 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, int $user_id)
     {
-        //
+        abort_if(auth()->id() !== $user_id, 403);
+
+        $req = (object) $request->validate([
+            'cat' => 'required|numeric|exists:categories,id',
+            'subCat' => 'required|numeric|exists:categories,id',
+            'name' => 'required|string',
+            'brand' => 'required|string',
+            'info' => 'required|string|min:10',
+            'price' => 'required|numeric|min:1',
+            'amount' => 'required|numeric|min:1',
+            'save' => 'required|numeric|min:0|max:100',
+            'color' => 'required|string',
+            'is_new' => 'sometimes'
+        ]);
+
+        $subCat = Category::find($req->subCat);
+
+        $req->user_id = $user_id;
+        $req->category_slug = $subCat->slug;
+        $req->is_used = $req->is_new;
+        $req->color = explode(',', $req->color);
+        $req->img = $this->getImgArr();
+
+        unset($req->cat);
+        unset($req->subCat);
+        unset($req->is_new);
+
+        $subCat->products()->create((array) $req);
+
+        return redirect(
+            '/' . app()->getLocale() . '/user/'. $user_id . '/products'
+        );
     }
 
     /**
