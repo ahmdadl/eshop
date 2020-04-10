@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\UpdateProduct;
 use App\Product;
 use App\User;
 use DB;
@@ -81,8 +82,6 @@ class ProductController extends Controller
      */
     public function store(Request $request, int $user_id)
     {
-        abort_if(auth()->id() !== $user_id, 403);
-
         $req = (object) $request->validate([
             'cat' => 'required|numeric|exists:categories,id',
             'subCat' => 'required|numeric|exists:categories,id',
@@ -193,7 +192,7 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProduct $request, Product $product)
     {
         //
     }

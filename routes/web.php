@@ -51,6 +51,7 @@ Route::group(
                 '/user/{user}/p/{product}/edit',
                 'ProductController@edit'
             )->middleware("can:update,product");
+            Route::patch('/p/{product}', 'ProductController@update')->middleware('can:update,product');
             Route::delete('/p/{product}', 'ProductController@destroy')->middleware("can:delete,product");
         });
     }

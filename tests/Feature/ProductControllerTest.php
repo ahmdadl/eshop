@@ -288,12 +288,39 @@ class ProductControllerTest extends TestCase
         $this->actingAs($super)->get(
             '/' . app()->getLocale() . '/user/' . $super->id . '/p/' . $p->slug . '/edit'
         )->assertOk()
-        ->assertSee($p->name);
+            ->assertSee($p->name);
 
 
         $this->actingAs($admin)->get(
             '/' . app()->getLocale() . '/user/' . $admin->id . '/p/' . $p->slug . '/edit'
         )->assertOk()
-        ->assertSee($p->name);
+            ->assertSee($p->name);
+    }
+
+    public function testOnlyAuthrizedUsersCanUpdateProduct()
+    {
+        $this->signIn();
+
+        $user = factory(User::class)->create();
+
+        $p = $user->products()->save(
+            factory(Product::class)->make()
+        );
+
+        $this->patch('/' . app()->getLocale() . '/p/' . $p->slug)
+            ->assertStatus(403);
+    }
+
+    public function testUserCanNotUpdateProductWithInvalidData()
+    {
+        $user = $this->signIn();
+
+        $p = $user->products()->save(
+            factory(Product::class)->make()
+        );
+
+        $this->patch('/' . app()->getLocale() . '/p/' . $p->slug, [])
+            ->assertStatus(302)
+            ->assertSessionHasErrors(['name', 'brand', 'info', 'price', 'amount', 'save', 'color']);
     }
 }
