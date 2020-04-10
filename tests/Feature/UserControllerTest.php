@@ -17,7 +17,7 @@ class UserControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->get('/' . app()->getLocale() . '/user/' . $user->id)
+        $this->get('/' . app()->getLocale() . '/user/' . $user->id . '/profile')
             ->assertStatus(302)
             ->assertRedirect(route('login'));
     }
@@ -27,7 +27,7 @@ class UserControllerTest extends TestCase
         $user = $this->signIn();
         $user2 = factory(User::class)->create();
 
-        $this->get('/' . app()->getLocale() . '/user/' . $user2->id)
+        $this->get('/' . app()->getLocale() . '/user/' . $user2->id . '/profile')
             ->assertStatus(403);
     }
 
@@ -43,7 +43,7 @@ class UserControllerTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $this->get('/' . app()->getLocale() . '/user/' . $user->id)
+        $this->get('/' . app()->getLocale() . '/user/' . $user->id . '/profile')
             ->assertOk()
             ->assertSee(5)
             ->assertSee(30);
