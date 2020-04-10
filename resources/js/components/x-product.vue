@@ -52,6 +52,7 @@
                         <button
                             class="btn btn-primary btn-block"
                             @click="$emit('added', p)"
+                            :disabled="p.amount < 1"
                         >
                             <span
                                 :id="p.id + 'spinnerLoader'"

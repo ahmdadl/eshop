@@ -100,6 +100,11 @@ export default class Super extends Vue {
     }
 
     protected addToCartNative(product: any, amount: number = 1) {
+        // check if product have any amount left
+        if (product.amount < 1) {
+            return;
+        }
+
         // check if item already added to cart
         const found = this.d.cart.some(x => x.id === product.id);
         if (found) {

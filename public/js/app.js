@@ -4128,6 +4128,7 @@ var render = function() {
                     "button",
                     {
                       staticClass: "btn btn-primary btn-block",
+                      attrs: { disabled: _vm.p.amount < 1 },
                       on: {
                         click: function($event) {
                           return _vm.$emit("added", _vm.p)
@@ -17701,6 +17702,10 @@ var Super = /** @class */ (function (_super) {
     Super.prototype.addToCartNative = function (product, amount) {
         var _this = this;
         if (amount === void 0) { amount = 1; }
+        // check if product have any amount left
+        if (product.amount < 1) {
+            return;
+        }
         // check if item already added to cart
         var found = this.d.cart.some(function (x) { return x.id === product.id; });
         if (found) {

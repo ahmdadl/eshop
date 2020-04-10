@@ -52,10 +52,11 @@
                 </div>
                 <div class="col-8">
                     <button class="btn btn-primary btn-block mb-2"
-                        v-on:click="h.d.addToCart('{{$p->toJson()}}', h.d.cartAmount)">
-                        <x-btn-loader :id="$p->id.'spinnerLoader'">
-                        </x-btn-loader>
-                        @lang('t.addCart')
+                        v-on:click="h.d.addToCart('{{$p->toJson()}}', h.d.cartAmount)"
+                        @if ($p->amount < 1) disabled @endif>
+                            <x-btn-loader :id="$p->id.'spinnerLoader'">
+                            </x-btn-loader>
+                            @lang('t.addCart')
                     </button>
                 </div>
             </div>
