@@ -17737,6 +17737,7 @@ var Super = /** @class */ (function (_super) {
         document.getElementById(spinner).classList.remove("d-none");
         this.d.cartLoader = true;
         var total = amount * (product.savedPriceInt || product.savedPrice);
+        product.rates = [];
         var ncart = {
             id: product.id,
             product: product,

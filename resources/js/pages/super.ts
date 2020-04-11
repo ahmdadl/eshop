@@ -119,6 +119,8 @@ export default class Super extends Vue {
 
         const total = amount * (product.savedPriceInt || product.savedPrice);
 
+        product.rates = [];
+
         const ncart: Cart = {
             id: product.id,
             product,
