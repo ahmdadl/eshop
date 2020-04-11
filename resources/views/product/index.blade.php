@@ -96,11 +96,13 @@
         </div>
         <my-product v-for="(p, pinx) in h.d.data" :product="p"
             :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')', '@lang('t.user.edit')', '@lang('t.user.delete')']"
+            @auth
             @if (auth()->user()->isAdmin()) :is-admin="true" @endif
             @if (auth()->user()->isSuper())
             :is-super="true"
             :user-id="{{auth()->id()}}"
             @endif
+            @endauth
             :is_land="h.d.is_land_product" :key="pinx"
             v-on:added="h.d.addToCart($event)"
             v-on:delete="h.d.removeProduct($event)">

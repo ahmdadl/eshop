@@ -20,6 +20,7 @@ class ProductControllerTest extends TestCase
 
     public function testItWillShowCategoryMenu()
     {
+        $this->withoutExceptionHandling();
         /** @var \App\Category $c */
         $c = factory(Category::class)->create();
 
