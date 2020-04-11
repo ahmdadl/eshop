@@ -3274,7 +3274,14 @@ var XProduct = /** @class */ (function (_super) {
     function XProduct() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    // public catSlug: string = "";
+    Object.defineProperty(XProduct.prototype, "locale", {
+        // public catSlug: string = "";
+        get: function () {
+            return document.documentElement.lang;
+        },
+        enumerable: true,
+        configurable: true
+    });
     XProduct.prototype.beforeMount = function () {
         this.p = this.$props.product;
     };
@@ -3283,6 +3290,7 @@ var XProduct = /** @class */ (function (_super) {
         // const h = document.location.href.split("/");
         // if (!h.indexOf("c") || !h[5]) return;
         // this.catSlug = "/" + h[5];
+        console.log(this.isSuper);
     };
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Object, required: true }),
@@ -3300,6 +3308,18 @@ var XProduct = /** @class */ (function (_super) {
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: String }),
         Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", String)
     ], XProduct.prototype, "catSlug", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Boolean, default: false }),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Boolean)
+    ], XProduct.prototype, "isAdmin", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Boolean, default: false }),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Boolean)
+    ], XProduct.prototype, "isSuper", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Number, default: 0 }),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Number)
+    ], XProduct.prototype, "userId", void 0);
     XProduct = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
     ], XProduct);
@@ -4162,7 +4182,64 @@ var render = function() {
                           "\n                    "
                       )
                     ]
-                  )
+                  ),
+                  _vm._v(" "),
+                  _vm.isAdmin || _vm.isSuper
+                    ? _c("div", { staticClass: "row mt-2" }, [
+                        _c("div", { staticClass: "col-6" }, [
+                          _vm.isSuper || _vm.isAdmin
+                            ? _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-info",
+                                  attrs: {
+                                    href:
+                                      "/" +
+                                      _vm.locale +
+                                      "/user/" +
+                                      _vm.userId +
+                                      "/p/" +
+                                      _vm.p.slug +
+                                      "/edit"
+                                  }
+                                },
+                                [
+                                  _c("i", { staticClass: "fa fas fa-edit" }),
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(_vm.lang[3]) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-6" }, [
+                          _vm.isAdmin
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$emit("delete-product", _vm.p)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", { staticClass: "fa fas fa-times" }),
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(_vm.lang[4]) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ])
+                      ])
+                    : _vm._e()
                 ]
               )
             ])

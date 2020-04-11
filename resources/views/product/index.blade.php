@@ -89,12 +89,20 @@
     </div>
     @endunless
     <div class="col-12 col-md-10 card-group">
-        <div class="alert alert-danger mt-5 col-12 text-center font-weight-bolder" style="max-height: 50px" v-if="!h.d.oldData.length && !h.d.loadingPosts">
+        <div class="alert alert-danger mt-5 col-12 text-center font-weight-bolder"
+            style="max-height: 50px"
+            v-if="!h.d.oldData.length && !h.d.loadingPosts">
             @lang('t.show.noPros')
         </div>
         <my-product v-for="(p, pinx) in h.d.data" :product="p"
-            :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')']"
-            :is_land="h.d.is_land_product" :key="pinx" v-on:added="h.d.addToCart($event)">
+            :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')', '@lang('t.user.edit')', '@lang('t.user.delete')']"
+            @if (auth()->user()->isAdmin()) :is-admin="true" @endif
+            @if (auth()->user()->isSuper())
+            :is-super="true"
+            :user-id="{{auth()->id()}}"
+            @endif
+            :is_land="h.d.is_land_product" :key="pinx"
+            v-on:added="h.d.addToCart($event)">
         </my-product>
     </div>
 </div>

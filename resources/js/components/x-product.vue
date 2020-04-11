@@ -62,6 +62,36 @@
                             ></span>
                             {{ lang[1] }}
                         </button>
+                        <div v-if="isAdmin || isSuper" class="row mt-2">
+                            <div class="col-6">
+                                <a
+                                    v-if="isSuper || isAdmin"
+                                    :href="
+                                        '/' +
+                                            locale +
+                                            '/user/' +
+                                            userId +
+                                            '/p/' +
+                                            p.slug +
+                                            '/edit'
+                                    "
+                                    class="btn btn-info"
+                                >
+                                    <i class="fa fas fa-edit"></i>
+                                    {{ lang[3] }}
+                                </a>
+                            </div>
+                            <div class="col-6">
+                                <button
+                                    v-if="isAdmin"
+                                    class="btn btn-danger"
+                                    @click="$emit('delete-product', p)"
+                                >
+                                    <i class="fa fas fa-times"></i>
+                                    {{ lang[4] }}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -89,8 +119,15 @@ export default class XProduct extends Vue {
     @Prop({ type: Array, required: true }) public lang: string[];
     @Prop({ type: Boolean }) public is_land: boolean;
     @Prop({ type: String }) public catSlug: string;
+    @Prop({ type: Boolean, default: false }) public isAdmin: boolean;
+    @Prop({ type: Boolean, default: false }) public isSuper: boolean;
+    @Prop({ type: Number, default: 0 }) public userId: number;
     public p: ProductInterface;
     // public catSlug: string = "";
+
+    get locale() {
+        return document.documentElement.lang;
+    }
 
     beforeMount() {
         this.p = this.$props.product;
@@ -101,6 +138,7 @@ export default class XProduct extends Vue {
         // const h = document.location.href.split("/");
         // if (!h.indexOf("c") || !h[5]) return;
         // this.catSlug = "/" + h[5];
+        console.log(this.isSuper);
     }
 }
 </script>

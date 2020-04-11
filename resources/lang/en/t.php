@@ -91,8 +91,8 @@ return array (
     'amount' => '',
     'choscat' => '',
     'chossubcat' => '',
-    'delete' => '',
-    'edit' => '',
+    'delete' => 'ee',
+    'edit' => 'ww',
     'img' => '',
     'menu' => 
     array (
