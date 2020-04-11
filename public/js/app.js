@@ -17378,16 +17378,20 @@ var Product = /** @class */ (function (_super) {
         }
         this.d.oldData.map(function (x) {
             if (native && !append) {
-                _this.d.brands.push({
-                    txt: x.brand,
-                    checked: false
-                });
+                if (!_this.d.brands.some(function (b) { return b.txt == x.brand; })) {
+                    _this.d.brands.push({
+                        txt: x.brand,
+                        checked: false
+                    });
+                }
             }
             if (native && !append) {
-                _this.d.colors.push({
-                    txt: x.color[0],
-                    checked: false
-                });
+                if (!_this.d.colors.some(function (b) { return b.txt == x.color[0]; })) {
+                    _this.d.colors.push({
+                        txt: x.color[0],
+                        checked: false
+                    });
+                }
             }
             prices.push(x.savedPriceInt);
             return x;

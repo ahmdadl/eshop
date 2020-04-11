@@ -318,16 +318,20 @@ export default class Product extends Super {
 
         this.d.oldData.map(x => {
             if (native && !append) {
-                this.d.brands.push({
-                    txt: x.brand as string,
-                    checked: false
-                });
+                if (!this.d.brands.some(b => b.txt == x.brand)) {
+                    this.d.brands.push({
+                        txt: x.brand as string,
+                        checked: false
+                    });
+                }
             }
             if (native && !append) {
-                this.d.colors.push({
-                    txt: x.color[0],
-                    checked: false
-                });
+                if (!this.d.colors.some(b => b.txt == x.color[0])) {
+                    this.d.colors.push({
+                        txt: x.color[0],
+                        checked: false
+                    });
+                }
             }
             prices.push(x.savedPriceInt);
             return x;
