@@ -99,7 +99,7 @@
                                     <ul class="list-unstyled">
                                         <li class="media border-bottom py-1"
                                             v-for="c in h.d.cart">
-                                            <img :src="'/img/' + c.product.img[0]"
+                                            <img :src="'/img/' + c.product.p_cat.parent.slug + '/' + c.product.img[0]"
                                                 style="width: 7rem;"
                                                 class="align-self-center mr-3 border p-1 border-light"
                                                 :alt="c.product.name">
