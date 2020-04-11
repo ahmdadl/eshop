@@ -97,4 +97,19 @@ class CategoryTest extends TestCase
             'testing sub category'
         );
     }
+
+    public function testItHasParentCategory()
+    {
+        /** @var \App\Category $cat */
+        $cat = factory(Category::class)->create();
+        // sub category
+        /** @var \App\Category $sc */
+        $sc = $cat->subCat()->create(
+            factory(Category::class)->raw()
+        );
+
+        $this->assertIsObject($sc->parent);
+
+        $this->assertSame($cat->name, $sc->parent->name);
+    }
 }
