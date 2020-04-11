@@ -156,7 +156,7 @@ class ProductController extends Controller
 
     public function dailyDeal()
     {
-        $p = Product::with('daily')
+        $p = Product::with('daily', 'pCat')
             ->paginate(30);
 
         if (request()->wantsJson()) {
