@@ -51,6 +51,7 @@ class ProductControllerTest extends TestCase
 
     public function testLoadProductsWithBrandFilter()
     {
+        // $this->withoutExceptionHandling();
         /** @var \App\Category $c */
         /** @var \App\Category $sc */
         /** @var \App\Product[] $p */
@@ -109,15 +110,21 @@ class ProductControllerTest extends TestCase
 
     public function testShowingProductData()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         /** @var \App\Category $c */
         /** @var \App\Category $sc */
         /** @var \App\Product[] $p */
-        [$c, $sc, $p] = CategoryFactory::wSub(1)->wPro(10)->create();
+        $c = factory(Category::class)->create();
+        $sc = $c->categories()->save(factory(Category::class)->make());
+        $p = $sc->products()->save(factory(Product::class)->make([
+            'category_slug' => $sc->slug
+        ]));
 
-        $this->get(app()->getLocale() . '/p/' . $p[0]->slug)
+        $p->load(['user', 'pi', 'pCat']);
+
+        $this->get('/' . app()->getLocale() . '/p/' . $p->slug)
             ->assertOk()
-            ->assertSee($p[0]->name);
+            ->assertSee($p->name);
     }
 
     public function testAnyOneCanSearchForProducts()
