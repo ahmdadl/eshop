@@ -35,7 +35,7 @@ class ProductController extends Controller
         $brands = explode(',', $brands);
 
         return response()->json(
-            Product::where('category_slug', $cat_slug)
+            Product::with('pCat')->where('category_slug', $cat_slug)
                 ->whereIn('brand', $brands)
                 ->paginate(30)
         );
@@ -44,7 +44,7 @@ class ProductController extends Controller
     public function filterCondition(string $cat_slug, int $is_used)
     {
         return response()->json(
-            Product::where('category_slug', $cat_slug)
+            Product::with('pCat')->where('category_slug', $cat_slug)
                 ->where('is_used', (int) $is_used)
                 ->paginate(30)
         );
@@ -56,7 +56,7 @@ class ProductController extends Controller
         float $to
     ) {
         return response()->json(
-            Product::where('category_slug', $cat_slug)
+            Product::with('pCat')->where('category_slug', $cat_slug)
                 ->whereBetween(DB::raw('price-(save/100*price)'), [$from, $to])
                 ->paginate(30)
         );

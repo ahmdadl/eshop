@@ -33,7 +33,7 @@ class Product extends Model
 
     public function pCat(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'category_slug', 'slug');
+        return $this->belongsTo(Category::class, 'category_slug', 'slug')->with('parent');
     }
 
     public function pi(): HasOne

@@ -56,7 +56,7 @@ class UserController extends Controller
 
     public function getProducts(User $user)
     {
-        $products = Product::with('orders')
+        $products = Product::with(['orders', 'pCat'])
             ->where('user_id', $user->id)
             ->latest()
             ->paginate(40);

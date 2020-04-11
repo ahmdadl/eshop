@@ -109,6 +109,7 @@ export default class Product extends Super {
     ): void {
         const path = !nextPath ? `sub/${subSlug}` : nextPath;
         const pathName = window.location.pathname.split("/");
+        console.log(subSlug, pslug);
 
         if (pathName.some(x => x === "daily") && pslug.length) {
             location.href = `${pslug}/sub/${subSlug}`;

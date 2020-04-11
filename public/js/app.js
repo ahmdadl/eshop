@@ -3274,8 +3274,15 @@ var XProduct = /** @class */ (function (_super) {
     function XProduct() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    // public catSlug: string = "";
     XProduct.prototype.beforeMount = function () {
         this.p = this.$props.product;
+    };
+    XProduct.prototype.mounted = function () {
+        // console.log(this.$props.product);
+        // const h = document.location.href.split("/");
+        // if (!h.indexOf("c") || !h[5]) return;
+        // this.catSlug = "/" + h[5];
     };
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Object, required: true }),
@@ -3289,6 +3296,10 @@ var XProduct = /** @class */ (function (_super) {
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Boolean }),
         Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", Boolean)
     ], XProduct.prototype, "is_land", void 0);
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: String }),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:type", String)
+    ], XProduct.prototype, "catSlug", void 0);
     XProduct = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
     ], XProduct);
@@ -4042,7 +4053,7 @@ var render = function() {
               _c("img", {
                 staticClass: "card-img-top",
                 attrs: {
-                  src: "/img/" + _vm.p.img[0],
+                  src: "/img/" + _vm.p.p_cat.parent.slug + "/" + _vm.p.img[0],
                   alt: _vm.p.name + " image"
                 }
               })
@@ -17104,6 +17115,7 @@ var Product = /** @class */ (function (_super) {
         if (pslug === void 0) { pslug = ""; }
         var path = !nextPath ? "sub/" + subSlug : nextPath;
         var pathName = window.location.pathname.split("/");
+        console.log(subSlug, pslug);
         if (pathName.some(function (x) { return x === "daily"; }) && pslug.length) {
             location.href = pslug + "/sub/" + subSlug;
             return;

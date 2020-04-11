@@ -33,7 +33,7 @@ class HomeController extends Controller
         // dd($cat_slug);
         // $category->load('productsMini');
         return response()->json(
-            Product::where('category_slug', $cat_slug)->paginate(30)
+            Product::with('pCat')->where('category_slug', $cat_slug)->paginate(30)
         );
     }
 }

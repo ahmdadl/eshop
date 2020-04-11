@@ -13,18 +13,39 @@ class CategorySeeder extends Seeder
     public function run()
     {
         DB::beginTransaction();
-        
-        $cats = factory(Category::class, 7)->create([
-            'category_id' => null
-        ]);
 
-        $cats->each(function (Category $c) {
+        $catsArr = [
+            'fashion',
+            'super market',
+            'mobiles & tablets',
+            'electronics',
+            'home',
+            'toys',
+            'sports'
+        ];
+
+        foreach (range(0, 6) as $i) {
+            $c = Category::create([
+                'category_id' => null,
+                'name' => $catsArr[$i]
+            ]);
+
             $c->categories()->createMany(
                 factory(Category::class, mt_rand(3, 12))->raw([
                     'category_id' => $c->id
                 ])
             );
-        });
+        }
+
+        // $cats = Category::whereNull('category_id')->get();
+
+        // $cats->each(function (Category $c) {
+        //     $c->categories()->createMany(
+        //         factory(Category::class, mt_rand(3, 12))->raw([
+        //             'category_id' => $c->id
+        //         ])
+        //     );
+        // });
 
         DB::commit();
     }

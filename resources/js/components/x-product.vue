@@ -10,7 +10,7 @@
                         {{ p.save }} % {{ lang[0] }}
                     </span>
                     <img
-                        :src="'/img/' + p.img[0]"
+                        :src="'/img/' + p.p_cat.parent.slug + '/' + p.img[0]"
                         class="card-img-top"
                         :alt="p.name + ' image'"
                     />
@@ -88,10 +88,19 @@ export default class XProduct extends Vue {
     @Prop({ type: Object, required: true }) public product: ProductInterface;
     @Prop({ type: Array, required: true }) public lang: string[];
     @Prop({ type: Boolean }) public is_land: boolean;
+    @Prop({ type: String }) public catSlug: string;
     public p: ProductInterface;
+    // public catSlug: string = "";
 
     beforeMount() {
         this.p = this.$props.product;
+    }
+
+    mounted() {
+        // console.log(this.$props.product);
+        // const h = document.location.href.split("/");
+        // if (!h.indexOf("c") || !h[5]) return;
+        // this.catSlug = "/" + h[5];
     }
 }
 </script>
