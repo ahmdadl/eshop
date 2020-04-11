@@ -18,7 +18,7 @@
                         v-if="c.product.save">
                         @lang('t.offTxt') @{{c.product.save}} %
                     </span>
-                    <img :src="'/img/' + c.product.img[0]"
+                    <img :src="'/img/' + c.product.p_cat.parent.slug + '/' + c.product.img[0]"
                         class="card-img pt-3 pl-1" alt="">
                 </div>
                 <div class="col-sm-8">
