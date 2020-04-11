@@ -3272,10 +3272,16 @@ __webpack_require__.r(__webpack_exports__);
 var XProduct = /** @class */ (function (_super) {
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(XProduct, _super);
     function XProduct() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.showLoader = "d-none";
+        return _this;
     }
+    // public catSlug: string = "";
+    XProduct.prototype.deleteProd = function () {
+        this.$emit("delete", this.p);
+        this.showLoader = "";
+    };
     Object.defineProperty(XProduct.prototype, "locale", {
-        // public catSlug: string = "";
         get: function () {
             return document.documentElement.lang;
         },
@@ -3290,7 +3296,7 @@ var XProduct = /** @class */ (function (_super) {
         // const h = document.location.href.split("/");
         // if (!h.indexOf("c") || !h[5]) return;
         // this.catSlug = "/" + h[5];
-        console.log(this.isSuper);
+        // console.log(this.isSuper);
     };
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Prop"])({ type: Object, required: true }),
@@ -4047,7 +4053,8 @@ var render = function() {
     "div",
     {
       staticClass: "transition float-left",
-      class: _vm.is_land ? "col-12 col-md-6" : "col-6 col-sm-4 col-md-3"
+      class: _vm.is_land ? "col-12 col-md-6" : "col-6 col-sm-4 col-md-3",
+      attrs: { id: "card" + _vm.p.id }
     },
     [
       _c("div", { staticClass: "card", class: _vm.is_land ? "mb-3" : "mb-1" }, [
@@ -4223,11 +4230,22 @@ var render = function() {
                                   staticClass: "btn btn-danger",
                                   on: {
                                     click: function($event) {
-                                      return _vm.$emit("delete-product", _vm.p)
+                                      return _vm.deleteProd()
                                     }
                                   }
                                 },
                                 [
+                                  _c("span", {
+                                    staticClass:
+                                      "spinner-border spinner-border-sm",
+                                    class: _vm.showLoader,
+                                    attrs: {
+                                      id: "spinnerDel" + _vm.p.id,
+                                      role: "status",
+                                      "aria-hidden": "true"
+                                    }
+                                  }),
+                                  _vm._v(" "),
                                   _c("i", { staticClass: "fa fas fa-times" }),
                                   _vm._v(
                                     "\n                                " +
@@ -17271,6 +17289,19 @@ var Product = /** @class */ (function (_super) {
     Product.prototype.addToCart = function (product) {
         return this.addToCartNative(product, 1);
     };
+    Product.prototype.removeProduct = function (p) {
+        var _this = this;
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.delete("/" + this.getLocale() + "/p/" + p.slug, { baseURL: "" }).then(function (res) {
+            if (!res.data || !res.data.deleted) {
+                _this.addClass("#spinnerDel" + p.id, "d-none");
+                _this.showErrorToast();
+                return;
+            }
+            _this.removeEl("#card" + p.id);
+            _this.d.oldData.splice(_this.d.oldData.indexOf(p), 1);
+            _this.doCalc(true, false);
+        });
+    };
     Product.prototype.setDataFromPHP = function () {
         var _this = this;
         var d = document.getElementById("prosData")
@@ -17291,9 +17322,9 @@ var Product = /** @class */ (function (_super) {
         this.d.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
         this.sortData(1);
         this.doCalc(true, false);
-        console.info(this.d.brands);
+        // console.info(this.d.brands);
         this.d.nextUrl = res.next_page_url;
-        console.log(this.d.nextUrl);
+        // console.log(this.d.nextUrl);
         this.hideLoader();
     };
     Product.prototype.getDataFromServer = function (path, native, append) {
@@ -17377,6 +17408,7 @@ var Product = /** @class */ (function (_super) {
         prices.sort(function (a, b) { return a - b; });
         this.d.range.max = Number(prices[prices.length - 1].toFixed(2));
         this.d.range.to = this.d.range.max;
+        // console.log(this.d.range.to);
     };
     Product.prototype.showLoader = function () {
         this.d.loadingPosts = true;
@@ -17395,7 +17427,8 @@ var Product = /** @class */ (function (_super) {
             "removeAllfilters",
             "filterByPrice",
             "log",
-            "addToCart"
+            "addToCart",
+            "removeProduct"
         ]);
         var _a = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(this.extractRoute(), 2), cat = _a[0], sub = _a[1];
         this.d.slug = [cat, sub];

@@ -217,6 +217,22 @@ export default class Product extends Super {
         return this.addToCartNative(product, 1);
     }
 
+    public removeProduct(p: ProductInterface) {
+        Axios.delete(`/${this.getLocale()}/p/` + p.slug, { baseURL: "" }).then(
+            res => {
+                if (!res.data || !res.data.deleted) {
+                    this.addClass(`#spinnerDel${p.id}`, "d-none");
+                    this.showErrorToast();
+                    return;
+                }
+
+                this.removeEl(`#card${p.id}`);
+                this.d.oldData.splice(this.d.oldData.indexOf(p), 1);
+                this.doCalc(true, false);
+            }
+        );
+    }
+
     private setDataFromPHP() {
         const d = (document.getElementById("prosData") as HTMLInputElement)
             .value;
@@ -238,9 +254,9 @@ export default class Product extends Super {
         this.d.oldData = [...res.data];
         this.sortData(1);
         this.doCalc(true, false);
-        console.info(this.d.brands);
+        // console.info(this.d.brands);
         this.d.nextUrl = res.next_page_url;
-        console.log(this.d.nextUrl);
+        // console.log(this.d.nextUrl);
         this.hideLoader();
     }
 
@@ -335,6 +351,7 @@ export default class Product extends Super {
         prices.sort((a, b) => a - b);
         this.d.range.max = Number(prices[prices.length - 1].toFixed(2));
         this.d.range.to = this.d.range.max;
+        // console.log(this.d.range.to);
     }
 
     private showLoader() {
@@ -355,7 +372,8 @@ export default class Product extends Super {
             "removeAllfilters",
             "filterByPrice",
             "log",
-            "addToCart"
+            "addToCart",
+            "removeProduct"
         ]);
 
         const [cat, sub] = this.extractRoute();

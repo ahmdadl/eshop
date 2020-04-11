@@ -102,7 +102,8 @@
             :user-id="{{auth()->id()}}"
             @endif
             :is_land="h.d.is_land_product" :key="pinx"
-            v-on:added="h.d.addToCart($event)">
+            v-on:added="h.d.addToCart($event)"
+            v-on:delete="h.d.removeProduct($event)">
         </my-product>
     </div>
 </div>

@@ -1,5 +1,6 @@
 <template>
     <div
+        :id="'card' + p.id"
         class="transition float-left"
         :class="is_land ? 'col-12 col-md-6' : 'col-6 col-sm-4 col-md-3'"
     >
@@ -85,8 +86,15 @@
                                 <button
                                     v-if="isAdmin"
                                     class="btn btn-danger"
-                                    @click="$emit('delete-product', p)"
+                                    @click="deleteProd()"
                                 >
+                                    <span
+                                        :id="'spinnerDel' + p.id"
+                                        :class="showLoader"
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
                                     <i class="fa fas fa-times"></i>
                                     {{ lang[4] }}
                                 </button>
@@ -123,7 +131,13 @@ export default class XProduct extends Vue {
     @Prop({ type: Boolean, default: false }) public isSuper: boolean;
     @Prop({ type: Number, default: 0 }) public userId: number;
     public p: ProductInterface;
+    public showLoader: string = "d-none";
     // public catSlug: string = "";
+
+    public deleteProd() {
+        this.$emit("delete", this.p);
+        this.showLoader = "";
+    }
 
     get locale() {
         return document.documentElement.lang;
@@ -138,7 +152,7 @@ export default class XProduct extends Vue {
         // const h = document.location.href.split("/");
         // if (!h.indexOf("c") || !h[5]) return;
         // this.catSlug = "/" + h[5];
-        console.log(this.isSuper);
+        // console.log(this.isSuper);
     }
 }
 </script>
