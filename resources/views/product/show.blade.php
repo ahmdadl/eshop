@@ -3,7 +3,7 @@
 @section('title')
 {{$p->brand}}-{{$p->name}}
 @endsection
-
+{{-- @dump($p) --}}
 @section('content')
 @if ($p->amount < 1) <div
     class="d-flex justify-content-center alert alert-danger">
@@ -20,7 +20,8 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <x-img-slider :imgArr="$p->img"></x-img-slider>
+                <x-img-slider :slug="$p->pCat->parent->slug" :imgArr="$p->img">
+                </x-img-slider>
             </div>
         </div>
 

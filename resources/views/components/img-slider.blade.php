@@ -1,4 +1,4 @@
-@props(['id', 'imgArr'])
+@props(['id', 'imgArr', 'slug'])
 
 @php
 $id = $id ?? bin2hex(random_bytes(5));
@@ -14,7 +14,7 @@ $id = $id ?? bin2hex(random_bytes(5));
     <div class="carousel-inner">
         @foreach ($imgArr as $img)
         <div class="carousel-item {{$loop->index === 1 ? 'active' : ''}}">
-            <img src="/img/{{$img}}" class="d-block w-100" alt=".">
+            <img src="/img/{{$slug ?? ''}}/{{$img}}" class="d-block w-100" alt=".">
         </div>
         @endforeach
     </div>
