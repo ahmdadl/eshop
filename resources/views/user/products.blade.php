@@ -3,13 +3,12 @@
 @section('title')
 @lang('t.user.title.prod')
 @endsection
-
 @section('myContent')
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
     @foreach ($products as $product)
     <div id="card{{$loop->index}}" class="col mb-4">
         <div class="card">
-            <img src="/img/{{$product->img[0]}}" class="card-img-top"
+        <img src="/img/{{$product->name}}/{{$product->img[0]}}" class="card-img-top"
                 alt="{{$product->slug}}">
             <div class="card-body">
                 <h5 class="card-title">
