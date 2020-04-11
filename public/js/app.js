@@ -17251,6 +17251,10 @@ var Product = /** @class */ (function (_super) {
                 _this.d.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
                 _this.sortData(1);
             }
+            document.title = path.replace(/sub\//, "").replace(/-/gi, " ");
+            document.querySelector("#ptitle").textContent = path
+                .replace(/sub\//, "")
+                .replace(/-/gi, " ");
             _this.doCalc(native, append);
             _this.d.nextUrl = res.next_page_url;
             _this.hideLoader();

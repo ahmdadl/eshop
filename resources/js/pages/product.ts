@@ -280,6 +280,12 @@ export default class Product extends Super {
                 this.d.oldData = [...res.data];
                 this.sortData(1);
             }
+            document.title = path.replace(/sub\//, "").replace(/-/gi, " ");
+            (document.querySelector(
+                "#ptitle"
+            ) as HTMLHeadingElement).textContent = path
+                .replace(/sub\//, "")
+                .replace(/-/gi, " ");
             this.doCalc(native, append);
             this.d.nextUrl = res.next_page_url;
             this.hideLoader();

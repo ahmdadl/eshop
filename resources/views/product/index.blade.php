@@ -11,7 +11,7 @@
 @section('content')
 <div class="row">
     <div class="col-12 col-sm-6 text-left">
-        <h4>
+        <h4 id="ptitle" class="text-capitalize">
             @isset ($title)
             {{$title === 'daily' ? __('t.show.daily') : $title}}
             @else
