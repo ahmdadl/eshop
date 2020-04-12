@@ -21,7 +21,7 @@ Route::group(
     function () {
         Route::get('/', 'HomeController@index')->name('home');
 
-        Auth::routes();
+        Auth::routes(['verify' => true]);
 
         // load all products by a given sub category
         Route::get('/c/{c_slug}/sub/{sub_slug}', 'ProductController@index');
@@ -38,8 +38,9 @@ Route::group(
         Route::delete('/cart/{id}', 'CartController@destroy');
 
         Route::middleware('auth')->group(function () {
-            Route::get('/cart/checkout', 'CartController@create');
-            Route::post('/cart/checkout', 'CartController@done');
+            Route::get('/cart/checkout', 'CartController@create')
+            ->middleware('verified');
+            Route::post('/cart/checkout', 'CartController@done')->middleware('verified');
 
             Route::get('/user/{user}/profile', 'UserController@index');
             Route::get('/user/{user}/orders', 'UserController@getOrders');

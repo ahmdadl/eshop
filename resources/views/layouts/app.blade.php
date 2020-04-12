@@ -33,7 +33,7 @@
 
 <body>
     <div id="app">
-        <{{$cpt ?? ''}} ref="childCmp">
+        <{{$cpt ?? 'home'}} ref="childCmp">
             <template v-slot="h">
                 <ul class="nav justify-content-end bg-dark text-light col-12">
                     @guest
@@ -343,7 +343,7 @@
 
                 </main>
             </template>
-        </{{$cpt ?? ''}}>
+        </{{$cpt ?? 'home'}}>
     </div>
     <!-- Scripts -->
     <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
