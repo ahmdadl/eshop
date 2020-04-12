@@ -29,8 +29,10 @@
         @if ($p->save)
         <h5><del class="text-muted">${{\number_format($p->price, 2)}}</del>
             &nbsp;-&nbsp;
-            <span class="text-muted">{{\number_format($p->price - $p->savedPrice, 2)}}
-                @lang('t.youSave')</span>
+            <span
+                class="text-muted">@lang('t.youSave') 
+                {{\number_format($p->price - $p->savedPrice, 2)}}
+            </span>
         </h5>
         @endif
         <p>
