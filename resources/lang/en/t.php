@@ -1,6 +1,8 @@
 <?php
 
 return array(
+  'Login' => 'Login',
+  'Logout' => 'Logout',
   'addCart' => 'Add To Cart',
   'all_p' => 'All Products',
   'check' =>

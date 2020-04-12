@@ -199,7 +199,7 @@
                                 @guest
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                        href="{{ route('login') }}">{{ __('Login') }}</a>
+                                        href="{{ route('login') }}">{{ __('t.Login') }}</a>
                                 </li>
                                 @else
                                 <li class="nav-item dropdown">
@@ -231,7 +231,7 @@
                                             href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
+                                            {{ __('t.Logout') }}
                                         </a>
 
                                         <form id="logout-form"

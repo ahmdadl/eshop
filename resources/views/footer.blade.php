@@ -33,7 +33,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item bg-dark border-0">
                         <a class="text-light" href="{{ route('login') }}">
-                            {{ __('Login') }}
+                            {{ __('t.Login') }}
                         </a>
                     </li>
                     <li class="list-group-item bg-dark border-secondary">
