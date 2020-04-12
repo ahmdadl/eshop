@@ -1,5 +1,5 @@
 <template>
-    <div class="toast w-100 position-fixed transition" :class="cls">
+    <div class="toast w-100 position-fixed transition" :class="cls" style="sty">
         <div class="toast-header text-light" :class="'bg-' + type">
             <strong class="mr-auto">
                 <i class="fa fas fa-exclamation-circle mr-2"></i>
@@ -20,13 +20,7 @@
         </div>
     </div>
 </template>
-<style lang="scss" scoped>
-.toast {
-    bottom: 0;
-    right: 0;
-    z-index: 99;
-}
-</style>
+<style lang="scss"></style>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 declare var Toast: any;
@@ -36,6 +30,7 @@ export default class Toastr extends Vue {
     @Prop({ type: String, required: true }) public message: string;
     @Prop({ type: String, required: true }) public type: string;
     public cls: string = "d-none";
+    public sty: string = "right: 0";
 
     public show() {
         this.cls = "showing";
@@ -50,6 +45,8 @@ export default class Toastr extends Vue {
     }
 
     mounted() {
+        const rtl = document.documentElement.lang === "ar";
+        this.sty = rtl ? "left: 0" : "right: 0";
         // this.show();
     }
 }

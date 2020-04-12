@@ -4569,3 +4569,8 @@ readers do not read off random characters that represent icons */
   vertical-align: middle;
 }
 
+.toast {
+  bottom: 0;
+  z-index: 99;
+}
+

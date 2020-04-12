@@ -75,7 +75,8 @@ export default class StarRate extends Vue {
 
     private extractX(event): number {
         var rect = event.target.getBoundingClientRect();
-        var x = event.clientX - rect.left;
+        const isRtl = document.documentElement.lang === 'ar';
+        var x = isRtl ? rect.right - event.clientX : event.clientX - rect.left;
         return x;
     }
 

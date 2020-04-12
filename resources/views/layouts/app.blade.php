@@ -16,7 +16,8 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap"
+        rel="stylesheet">
 
     <!-- Styles -->
     @if (app()->isLocale('ar'))
@@ -25,9 +26,19 @@
         integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If"
         crossorigin="anonymous">
     @else
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
     @endif
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @if (app()->isLocale('ar'))
+    <style>
+        .star.star-filled {
+            right: 0 !important
+        }
+    </style>
+    @endif
 </head>
 
 <body>
@@ -119,7 +130,7 @@
                                                     </span>
                                                     <span
                                                         class="float-right text-danger">
-                                                        @{{c.product.amount}} 
+                                                        @{{c.product.amount}}
                                                         @lang('t.index.stock')
                                                     </span>
                                                 </p>
@@ -274,7 +285,7 @@
                                                         </span>
                                                         <span
                                                             class="float-right text-danger">
-                                                            @{{c.product.amount}} 
+                                                            @{{c.product.amount}}
                                                             @lang('t.index.stock')
                                                         </span>
                                                     </p>
@@ -350,7 +361,9 @@
     <!-- Scripts -->
     {{-- <script src="https://js.pusher.com/5.1/pusher.min.js"></script> --}}
     <script src="{{ mix('js/app.js') }}"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap.native@2.0.27/dist/bootstrap-native-v4.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/bootstrap.native@2.0.27/dist/bootstrap-native-v4.min.js">
+    </script>
 </body>
 
 </html>
