@@ -88,16 +88,16 @@
         @include('product.filters.rating')
     </div>
     @endunless
-    <div class="col-12 col-md-10 card-group">
-        <div class="alert alert-danger mt-5 col-12 text-center font-weight-bolder"
-            style="max-height: 50px"
-            v-if="!h.d.oldData.length && !h.d.loadingPosts">
-            @lang('t.show.noPros')
-        </div>
+    <div class="alert alert-danger mt-5 col-12 text-center font-weight-bolder"
+        style="max-height: 50px"
+        v-if="!h.d.oldData.length && !h.d.loadingPosts">
+        @lang('t.show.noPros')
+    </div>
+    <div class="col-12 col-md-10 card-columns">
+
         <my-product v-for="(p, pinx) in h.d.data" :product="p"
             :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')', '@lang('t.user.edit')', '@lang('t.user.delete')']"
-            @auth
-            @if (auth()->user()->isAdmin()) :is-admin="true" @endif
+            @auth @if (auth()->user()->isAdmin()) :is-admin="true" @endif
             @if (auth()->user()->isSuper())
             :is-super="true"
             :user-id="{{auth()->id()}}"

@@ -4012,225 +4012,214 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "transition float-left",
-      class: _vm.is_land ? "col-12 col-md-6" : "col-6 col-sm-4 col-md-3",
-      attrs: { id: "card" + _vm.p.id }
-    },
-    [
-      _c("div", { staticClass: "card", class: _vm.is_land ? "mb-3" : "mb-1" }, [
-        _c(
-          "div",
-          { staticClass: "row", class: _vm.is_land ? "no-gutters" : "" },
-          [
-            _c("div", { class: _vm.is_land ? "col-4" : "col-12" }, [
-              _vm.p.amount > 0
-                ? _c(
-                    "span",
-                    { staticClass: "badge badge-danger position-absolute" },
-                    [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.p.save) +
-                          " % " +
-                          _vm._s(_vm.lang[0]) +
-                          "\n                "
-                      )
-                    ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c("img", {
-                staticClass: "card-img-top",
-                attrs: {
-                  src: "/img/" + _vm.parentSlug + "/" + _vm.p.img[0],
-                  alt: _vm.p.name + " image"
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { class: _vm.is_land ? "col-8" : "col-12" }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c("h5", { staticClass: "card-title" }, [
-                  _c("a", { attrs: { href: "/p/" + _vm.p.slug } }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(_vm.p.name) +
-                        "\n                        "
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "card-text" }, [
-                  _c("strong", { staticClass: "text-primary" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(_vm.p.savedPrice) +
-                        "\n                            "
-                    ),
-                    _vm.p.save
-                      ? _c("p", { staticClass: "text-muted" }, [
-                          _c("span", { staticClass: "text-dell" }, [
-                            _vm._v(
-                              "\n                                    " +
-                                _vm._s(_vm.p.price) +
-                                "\n                                "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _vm.is_land
-                            ? _c("span", { staticClass: "ml-2" }, [
-                                _vm._v(
-                                  "\n                                    " +
-                                    _vm._s(_vm.lang[2]) +
-                                    " " +
-                                    _vm._s(_vm.p.youSave) +
-                                    "\n                                "
-                                )
-                              ])
-                            : _vm._e()
-                        ])
-                      : _vm._e()
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "p",
+  return _c("div", { attrs: { id: "card" + _vm.p.id } }, [
+    _c("div", { staticClass: "card", class: _vm.is_land ? "mb-3" : "mb-1" }, [
+      _c(
+        "div",
+        { staticClass: "row", class: _vm.is_land ? "no-gutters" : "" },
+        [
+          _c("div", { class: _vm.is_land ? "col-4" : "col-12" }, [
+            _vm.p.amount > 0
+              ? _c(
+                  "span",
+                  { staticClass: "badge badge-danger position-absolute" },
                   [
-                    _c("star-rate", {
-                      attrs: {
-                        percent: _vm.p.rateAvg,
-                        count: _vm.p.rates.length
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _vm.is_land
-                  ? _c("p", [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.p.info) +
-                          "\n                    "
-                      )
-                    ])
-                  : _vm._e()
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.p.save) +
+                        " % " +
+                        _vm._s(_vm.lang[0]) +
+                        "\n                "
+                    )
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "card-img-top",
+              attrs: {
+                src: "/img/" + _vm.parentSlug + "/" + _vm.p.img[0],
+                alt: _vm.p.name + " image"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { class: _vm.is_land ? "col-8" : "col-12" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("h5", { staticClass: "card-title" }, [
+                _c("a", { attrs: { href: "/p/" + _vm.p.slug } }, [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(_vm.p.name) +
+                      "\n                        "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "card-text" }, [
+                _c("strong", { staticClass: "text-primary" }, [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(_vm.p.savedPrice) +
+                      "\n                            "
+                  ),
+                  _vm.p.save
+                    ? _c("p", { staticClass: "text-muted" }, [
+                        _c("span", { staticClass: "text-dell" }, [
+                          _vm._v(
+                            "\n                                    " +
+                              _vm._s(_vm.p.price) +
+                              "\n                                "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm.is_land
+                          ? _c("span", { staticClass: "ml-2" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.lang[2]) +
+                                  " " +
+                                  _vm._s(_vm.p.youSave) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
+                      ])
+                    : _vm._e()
+                ])
               ]),
               _vm._v(" "),
               _c(
-                "div",
-                {
-                  staticClass: "card-footer text-center",
-                  class: _vm.is_land ? "border-none bg-white" : ""
-                },
+                "p",
                 [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary btn-block",
-                      attrs: { disabled: _vm.p.amount < 1 },
-                      on: {
-                        click: function($event) {
-                          return _vm.$emit("added", _vm.p)
-                        }
+                  _c("star-rate", {
+                    attrs: { percent: _vm.p.rateAvg, count: _vm.p.rates.length }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.is_land
+                ? _c("p", [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.p.info) +
+                        "\n                    "
+                    )
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "card-footer text-center",
+                class: _vm.is_land ? "border-none bg-white" : ""
+              },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-block",
+                    attrs: { disabled: _vm.p.amount < 1 },
+                    on: {
+                      click: function($event) {
+                        return _vm.$emit("added", _vm.p)
                       }
-                    },
-                    [
-                      _c("span", {
-                        staticClass:
-                          "d-none spinner-border spinner-border-sm mr-1",
-                        attrs: {
-                          id: _vm.p.id + "spinnerLoader",
-                          role: "status",
-                          "aria-hidden": "true"
-                        }
-                      }),
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.lang[1]) +
-                          "\n                    "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _vm.isAdmin || _vm.isSuper
-                    ? _c("div", { staticClass: "row mt-2" }, [
-                        _c("div", { staticClass: "col-6" }, [
-                          _vm.isSuper || _vm.isAdmin
-                            ? _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-info",
+                    }
+                  },
+                  [
+                    _c("span", {
+                      staticClass:
+                        "d-none spinner-border spinner-border-sm mr-1",
+                      attrs: {
+                        id: _vm.p.id + "spinnerLoader",
+                        role: "status",
+                        "aria-hidden": "true"
+                      }
+                    }),
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.lang[1]) +
+                        "\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.isAdmin || _vm.isSuper
+                  ? _c("div", { staticClass: "row mt-2" }, [
+                      _c("div", { staticClass: "col-6" }, [
+                        _vm.isSuper || _vm.isAdmin
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-info",
+                                attrs: {
+                                  href:
+                                    "/" +
+                                    _vm.locale +
+                                    "/user/" +
+                                    _vm.userId +
+                                    "/p/" +
+                                    _vm.p.slug +
+                                    "/edit"
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "fa fas fa-edit" }),
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(_vm.lang[3]) +
+                                    "\n                            "
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-6" }, [
+                        _vm.isAdmin
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteProd()
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass:
+                                    "spinner-border spinner-border-sm",
+                                  class: _vm.showLoader,
                                   attrs: {
-                                    href:
-                                      "/" +
-                                      _vm.locale +
-                                      "/user/" +
-                                      _vm.userId +
-                                      "/p/" +
-                                      _vm.p.slug +
-                                      "/edit"
+                                    id: "spinnerDel" + _vm.p.id,
+                                    role: "status",
+                                    "aria-hidden": "true"
                                   }
-                                },
-                                [
-                                  _c("i", { staticClass: "fa fas fa-edit" }),
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(_vm.lang[3]) +
-                                      "\n                            "
-                                  )
-                                ]
-                              )
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-6" }, [
-                          _vm.isAdmin
-                            ? _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-danger",
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.deleteProd()
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("span", {
-                                    staticClass:
-                                      "spinner-border spinner-border-sm",
-                                    class: _vm.showLoader,
-                                    attrs: {
-                                      id: "spinnerDel" + _vm.p.id,
-                                      role: "status",
-                                      "aria-hidden": "true"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("i", { staticClass: "fa fas fa-times" }),
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(_vm.lang[4]) +
-                                      "\n                            "
-                                  )
-                                ]
-                              )
-                            : _vm._e()
-                        ])
+                                }),
+                                _vm._v(" "),
+                                _c("i", { staticClass: "fa fas fa-times" }),
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(_vm.lang[4]) +
+                                    "\n                            "
+                                )
+                              ]
+                            )
+                          : _vm._e()
                       ])
-                    : _vm._e()
-                ]
-              )
-            ])
-          ]
-        )
-      ])
-    ]
-  )
+                    ])
+                  : _vm._e()
+              ]
+            )
+          ])
+        ]
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -1,8 +1,7 @@
 <template>
     <div
         :id="'card' + p.id"
-        class="transition float-left"
-        :class="is_land ? 'col-12 col-md-6' : 'col-6 col-sm-4 col-md-3'"
+        class=""
     >
         <div class="card" :class="is_land ? 'mb-3' : 'mb-1'">
             <div class="row" :class="is_land ? 'no-gutters' : ''">
