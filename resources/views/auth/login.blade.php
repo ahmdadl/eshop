@@ -66,6 +66,15 @@
                         </div>
                     </form>
                 </div>
+                <div class="card-footer bg-dark text-light">
+                    <code>
+                        admin@site.test<br>
+                        super@site.test<br>
+                        user@site.test<br>
+
+                        Password: password<br>
+                    </code>
+                </div>
             </div>
         </div>
     </div>
