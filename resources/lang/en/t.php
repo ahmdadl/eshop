@@ -12,6 +12,7 @@ return array(
     'save' => 'Checkout',
     'success' => 'you have successfully checkout your shopping cart',
     'title' => 'checkout shopping cart',
+    'noItemsInCart' => 'Cart is Empty, Please add Items first'
   ),
   'fromPrice' => 'from price',
   'home' =>
