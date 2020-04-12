@@ -50,13 +50,14 @@
                             @lang('t.nav.daily')
                         </a>
                     </li>
+                    @auth
                     <li class="nav-item">
                         <a class="nav-link text-light"
-                            href="{{ LaravelLocalization::localizeUrl('addItem)') }}">
+                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/p/create">
                             @lang('t.nav.sellUs')
                         </a>
                     </li>
-
+                    @endauth
                     <li class="nav-item">
                         @if (app()->isLocale('en'))
                         <a class="nav-link text-light" rel="alternate"
@@ -80,11 +81,13 @@
                             {{ config('app.name', 'Laravel') }}
                         </a>
                         <ul class="unstyled-list">
-                            <li class="nav-item dropdown float-left d-inline text-light d-md-none">
+                            <li
+                                class="nav-item dropdown float-left d-inline text-light d-md-none">
                                 <a id="cartDropdown"
-                                    class="nav-link dropdown-toggle text-light" href="#"
-                                    role="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
+                                    class="nav-link dropdown-toggle text-light"
+                                    href="#" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
                                     <span v-if="h.d.cartLoader"
                                         class="spinner-grow bg-light"
                                         role="status" aria-hidden="true"></span>
