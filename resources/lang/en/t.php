@@ -9,7 +9,7 @@ return array(
     'card' => 'credit card',
     'fname' => 'first name',
     'lname' => 'last name',
-    'save' => 'save percentage',
+    'save' => 'Checkout',
     'success' => 'you have successfully checkout your shopping cart',
     'title' => 'checkout shopping cart',
   ),
@@ -140,5 +140,9 @@ return array(
   'color' => 'Color',
   'condition' => 'Condition',
   'price' => 'Price',
-  'rating' => 'Average Rating'
+  'rating' => 'Average Rating',
+  'footer' => [
+    'followUs' => 'Follow Us',
+    'myAccount' => 'My Account'
+  ]
 );
