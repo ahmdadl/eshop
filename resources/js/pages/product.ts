@@ -252,6 +252,7 @@ export default class Product extends Super {
             return x;
         });
         this.d.oldData = [...res.data];
+        // console.log(this.d.oldData);
         this.sortData(1);
         this.doCalc(true, false);
         // console.info(this.d.brands);

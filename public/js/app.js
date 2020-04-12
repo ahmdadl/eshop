@@ -3274,6 +3274,7 @@ var XProduct = /** @class */ (function (_super) {
     function XProduct() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.showLoader = "d-none";
+        _this.parentSlug = 'electronics';
         return _this;
     }
     // public catSlug: string = "";
@@ -3290,6 +3291,9 @@ var XProduct = /** @class */ (function (_super) {
     });
     XProduct.prototype.beforeMount = function () {
         this.p = this.$props.product;
+        if (this.p.p_cat && this.p.p_cat.parent) {
+            this.parentSlug = this.p.p_cat.parent.slug;
+        }
     };
     XProduct.prototype.mounted = function () {
         // console.log(this.$props.product);
@@ -4080,7 +4084,7 @@ var render = function() {
               _c("img", {
                 staticClass: "card-img-top",
                 attrs: {
-                  src: "/img/" + _vm.p.p_cat.parent.slug + "/" + _vm.p.img[0],
+                  src: "/img/" + _vm.parentSlug + "/" + _vm.p.img[0],
                   alt: _vm.p.name + " image"
                 }
               })
@@ -17320,6 +17324,7 @@ var Product = /** @class */ (function (_super) {
             return x;
         });
         this.d.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
+        // console.log(this.d.oldData);
         this.sortData(1);
         this.doCalc(true, false);
         // console.info(this.d.brands);

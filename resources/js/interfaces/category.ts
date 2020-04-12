@@ -8,4 +8,5 @@ export default interface Category {
     updated_at: string;
     sub_cat?: Category[];
     products?: Product;
+    parent: Category;
 }

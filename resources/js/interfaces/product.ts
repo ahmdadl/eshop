@@ -1,5 +1,6 @@
 import ProductInfo from "./product-info";
 import Rates from "./rates";
+import Category from './category';
 export default interface ProductInterface {
     id: number;
     user_id: number;
@@ -19,6 +20,7 @@ export default interface ProductInterface {
     color: string[];
     img: string[];
     brand?: string;
+    p_cat: Category;
     pi?: ProductInfo;
     pivot?: { category_id: number; product_id: number };
     rates: Rates[];

@@ -11,7 +11,7 @@
                         {{ p.save }} % {{ lang[0] }}
                     </span>
                     <img
-                        :src="'/img/' + p.p_cat.parent.slug + '/' + p.img[0]"
+                        :src="'/img/' + parentSlug + '/' + p.img[0]"
                         class="card-img-top"
                         :alt="p.name + ' image'"
                     />
@@ -132,6 +132,7 @@ export default class XProduct extends Vue {
     @Prop({ type: Number, default: 0 }) public userId: number;
     public p: ProductInterface;
     public showLoader: string = "d-none";
+    public parentSlug = 'electronics';
     // public catSlug: string = "";
 
     public deleteProd() {
@@ -145,6 +146,9 @@ export default class XProduct extends Vue {
 
     beforeMount() {
         this.p = this.$props.product;
+        if (this.p.p_cat && this.p.p_cat.parent) {
+            this.parentSlug = (this.p.p_cat.parent.slug as string);
+        }
     }
 
     mounted() {
