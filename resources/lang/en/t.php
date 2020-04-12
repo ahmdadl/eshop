@@ -14,6 +14,10 @@ return array (
     'title' => '',
   ),
   'fromPrice' => '',
+  'home' => 
+  array (
+    'title' => '',
+  ),
   'index' => 
   array (
     'QTY' => '',
