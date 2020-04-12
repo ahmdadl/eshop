@@ -9,7 +9,7 @@
     @foreach ($orders as $order)
     <div class="col mb-4">
         <div class="card">
-            <img src="/img/{{$order->product->p_cat->parent->slug}}/{{$order->product->img[0]}}"
+            <img src="/img/{{$order->product->pCat->parent->slug}}/{{$order->product->img[0]}}"
                 class="card-img-top" alt="{{$order->product->name}}">
             <div class="card-body p-0">
                 <h5 class="card-title p-2">

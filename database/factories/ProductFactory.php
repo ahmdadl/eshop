@@ -21,7 +21,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'amount' => rand(1, 25),
         'is_used' => $faker->boolean(),
         'brand' => BrandList::getBrand(),
-        'color' => [$faker->word, $faker->word],
+        'color' => [$faker->colorName, $faker->colorName],
         'img' => [rand(1, 15) . '.jpg', rand(1, 15) . '.jpg', rand(1, 15) . '.jpg']
     ];
 });
