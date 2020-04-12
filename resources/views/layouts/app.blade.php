@@ -120,8 +120,8 @@
                                                     </span>
                                                     <span
                                                         class="float-right text-danger">
-                                                        @lang('t.index.stock'):
-                                                        @{{c.product.amount}}
+                                                        @{{c.product.amount}} 
+                                                        @lang('t.index.stock')
                                                     </span>
                                                 </p>
                                             </div>
@@ -275,8 +275,8 @@
                                                         </span>
                                                         <span
                                                             class="float-right text-danger">
-                                                            @lang('t.index.stock'):
-                                                            @{{c.product.amount}}
+                                                            @{{c.product.amount}} 
+                                                            @lang('t.index.stock')
                                                         </span>
                                                     </p>
                                                 </div>

@@ -61,7 +61,7 @@
     @unless ($slug[0] === 'search')
     <div class="d-none d-md-block col-12 col-md-2">
         <div class="card px-0">
-            <div class="card-header px-0">
+            <div class="card-header px-0 text-center">
                 {{-- <button class="btn btn-info btn-sm float-left"
                     :disabled="h.d.loadingPosts">
                     @lang('t.nav.daily')

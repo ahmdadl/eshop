@@ -7,7 +7,7 @@
         <div class="card" :class="is_land ? 'mb-3' : 'mb-1'">
             <div class="row" :class="is_land ? 'no-gutters' : ''">
                 <div :class="is_land ? 'col-4' : 'col-12'">
-                    <span class="badge badge-danger position-absolute">
+                    <span class="badge badge-danger position-absolute" v-if="p.amount > 0">
                         {{ p.save }} % {{ lang[0] }}
                     </span>
                     <img

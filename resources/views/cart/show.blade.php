@@ -16,7 +16,7 @@
                 <div class="col-sm-4">
                     <span class="badge badge-danger p-2 position-absolute"
                         v-if="c.product.save">
-                        @lang('t.offTxt') @{{c.product.save}} %
+                        @{{c.product.save}} % @lang('t.offTxt')
                     </span>
                     <img :src="'/img/' + c.product.p_cat.parent.slug + '/' + c.product.img[0]"
                         class="card-img pt-3 pl-1" alt="">
@@ -53,8 +53,8 @@
                                     </option>
                                 </select>
                                 <p class="text-danger font-weight-bold">
+                                    @{{c.product.amount}} 
                                     @lang('t.show.stock')
-                                    @{{c.product.amount}}
                                 </p>
                             </div>
                         </div>

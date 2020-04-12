@@ -4067,19 +4067,21 @@ var render = function() {
           { staticClass: "row", class: _vm.is_land ? "no-gutters" : "" },
           [
             _c("div", { class: _vm.is_land ? "col-4" : "col-12" }, [
-              _c(
-                "span",
-                { staticClass: "badge badge-danger position-absolute" },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.p.save) +
-                      " % " +
-                      _vm._s(_vm.lang[0]) +
-                      "\n                "
+              _vm.p.amount > 0
+                ? _c(
+                    "span",
+                    { staticClass: "badge badge-danger position-absolute" },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.p.save) +
+                          " % " +
+                          _vm._s(_vm.lang[0]) +
+                          "\n                "
+                      )
+                    ]
                   )
-                ]
-              ),
+                : _vm._e(),
               _vm._v(" "),
               _c("img", {
                 staticClass: "card-img-top",
