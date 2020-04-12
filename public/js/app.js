@@ -17079,22 +17079,13 @@ var Home = /** @class */ (function (_super) {
     Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(Home, _super);
     function Home() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.d = {
-            name: '',
-            id: 0,
-            test: [''],
-        };
+        _this.d = {};
         return _this;
     }
-    Home.prototype.log = function () {
-        console.log(this.d.name);
-    };
     Home.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ['log']);
+        this.attachToGlobal(this, []);
     };
     Home.prototype.mounted = function () {
-        var _this = this;
-        setTimeout(function (_) { return _this.d.test = ['wsd', 'ers', 'qsf']; }, 1200);
     };
     Home = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         vue_property_decorator__WEBPACK_IMPORTED_MODULE_1__["Component"]
