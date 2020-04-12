@@ -3,7 +3,7 @@
 @section('title')
 @lang('t.user.title.order')
 @endsection
-
+@dump($orders[0])
 @section('myContent')
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
     @foreach ($orders as $order)

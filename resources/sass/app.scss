@@ -1,12 +1,15 @@
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Nunito");
+// @import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
 @import "variables";
 
 // Bootstrap
-@import "~bootstrap/scss/bootstrap";
-
+// @import "~bootstrap/scss/bootstrap";
+* {
+    font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
+    font-size: .9rem;
+}
 @import "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
 
 .text-dell {
@@ -23,3 +26,7 @@
         }
     }
 }
+.spinner-border {
+    vertical-align: middle;
+}
+    
