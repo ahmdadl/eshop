@@ -33,4 +33,16 @@
     bottom: 0;
     z-index: 99;
 }
-    
+.fast {
+    transition-duration: .5s;
+}
+.footer {
+    .copy {
+        span, a {
+            font-size: large;
+        }
+        a:hover {
+            color: #ff5252 !important;
+        }
+    }
+}

@@ -4574,3 +4574,16 @@ readers do not read off random characters that represent icons */
   z-index: 99;
 }
 
+.fast {
+  transition-duration: 0.5s;
+}
+
+.footer .copy span,
+.footer .copy a {
+  font-size: large;
+}
+
+.footer .copy a:hover {
+  color: #ff5252 !important;
+}
+

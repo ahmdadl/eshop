@@ -355,6 +355,7 @@
 
 
                 </main>
+                @include('footer')
             </template>
         </{{$cpt ?? 'home'}}>
     </div>
