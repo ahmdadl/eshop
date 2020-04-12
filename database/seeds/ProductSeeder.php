@@ -25,11 +25,12 @@ class ProductSeeder extends Seeder
                     'category_slug' => $c->slug,
                 ])
             );
+            User::find(3)->products()->saveMany(
+                factory(Product::class, mt_rand(15, 35))->make([
+                    'category_slug' => $c->slug,
+                ])
+            );
         });
-
-        User::find(3)->products()->saveMany(
-            factory(Product::class, mt_rand(15, 35))->make()
-        );
 
         DB::commit();
     }

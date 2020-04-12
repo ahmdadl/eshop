@@ -18,7 +18,9 @@ class ProductInfoSeeder extends Seeder
         $p = Product::all();
         $p->each(function (Product $p) {
             $p->pi()->save(
-                factory(ProductInfo::class)->make()
+                factory(ProductInfo::class)->make([
+                    'product_id' => $p->id
+                ])
             );
         });
 

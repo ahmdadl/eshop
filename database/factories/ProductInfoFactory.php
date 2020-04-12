@@ -10,15 +10,22 @@ $factory->define(ProductInfo::class, function (Faker $faker) {
     $info_arr = [
         // 'brand' => $faker->sentence,
         'package thickness' => $faker->randomFloat(4),
-        'product weight' => $faker->randomFloat(4) . ' g',
-        'package weight' => $faker->randomFloat(5) . ' g',
+        'product weight' => $faker->randomFloat(4) . ' gram',
+        'package weight' => $faker->randomFloat(5) . ' gram',
         'serial scan required' => false
     ];
 
-    for ($i = 0; $i < rand(5, 15); $i++) {
+    $randomVal = function() use ($faker) {
+        return [
+            $faker->randomDigit.' gram',
+            $faker->sentence(4),
+            $faker->boolean
+        ];
+    };
+
+    for ($i = 0; $i < rand(25, 60); $i++) {
         $key = $faker->sentence(3);
-        $value = random_int(0, 1)===1 ? $faker->randomDigit : $faker->sentence(4);
-        
+        $value = Arr::random($randomVal());
         // check if this key is not already in info array
         if (!isset($info_arr[$key])) {
             $info_arr[$key] = $value;
