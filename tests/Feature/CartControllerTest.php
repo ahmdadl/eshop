@@ -210,6 +210,18 @@ class CartControllerTest extends TestCase
         $this->assertDatabaseHas('orders', ['product_id' => $cart3['id']]);
     }
 
+    public function testUserCanNotCheckoutIfNoItemsInCart()
+    {
+        $user = $this->signIn();
+
+        $this->get('/en/cart/checkout')
+            ->assertOk()
+            ->assertSee('alert-warning')
+            ->assertDontSee('alert-success')
+            ->assertDontSee('alert-danger')
+            ->assertDontSee('fname');
+    }
+
     private function createCart(
         ?object $product = null,
         ?int $amount = null,

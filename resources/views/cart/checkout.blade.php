@@ -9,8 +9,9 @@
     <div class="col-sm-10 col-md-8">
         <x-errors></x-errors>
         @unless (Session::has('success') && Session::get('success', false))
-        <form novalidate action="/{{app()->getLocale()}}/cart/checkout" method="post"
-            class="need-validation was-validated">
+        @if (Session::has('cart') && count(Session::get('cart')) > 0)
+        <form novalidate action="/{{app()->getLocale()}}/cart/checkout"
+            method="post" class="need-validation was-validated">
             @csrf
             <div class="row form-group">
                 <label for="fname"
@@ -82,6 +83,16 @@
                 </button>
             </div>
         </form>
+        @else
+        <div class="alert alert-warning text-center">
+            <p>
+                <i class="fa fas fa-exclamation-circle p-3 fa-2x"></i>
+            </p>
+            <strong>
+                {{__('t.check.noItemsInCart')}}
+            </strong>
+        </div>
+        @endif
         @else
         <div class="alert alert-success text-center">
             <p>
