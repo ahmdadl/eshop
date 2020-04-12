@@ -269,6 +269,12 @@ export default class Product extends Super {
             this.d.data = [];
         }
 
+        const writeablePath = path
+        .replace(/sub\//, "").replace(/-/gi, " ")
+        .replace(/\//g, ' -> ')
+        .replace(/0$/, 'new')
+        .replace(/1$/, 'used');
+
         this.showLoader();
         Axios.get(path).then((res: any) => {
             if (!res.data.data || !res.data.data.length) {
@@ -295,13 +301,11 @@ export default class Product extends Super {
             } else {
                 this.d.oldData = [...res.data];
                 this.sortData(1);
+                document.title = writeablePath;
+                (document.querySelector(
+                    "#ptitle"
+                ) as HTMLHeadingElement).textContent = writeablePath;
             }
-            document.title = path.replace(/sub\//, "").replace(/-/gi, " ");
-            (document.querySelector(
-                "#ptitle"
-            ) as HTMLHeadingElement).textContent = path
-                .replace(/sub\//, "")
-                .replace(/-/gi, " ");
             this.doCalc(native, append);
             this.d.nextUrl = res.next_page_url;
             this.hideLoader();

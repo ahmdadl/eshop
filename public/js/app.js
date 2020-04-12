@@ -17335,6 +17335,11 @@ var Product = /** @class */ (function (_super) {
         if (!append) {
             this.d.data = [];
         }
+        var writeablePath = path
+            .replace(/sub\//, "").replace(/-/gi, " ")
+            .replace(/\//g, ' -> ')
+            .replace(/0$/, 'new')
+            .replace(/1$/, 'used');
         this.showLoader();
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(path).then(function (res) {
             if (!res.data.data || !res.data.data.length) {
@@ -17358,11 +17363,9 @@ var Product = /** @class */ (function (_super) {
             else {
                 _this.d.oldData = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(res.data);
                 _this.sortData(1);
+                document.title = writeablePath;
+                document.querySelector("#ptitle").textContent = writeablePath;
             }
-            document.title = path.replace(/sub\//, "").replace(/-/gi, " ");
-            document.querySelector("#ptitle").textContent = path
-                .replace(/sub\//, "")
-                .replace(/-/gi, " ");
             _this.doCalc(native, append);
             _this.d.nextUrl = res.next_page_url;
             _this.hideLoader();
