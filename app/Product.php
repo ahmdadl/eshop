@@ -26,6 +26,35 @@ class Product extends Model
         'savedPrice'
     ];
 
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function getRateAvgAttribute(): float
+    {
+        return round($this->rates->average('rate'), 1);
+    }
+
+    public function getSavedPriceAttribute(): float
+    {
+        return $this->price - ($this->save / 100 * $this->price);
+    }
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'category_product');
@@ -59,34 +88,5 @@ class Product extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
-    }
-
-    public function getRateAvgAttribute(): float
-    {
-        return round($this->rates->average('rate'), 1);
-    }
-
-    public function getSavedPriceAttribute(): float
-    {
-        return $this->price - ($this->save / 100 * $this->price);
-    }
-
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'name'
-            ]
-        ];
-    }
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'slug';
     }
 }
