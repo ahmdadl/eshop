@@ -72,6 +72,21 @@ class UserController extends Controller
         return view('user.super', compact('users'));
     }
 
+    public function updateRole(User $user)
+    {
+        abort_if(Gate::denies('change-role'), 403);
+
+        ['super' => $isSuper] = request()->validate([
+            'super' => 'required|bool'
+        ]);
+
+        $user->role = $isSuper ? (User::SuperRole) : 0;
+
+        $user->update();
+
+        return response()->json(['updated' => true]);
+    }
+
     private function loadUserStats($user): array
     {
         $countOrders = DB::table('orders')

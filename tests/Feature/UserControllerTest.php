@@ -139,4 +139,45 @@ class UserControllerTest extends TestCase
             ->assertSee("<td>80</td>", false)
             ->assertSee('page-item');
     }
+
+    public function testNotAdminUsersCanNotChangeRole()
+    {
+        $this->signIn();
+
+        $user = factory(User::class)->create();
+
+        $this->patch('/api/user/' . $user->id . '/role')
+            ->assertStatus(403);
+
+        $this->signIn(['role' => User::SuperRole]);
+        $this->patch('/api/user/' . $user->id . '/role')
+            ->assertStatus(403);
+    }
+
+    public function testOnlyAdminCanUpdateUsersRole()
+    {
+        $this->withoutExceptionHandling();
+
+        $admin = $this->signIn(['role' => User::AdminRole]);
+
+        $user = factory(User::class)->create();
+
+        $this->assertFalse($user->isSuper());
+
+        $this->patch('/api/user/' . $user->id . '/role', ['super' => true])
+            ->assertOk()
+            ->assertExactJson(['updated' => true]);
+
+        $user = User::find($user->id);
+
+        $this->assertTrue($user->isSuper());
+
+        $this->patch('/api/user/' . $user->id . '/role', ['super' => false])
+            ->assertOk()
+            ->assertExactJson(['updated' => true]);
+
+        $user = User::find($user->id);
+
+        $this->assertFalse($user->isSuper());
+    }
 }
