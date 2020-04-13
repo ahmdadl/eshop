@@ -29,7 +29,7 @@ class RateSeeder extends Seeder
                     'rate' => $f->randomFloat(1, 0, 5),
                     'message' => $f->text(254),
                     // 'created_at' => ($f->dateTime)->format('Y-m-d H:i:s'),
-                    'updated_at' => ($f->dateTime)->format('Y-m-d H:i:s')
+                    'updated_at' => ($f->dateTimeThisMonth)->format('Y-m-d H:i:s')
                 ]);
             }
         });
