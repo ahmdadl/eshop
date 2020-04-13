@@ -16699,31 +16699,6 @@ __webpack_require__.r(__webpack_exports__);
 
 axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = "/api/";
-axios__WEBPACK_IMPORTED_MODULE_1___default.a.interceptors.response.use(function (response) {
-    // TODO show loader
-    console.log(response.data);
-    return response;
-}, function (error) {
-    // TODO hide loader
-    if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-    }
-    else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log(error.request);
-    }
-    else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
-    }
-    console.log(error.config);
-});
 // @ts-ignore
 // window.Echo = new Echo({
 //     broadcaster: "pusher",
@@ -16743,6 +16718,34 @@ var app = new vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"]({
         ShowProduct: _pages_show_product__WEBPACK_IMPORTED_MODULE_7__["default"],
         ShowCart: _pages_show_cart__WEBPACK_IMPORTED_MODULE_8__["default"],
         UserProfile: _pages_user_profile__WEBPACK_IMPORTED_MODULE_9__["default"]
+    },
+    mounted: function () {
+        var _this = this;
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.interceptors.response.use(function (response) {
+            // console.log(response.data);
+            return response;
+        }, function (error) {
+            // if (error.response) {
+            //     // The request was made and the server responded with a status code
+            //     // that falls out of the range of 2xx
+            //     console.log(error.response.data);
+            //     console.log(error.response.status);
+            //     console.log(error.response.headers);
+            // } else if (error.request) {
+            //     // The request was made but no response was received
+            //     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            //     // http.ClientRequest in node.js
+            //     console.log(error.request);
+            // } else {
+            //     // Something happened in setting up the request that triggered an Error
+            //     console.log("Error", error.message);
+            // }
+            // console.log('I`m herererer');
+            // console.log(error);
+            // show error toast
+            // console.log(this.$refs.childCmp);
+            _this.$refs.childCmp.showErrorToast();
+        });
     }
 });
 
