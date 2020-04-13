@@ -38,11 +38,11 @@ const app = new Vue({
     },
     mounted() {
         Axios.interceptors.response.use(
-            (response) => {
+            response => {
                 // console.log(response.data);
                 return response;
             },
-            (error) => {
+            error => {
                 // if (error.response) {
                 //     // The request was made and the server responded with a status code
                 //     // that falls out of the range of 2xx
@@ -60,10 +60,11 @@ const app = new Vue({
                 // }
                 // console.log('I`m herererer');
                 // console.log(error);
+
                 // show error toast
-                // console.log(this.$refs.childCmp);
                 this.$refs.childCmp.showErrorToast();
             }
         );
+        this.$refs.splashScreen.style.display = "none";
     }
 });

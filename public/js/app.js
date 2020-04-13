@@ -16743,9 +16743,9 @@ var app = new vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"]({
             // console.log('I`m herererer');
             // console.log(error);
             // show error toast
-            // console.log(this.$refs.childCmp);
             _this.$refs.childCmp.showErrorToast();
         });
+        this.$refs.splashScreen.style.display = "none";
     }
 });
 
