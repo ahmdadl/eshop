@@ -12,6 +12,8 @@ $factory->define(Rate::class, function (Faker $faker) {
         'user_id' => factory(User::class)->create(),
         'product_id' => factory(Product::class)->create(),
         'rate' => $faker->randomFloat(1, 0, 5),
-        'message' => $faker->sentence
+        'message' => $faker->sentence,
+        // 'created_at' => ($faker->dateTime)->format('Y-m-d H:i:s'),
+        // 'updated_at' => ($faker->dateTime)->format('Y-m-d H:i:s')
     ];
 });
