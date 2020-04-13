@@ -17947,7 +17947,7 @@ var UserProfile = /** @class */ (function (_super) {
     UserProfile.prototype.deleteProduct = function (slug, id, inx) {
         var _this = this;
         this.removeClass("#spinner" + id, "d-none");
-        axios__WEBPACK_IMPORTED_MODULE_3___default.a.delete("/" + this.getLocale() + "/p/" + slug, { baseURL: '' }).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.delete("/" + this.getLocale() + "/p/" + slug, { baseURL: "" }).then(function (res) {
             if (res.data && res.data.deleted) {
                 _this.addClass("#card" + inx, "fade");
                 setTimeout(function (_) { return _this.removeEl("#card" + inx); }, 400);
@@ -17955,6 +17955,35 @@ var UserProfile = /** @class */ (function (_super) {
                 return;
             }
             _this.showErrorToast();
+        });
+    };
+    UserProfile.prototype.updateRole = function (id, superRole) {
+        var _this = this;
+        var el = document.querySelector("#btn" + id);
+        // show spinner loader
+        this.removeClass("#spinnerUpdating" + id, "d-none");
+        var role = !!parseInt(el.getAttribute("user-role"));
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.patch("user/" + id + "/role", { super: role }).then(function (res) {
+            if (!res.data || !res.data.updated) {
+                _this.addClass("#spinnerUpdating" + id, "d-none");
+                _this.showErrorToast();
+                return;
+            }
+            el.setAttribute("user-role", role ? "0" : "1");
+            if (role) {
+                // update user to become a super user
+                el.children.item(1).textContent = _this.getMessages(1);
+                _this.addClass("#isSuper" + id, "d-none");
+                _this.removeClass("#notSuper" + id, "d-none");
+            }
+            else {
+                // update user to remove super role
+                el.children.item(1).textContent = _this.getMessages(0);
+                _this.removeClass("#isSuper" + id, "d-none");
+                _this.addClass("#notSuper" + id, "d-none");
+            }
+            // hide loader
+            _this.addClass("#spinnerUpdating" + id, "d-none");
         });
     };
     UserProfile.prototype.loadCats = function () {
@@ -17974,7 +18003,8 @@ var UserProfile = /** @class */ (function (_super) {
             "onCatChange",
             "validateForm",
             "previewImg",
-            "deleteProduct"
+            "deleteProduct",
+            "updateRole"
         ]);
     };
     UserProfile.prototype.mounted = function () {

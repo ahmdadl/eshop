@@ -64,14 +64,55 @@ export default class UserProfile extends Super {
     public deleteProduct(slug: string, id: number, inx: number) {
         this.removeClass(`#spinner${id}`, "d-none");
 
-        Axios.delete(`/${this.getLocale()}/p/${slug}`, {baseURL:''}).then(res => {
-            if (res.data && res.data.deleted) {
-                this.addClass(`#card${inx}`, "fade");
-                setTimeout(_ => this.removeEl(`#card${inx}`), 400);
-                this.showToast(this.getMessages(0), "------", "success");
+        Axios.delete(`/${this.getLocale()}/p/${slug}`, { baseURL: "" }).then(
+            res => {
+                if (res.data && res.data.deleted) {
+                    this.addClass(`#card${inx}`, "fade");
+                    setTimeout(_ => this.removeEl(`#card${inx}`), 400);
+                    this.showToast(this.getMessages(0), "------", "success");
+                    return;
+                }
+                this.showErrorToast();
+            }
+        );
+    }
+
+    public updateRole(id: number, superRole: number) {
+        const el = document.querySelector(`#btn${id}`);
+
+        // show spinner loader
+        this.removeClass(`#spinnerUpdating${id}`, "d-none");
+        let role = !!parseInt(
+            (el as HTMLElement).getAttribute("user-role") as string
+        );
+
+        Axios.patch(`user/${id}/role`, { super: role }).then(res => {
+            if (!res.data || !res.data.updated) {
+                this.addClass(`#spinnerUpdating${id}`, "d-none");
+                this.showErrorToast();
                 return;
             }
-            this.showErrorToast();
+
+            (el as HTMLElement).setAttribute("user-role", role ? "0" : "1");
+
+            if (role) {
+                // update user to become a super user
+                ((el as HTMLElement).children.item(
+                    1
+                ) as HTMLElement).textContent = this.getMessages(1);
+                this.addClass(`#isSuper${id}`, "d-none");
+                this.removeClass(`#notSuper${id}`, "d-none");
+            } else {
+                // update user to remove super role
+                ((el as HTMLElement).children.item(
+                    1
+                ) as HTMLElement).textContent = this.getMessages(0);
+                this.removeClass(`#isSuper${id}`, "d-none");
+                this.addClass(`#notSuper${id}`, "d-none");
+            }
+
+            // hide loader
+            this.addClass(`#spinnerUpdating${id}`, "d-none");
         });
     }
 
@@ -97,7 +138,8 @@ export default class UserProfile extends Super {
             "onCatChange",
             "validateForm",
             "previewImg",
-            "deleteProduct"
+            "deleteProduct",
+            "updateRole"
         ]);
     }
 

@@ -22,29 +22,37 @@
                 <td>{{$user->id}}</td>
                 <th>
                     {{$user->name}}
-                    @switch($user->role)
-                    @case(\App\User::AdminRole)
+                    @if ($user->isAdmin())
                     <span class="badge badge-danger">
                         {{__('t.user.table.isAdmin')}}
                     </span>
-                    @break
-                    @case(\App\User::SuperRole)
-                    <span class="badge badge-info">
+                    @else
+                    <span id="notSuper{{$user->id}}"
+                        class="badge badge-info {{$user->isSuper() ? '' : 'd-none'}}">
                         {{__('t.user.table.isSuper')}}
                     </span>
-                    @break
-                    @default
-                    <span class="badge badge-primary">
-                        {{__('t.user.table.isNormal')}}
+                    <span id="isSuper{{$user->id}}"
+                        class="badge badge-primary {{$user->isSuper() ? 'd-none' : ''}}">
+                        {{__('t.user.table.isNoraml')}}
                     </span>
-                    @endswitch
+                    @endif
                 </th>
                 <td>{{$user->products_count}}</td>
                 <td>{{$user->orders_count}}</td>
                 <td>
-                    @if (!$user->isAdmin() && !$user->isSuper())
-                    <button class="btn btn-info">
-                        {{__('t.user.table.makeAsSuper')}}
+                    @if (!$user->isAdmin())
+                    <button class="btn btn-info" id="btn{{$user->id}}"
+                        user-role="{{$user->isSuper() ? 0 : 1}}"
+                        v-on:click="h.d.updateRole({{$user->id}}, {{\App\User::SuperRole}})">
+                        <x-btn-loader :id="'spinnerUpdating' . $user->id">
+                        </x-btn-loader>
+                        <span id="text">
+                            @if ($user->isSuper())
+                            {{__('t.user.table.makeNotSuper')}}
+                            @else
+                            {{__('t.user.table.makeAsSuper')}}
+                            @endif
+                        </span>
                     </button>
                     @else
                     ----
@@ -56,4 +64,6 @@
     </table>
 </div>
 {{$users->links()}}
+<input type="hidden" id="userLang"
+    value="{{json_encode([__('t.user.table.makeAsSuper'), __('t.user.table.makeNotSuper')])}}" />
 @endsection
