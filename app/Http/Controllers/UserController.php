@@ -7,6 +7,7 @@ use App\Product;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -14,33 +15,29 @@ class UserController extends Controller
     {
         abort_if($user->id !== auth()->id(), 403);
 
-        $countOrders = DB::table('orders')
-            ->selectRaw('COUNT(id) as oc')
-            ->where('user_id', $user->id)
-            ->get();
+        if (Gate::allows('change-role')) {
+            $state = $this->loadAdminStats($user);
+        } else {
+            $state = $this->loadUserStats($user);
+        }
 
-        $sentOrders = DB::table('orders')
-            ->selectRaw('COUNT(id) as sc')
-            ->where('user_id', $user->id)
-            ->where('sent', true)
-            ->get();
-
-        $products = DB::table('products')
-            ->selectRaw('COUNT(id) as pc')
-            ->where('user_id', $user->id)
-            ->get();
-
-        $totalPaid = DB::table('orders')
-            ->selectRaw('SUM(total) as paid')
-            ->where('user_id', $user->id)
-            ->get();
+        [
+            $countOrders,
+            $sentOrders,
+            $products,
+            $totalPaid,
+            $usersCount,
+            $revCount
+        ] = $state;
 
         return view('user.index', compact(
             'user',
             'countOrders',
             'sentOrders',
             'products',
-            'totalPaid'
+            'totalPaid',
+            'usersCount',
+            'revCount'
         ));
     }
 
@@ -62,5 +59,75 @@ class UserController extends Controller
             ->paginate(40);
 
         return view('user.products', compact('user', 'products'));
+    }
+
+    private function loadUserStats($user): array
+    {
+        $countOrders = DB::table('orders')
+            ->selectRaw('COUNT(id) as oc')
+            ->where('user_id', $user->id)
+            ->get();
+
+        $sentOrders = DB::table('orders')
+            ->selectRaw('COUNT(id) as sc')
+            ->where('user_id', $user->id)
+            ->where('sent', true)
+            ->get();
+
+        $products = DB::table('products')
+            ->selectRaw('COUNT(id) as pc')
+            ->where('user_id', $user->id)
+            ->get();
+
+        $totalPaid = DB::table('orders')
+            ->selectRaw('SUM(total) as paid')
+            ->where('user_id', $user->id)
+            ->get();
+
+        return [
+            $countOrders,
+            $sentOrders,
+            $products,
+            $totalPaid,
+            0,
+            0
+        ];
+    }
+
+    private function loadAdminStats($user)
+    {
+        $productsCount = DB::table('products')
+            ->selectRaw('COUNT(id) as pc')
+            ->get();
+
+        $countOrders = DB::table('orders')
+            ->selectRaw('COUNT(id) as oc')
+            ->get();
+
+        $sentOrders = DB::table('orders')
+            ->selectRaw('COUNT(id) as sc')
+            ->where('sent', true)
+            ->get();
+
+        $totalPaid = DB::table('orders')
+            ->selectRaw('SUM(total) as paid')
+            ->get();
+
+        $usersCount = DB::table('users')
+            ->selectRaw('COUNT(id) as uc')
+            ->get();
+
+        $revCount = DB::table('rates')
+            ->selectRaw('COUNT(id) as rc')
+            ->get();
+
+        return [
+            $countOrders,
+            $sentOrders,
+            $productsCount,
+            $totalPaid,
+            $usersCount,
+            $revCount
+        ];
     }
 }

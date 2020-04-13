@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Order;
 use App\Product;
+use App\Rate;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -93,5 +94,23 @@ class UserControllerTest extends TestCase
             ->assertSee($products->find(70)->name)
             ->assertDontSee($products->find(30)->name)
             ->assertSee('page-item');
+    }
+
+    public function testAdminCanSeeSiteStats()
+    {
+        $user = $this->signIn([
+            'role' => User::AdminRole
+        ]);
+
+        factory(Product::class, 20)->create();
+        factory(Order::class, 15)->create();
+        factory(User::class, 30)->create();
+        factory(Rate::class, 70)->create();
+
+        $this->get('/en/user/' . $user->id . '/profile')
+            ->assertSee(20)
+            ->assertSee(15)
+            ->assertSee(30)
+            ->assertSee(70);
     }
 }
