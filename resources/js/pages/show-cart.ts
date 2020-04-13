@@ -26,8 +26,7 @@ export default class ShowCart extends Super {
         );
 
         this.d.totalPrice = this.formatter.format(this.d.totalPriceInt);
-        // @ts-ignore
-        this.d.cartTotal = this.formatter.format(this.d.totalPriceInt);
+        this.calcCartTotal();
     }
 
     public updateCartTotal(firstTime: boolean = false) {
@@ -53,39 +52,17 @@ export default class ShowCart extends Super {
     }
 
     public changeAmount(ev, inx: number, price: any, id: number) {
-        this.d.cartLoader = true;
+        this.showCartLoader();
         const val = parseInt(ev.target.value) || 0;
-        if (typeof price === 'string') {
-            price = parseFloat(price.replace(/\$|,/gi, ""));
-        }
-        const total = val * price;
-
-        Axios.patch(
-            `/${this.getLocale()}/cart/${id}`,
-            {
-                amount: val,
-                total
-            },
-            { baseURL: "" }
-        ).then(res => {
-            if (!res.data || !res.data.updated) {
-                this.d.cartLoader = false;
-                this.showErrorToast();
-                return;
-            }
-            this.d.cart[inx].amount = val;
-            this.d.cart[inx].totalInt = total;
-            this.d.cart[inx].total = this.formatter.format(total);
-            this.calcTotalPrice();
-            this.d.cartLoader = false;
-        });
+        this.changeAmountNative(val, inx, price, id);
+        this.$on("updated-amount-p", ev => this.calcTotalPrice());
     }
 
     public removeItem(inx: number, id: number) {
         this.d.cartLoader = true;
 
-        Axios.delete(`/${this.getLocale()}/cart/${id}`, {baseURL: ''})
-            .then(res => {
+        Axios.delete(`/${this.getLocale()}/cart/${id}`, { baseURL: "" }).then(
+            res => {
                 if (!res.data || !res.data.deleted) {
                     this.d.cartLoader = false;
                     this.showErrorToast();
@@ -95,7 +72,8 @@ export default class ShowCart extends Super {
                 this.updateCartTotal();
                 this.calcTotalPrice();
                 this.d.cartLoader = false;
-            });
+            }
+        );
     }
 
     beforeMount() {

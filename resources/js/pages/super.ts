@@ -11,6 +11,7 @@ export interface Dynamic {
     lang: string[];
     cart: Cart[];
     cartTotal: string;
+    carttotalInt: number;
     cartLoader: boolean;
 }
 
@@ -112,18 +113,26 @@ export default class Super extends Vue {
         this.showCartLoader(product.id);
 
         // check if item already added to cart
-        const found = this.d.cart.some(x => x.id === product.id);
-        console.log(found);
-        if (found) {
-            // TODO check if amount is the same
-            // * IF NOt update the cart amount
-            const sameAmount = (this.d as Dynamic).cart.some(
-                x => x.amount === amount
-            );
-            if (sameAmount) {
+        const pinx = (this.d as Dynamic).cart.findIndex(
+            p => p.id === product.id
+        );
+        if (pinx > -1) {
+            // check if amount is the same
+            if ((this.d as Dynamic).cart[pinx].amount === amount) {
+                // console.log(amount, "same amount");
                 this.hideCartLoader(product.id);
                 return;
             }
+            // amount is not the the same
+            // then update the cart amount
+            // console.log("changeing amount");
+            this.changeAmountNative(
+                amount,
+                pinx,
+                product.savedPrice,
+                product.id
+            );
+            return;
         }
 
         const total = amount * (product.savedPriceInt || product.savedPrice);
@@ -149,19 +158,57 @@ export default class Super extends Vue {
         });
     }
 
-    protected showCartLoader(id: number) {
-        const spinner = id + "spinnerLoader";
-        (document.getElementById(spinner) as HTMLSpanElement).classList.remove(
-            "d-none"
-        );
+    protected changeAmountNative(
+        amount: number,
+        inx: number,
+        price: any,
+        id: number
+    ) {
+        this.showCartLoader(id);
+        if (typeof price === "string") {
+            price = parseFloat(price.replace(/\$|,/gi, ""));
+        }
+        const total = amount * price;
+
+        Axios.patch(
+            `/${this.getLocale()}/cart/${id}`,
+            {
+                amount: amount,
+                total
+            },
+            { baseURL: "" }
+        ).then(res => {
+            if (!res.data || !res.data.updated) {
+                this.hideCartLoader(id);
+                this.showErrorToast();
+                return;
+            }
+            this.d.cart[inx].amount = amount;
+            this.d.cart[inx].totalInt = total;
+            this.d.cart[inx].total = this.formatter.format(total);
+            this.hideCartLoader(id);
+            this.calcCartTotal();
+            this.$emit("updated-amount-p", true);
+        });
+    }
+
+    protected showCartLoader(id: number | null = null) {
+        const spinner = document.getElementById(
+            id + "spinnerLoader"
+        ) as HTMLSpanElement;
+        if (spinner) {
+            spinner.classList.remove("d-none");
+        }
         this.d.cartLoader = true;
     }
 
-    protected hideCartLoader(id: number) {
-        const spinner = id + "spinnerLoader";
-        (document.getElementById(spinner) as HTMLSpanElement).classList.add(
-            "d-none"
-        );
+    protected hideCartLoader(id: number | null = null) {
+        const spinner = document.getElementById(
+            id + "spinnerLoader"
+        ) as HTMLSpanElement;
+        if (spinner) {
+            spinner.classList.add("d-none");
+        }
         this.d.cartLoader = false;
     }
 
@@ -205,11 +252,13 @@ export default class Super extends Vue {
         );
     }
 
-    private calcCartTotal() {
+    protected calcCartTotal() {
         const total = (this.d as Dynamic).cart.reduce(
-            (t, c) => (t += parseFloat(c.total)),
+            (t, c) => (t += parseFloat(c.totalInt || c.total)),
             0
         );
+
+        // console.log(this.d.cart, total);
 
         (this.d as Dynamic).cartTotal = this.formatter.format(total);
     }

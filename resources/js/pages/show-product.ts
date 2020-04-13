@@ -135,7 +135,7 @@ export default class ShowProduct extends Super {
     public addToCart(
         slug: string,
         id: number,
-        amount: number = this.d.cartAmount
+        // amount: number = this.d.cartAmount
     ) {
         this.showCartLoader(id);
         Axios.get(`p/${slug}`).then(res => {
@@ -144,7 +144,8 @@ export default class ShowProduct extends Super {
                 this.showErrorToast();
                 return;
             }
-            this.addToCartNative(res.data, amount);
+            console.log(this.d.cartAmount);
+            this.addToCartNative(res.data, this.d.cartAmount);
         });
     }
 

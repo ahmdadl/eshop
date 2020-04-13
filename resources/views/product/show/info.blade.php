@@ -57,7 +57,7 @@
                 <div class="col-8">
                     {{-- TODO get product from database by id --}}
                     <button class="btn btn-primary btn-block mb-2"
-                        v-on:click="h.d.addToCart('{{$p->slug}}', {{$p->id}}, h.d.cartAmount)"
+                        v-on:click="h.d.addToCart('{{$p->slug}}', {{$p->id}})"
                         @if ($p->amount < 1)disabled @endif>
                             <x-btn-loader :id="$p->id.'spinnerLoader'">
                             </x-btn-loader>

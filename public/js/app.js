@@ -17415,8 +17415,7 @@ var ShowCart = /** @class */ (function (_super) {
     ShowCart.prototype.calcTotalPrice = function () {
         this.d.totalPriceInt = this.d.cart.reduce(function (t, c) { return (t += parseFloat(c.totalInt || c.total)); }, 0);
         this.d.totalPrice = this.formatter.format(this.d.totalPriceInt);
-        // @ts-ignore
-        this.d.cartTotal = this.formatter.format(this.d.totalPriceInt);
+        this.calcCartTotal();
     };
     ShowCart.prototype.updateCartTotal = function (firstTime) {
         var _this = this;
@@ -17439,33 +17438,15 @@ var ShowCart = /** @class */ (function (_super) {
     };
     ShowCart.prototype.changeAmount = function (ev, inx, price, id) {
         var _this = this;
-        this.d.cartLoader = true;
+        this.showCartLoader();
         var val = parseInt(ev.target.value) || 0;
-        if (typeof price === 'string') {
-            price = parseFloat(price.replace(/\$|,/gi, ""));
-        }
-        var total = val * price;
-        axios__WEBPACK_IMPORTED_MODULE_3___default.a.patch("/" + this.getLocale() + "/cart/" + id, {
-            amount: val,
-            total: total
-        }, { baseURL: "" }).then(function (res) {
-            if (!res.data || !res.data.updated) {
-                _this.d.cartLoader = false;
-                _this.showErrorToast();
-                return;
-            }
-            _this.d.cart[inx].amount = val;
-            _this.d.cart[inx].totalInt = total;
-            _this.d.cart[inx].total = _this.formatter.format(total);
-            _this.calcTotalPrice();
-            _this.d.cartLoader = false;
-        });
+        this.changeAmountNative(val, inx, price, id);
+        this.$on("updated-amount-p", function (ev) { return _this.calcTotalPrice(); });
     };
     ShowCart.prototype.removeItem = function (inx, id) {
         var _this = this;
         this.d.cartLoader = true;
-        axios__WEBPACK_IMPORTED_MODULE_3___default.a.delete("/" + this.getLocale() + "/cart/" + id, { baseURL: '' })
-            .then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.delete("/" + this.getLocale() + "/cart/" + id, { baseURL: "" }).then(function (res) {
             if (!res.data || !res.data.deleted) {
                 _this.d.cartLoader = false;
                 _this.showErrorToast();
@@ -17615,9 +17596,8 @@ var ShowProduct = /** @class */ (function (_super) {
             _this.d.savingRev = false;
         });
     };
-    ShowProduct.prototype.addToCart = function (slug, id, amount) {
+    ShowProduct.prototype.addToCart = function (slug, id) {
         var _this = this;
-        if (amount === void 0) { amount = this.d.cartAmount; }
         this.showCartLoader(id);
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("p/" + slug).then(function (res) {
             if (!res.data || !res.data.category_slug) {
@@ -17625,7 +17605,8 @@ var ShowProduct = /** @class */ (function (_super) {
                 _this.showErrorToast();
                 return;
             }
-            _this.addToCartNative(res.data, amount);
+            console.log(_this.d.cartAmount);
+            _this.addToCartNative(res.data, _this.d.cartAmount);
         });
     };
     ShowProduct.prototype.formatPrice = function (p) {
@@ -17787,16 +17768,19 @@ var Super = /** @class */ (function (_super) {
         }
         this.showCartLoader(product.id);
         // check if item already added to cart
-        var found = this.d.cart.some(function (x) { return x.id === product.id; });
-        console.log(found);
-        if (found) {
-            // TODO check if amount is the same
-            // * IF NOt update the cart amount
-            var sameAmount = this.d.cart.some(function (x) { return x.amount === amount; });
-            if (sameAmount) {
+        var pinx = this.d.cart.findIndex(function (p) { return p.id === product.id; });
+        if (pinx > -1) {
+            // check if amount is the same
+            if (this.d.cart[pinx].amount === amount) {
+                // console.log(amount, "same amount");
                 this.hideCartLoader(product.id);
                 return;
             }
+            // amount is not the the same
+            // then update the cart amount
+            // console.log("changeing amount");
+            this.changeAmountNative(amount, pinx, product.savedPrice, product.id);
+            return;
         }
         var total = amount * (product.savedPriceInt || product.savedPrice);
         product.rates = [];
@@ -17816,14 +17800,44 @@ var Super = /** @class */ (function (_super) {
             _this.hideCartLoader(product.id);
         });
     };
+    Super.prototype.changeAmountNative = function (amount, inx, price, id) {
+        var _this = this;
+        this.showCartLoader(id);
+        if (typeof price === "string") {
+            price = parseFloat(price.replace(/\$|,/gi, ""));
+        }
+        var total = amount * price;
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.patch("/" + this.getLocale() + "/cart/" + id, {
+            amount: amount,
+            total: total
+        }, { baseURL: "" }).then(function (res) {
+            if (!res.data || !res.data.updated) {
+                _this.hideCartLoader(id);
+                _this.showErrorToast();
+                return;
+            }
+            _this.d.cart[inx].amount = amount;
+            _this.d.cart[inx].totalInt = total;
+            _this.d.cart[inx].total = _this.formatter.format(total);
+            _this.hideCartLoader(id);
+            _this.calcCartTotal();
+            _this.$emit("updated-amount-p", true);
+        });
+    };
     Super.prototype.showCartLoader = function (id) {
-        var spinner = id + "spinnerLoader";
-        document.getElementById(spinner).classList.remove("d-none");
+        if (id === void 0) { id = null; }
+        var spinner = document.getElementById(id + "spinnerLoader");
+        if (spinner) {
+            spinner.classList.remove("d-none");
+        }
         this.d.cartLoader = true;
     };
     Super.prototype.hideCartLoader = function (id) {
-        var spinner = id + "spinnerLoader";
-        document.getElementById(spinner).classList.add("d-none");
+        if (id === void 0) { id = null; }
+        var spinner = document.getElementById(id + "spinnerLoader");
+        if (spinner) {
+            spinner.classList.add("d-none");
+        }
         this.d.cartLoader = false;
     };
     Super.prototype.convertToNative = function (currency, priceInt) {
@@ -17859,7 +17873,8 @@ var Super = /** @class */ (function (_super) {
         });
     };
     Super.prototype.calcCartTotal = function () {
-        var total = this.d.cart.reduce(function (t, c) { return (t += parseFloat(c.total)); }, 0);
+        var total = this.d.cart.reduce(function (t, c) { return (t += parseFloat(c.totalInt || c.total)); }, 0);
+        // console.log(this.d.cart, total);
         this.d.cartTotal = this.formatter.format(total);
     };
     Super.prototype.getLocale = function () {
