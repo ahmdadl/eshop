@@ -17,5 +17,17 @@
     "click here to request another": "",
     "Toggle navigation": "",
     "Logout": "",
-    "t.' . strtolower($title))<\/span>\r\n        <span class=\"float-right\">\r\n            <button class=\"btn btn-primary\" type=\"button\" data-toggle=\"collapse\"\r\n                data-target=\"#collabse{{$title}}List\" aria-expanded=\"true\"\r\n                aria-controls=\"collabse{{$title}}List\"\r\n                v-on:click=\"h.d.toogleCollabseButton($refs.collabse{{$title}}.classList.contains('show": ""
+    "t.' . strtolower($title))<\/span>\r\n        <span class=\"float-right\">\r\n            <button class=\"btn btn-primary\" type=\"button\" data-toggle=\"collapse\"\r\n                data-target=\"#collabse{{$title}}List\" aria-expanded=\"true\"\r\n                aria-controls=\"collabse{{$title}}List\"\r\n                v-on:click=\"h.d.toogleCollabseButton($refs.collabse{{$title}}.classList.contains('show": "",
+    "auth.E-Mail Address": "",
+    "auth.Remember Me": "",
+    "auth.Forgot Your Password?": "",
+    "auth.Confirm Password": "",
+    "auth.Please confirm your password before continuing.": "",
+    "auth.Reset Password": "",
+    "auth.Send Password Reset Link": "",
+    "auth.Verify Your Email Address": "",
+    "auth.A fresh verification link has been sent to your email address.": "",
+    "auth.Before proceeding, please check your email for a verification link.": "",
+    "auth.If you did not receive the email": "",
+    "auth.click here to request another": ""
 }
