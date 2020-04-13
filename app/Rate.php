@@ -30,6 +30,6 @@ class Rate extends Model
 
     public function getUpdatedAttribute() : string
     {
-        return $this->updated_at ? $this->updated_at->format('d M Y') : '';
+        return $this->updated_at ? $this->updated_at->diffForHumans() : '';
     }
 }
