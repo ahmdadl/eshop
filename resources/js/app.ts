@@ -31,7 +31,7 @@ const app = new Vue({
     mounted() {
         Axios.interceptors.response.use(
             response => {
-                // console.log(response.data);
+                console.log(response.data);
                 return response;
             },
             error => {
@@ -51,12 +51,15 @@ const app = new Vue({
                 //     console.log("Error", error.message);
                 // }
                 // console.log('I`m herererer');
-                // console.log(error);
+                console.log(error.response);
 
                 // show error toast
                 this.$refs.childCmp.showErrorToast();
             }
         );
-        this.$refs.splashScreen.style.display = "none";
+        const splash = this.$refs.splashScreen;
+        if (splash && splash.style) {
+            splash.style.display = "none";
+        }
     }
 });

@@ -55,7 +55,9 @@ class CategoryFactory
         if ($this->sub_count >= 1) {
             /** @var \App\Category $sc */
             $sc = $c->subCat()->createMany(
-                factory(Category::class, $this->sub_count)->{$sub_method}()
+                factory(Category::class, $this->sub_count)->{$sub_method}([
+                    'category_id' => $c->id
+                ])
             );
 
             $scc = $sc;

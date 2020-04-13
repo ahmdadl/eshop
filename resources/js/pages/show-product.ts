@@ -132,8 +132,20 @@ export default class ShowProduct extends Super {
         });
     }
 
-    public addToCart(product: string, amount: number = this.d.cartAmount) {
-        this.addToCartNative(JSON.parse(product), amount);
+    public addToCart(
+        slug: string,
+        id: number,
+        amount: number = this.d.cartAmount
+    ) {
+        this.showCartLoader(id);
+        Axios.get(`p/${slug}`).then(res => {
+            if (!res.data || !res.data.category_slug) {
+                this.hideCartLoader(id);
+                this.showErrorToast();
+                return;
+            }
+            this.addToCartNative(res.data, amount);
+        });
     }
 
     public formatPrice(p: number) {

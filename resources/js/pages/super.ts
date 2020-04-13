@@ -63,7 +63,10 @@ export default class Super extends Vue {
         this.d.toast.title = title;
         this.d.toast.type = type;
         this.d.toast.message = message;
-        (this.$refs.xToast as any).show();
+        const xtoast = this.$refs.xToast;
+        if (xtoast) {
+            (xtoast as any).show();
+        }
     }
 
     public showErrorToast(message?: string) {
@@ -102,20 +105,26 @@ export default class Super extends Vue {
     protected addToCartNative(product: any, amount: number = 1) {
         // check if product have any amount left
         if (product.amount < 1) {
+            this.hideCartLoader(product.id);
             return;
         }
+
+        this.showCartLoader(product.id);
 
         // check if item already added to cart
         const found = this.d.cart.some(x => x.id === product.id);
+        console.log(found);
         if (found) {
-            return;
+            // TODO check if amount is the same
+            // * IF NOt update the cart amount
+            const sameAmount = (this.d as Dynamic).cart.some(
+                x => x.amount === amount
+            );
+            if (sameAmount) {
+                this.hideCartLoader(product.id);
+                return;
+            }
         }
-
-        const spinner = product.id + "spinnerLoader";
-        (document.getElementById(spinner) as HTMLSpanElement).classList.remove(
-            "d-none"
-        );
-        this.d.cartLoader = true;
 
         const total = amount * (product.savedPriceInt || product.savedPrice);
 
@@ -134,12 +143,26 @@ export default class Super extends Vue {
             if (res) {
             }
             (this.d as Dynamic).cart.push(ncart);
-            (document.getElementById(spinner) as HTMLSpanElement).classList.add(
-                "d-none"
-            );
+
             this.calcCartTotal();
-            (this.d as Dynamic).cartLoader = false;
+            this.hideCartLoader(product.id);
         });
+    }
+
+    protected showCartLoader(id: number) {
+        const spinner = id + "spinnerLoader";
+        (document.getElementById(spinner) as HTMLSpanElement).classList.remove(
+            "d-none"
+        );
+        this.d.cartLoader = true;
+    }
+
+    protected hideCartLoader(id: number) {
+        const spinner = id + "spinnerLoader";
+        (document.getElementById(spinner) as HTMLSpanElement).classList.add(
+            "d-none"
+        );
+        this.d.cartLoader = false;
     }
 
     protected convertToNative(

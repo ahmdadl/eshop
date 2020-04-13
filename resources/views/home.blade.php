@@ -8,7 +8,7 @@
 <div class="container-fluid">
     @foreach ($cats as $cat)
     <h3 class="mt-5 text-primary text-uppercase">
-        <strong>{{$cat->name}}:</strong>
+        <strong>{{__($cat->name)}}:</strong>
     </h3>
     <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4">
         @foreach ($cat->subCat as $c)

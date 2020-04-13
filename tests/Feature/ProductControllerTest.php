@@ -374,4 +374,27 @@ class ProductControllerTest extends TestCase
             [User::SuperRole]
         ];
     }
+
+    public function testProductCanBeRetrivedBySlug()
+    {
+        $this->withoutExceptionHandling();
+        /** @var \App\Product $p */
+        $c = factory(Category::class)->create();
+        $sc = factory(Category::class)->create([
+            'category_id' => $c->id
+        ]);
+        $p = $sc->products()->save(
+            factory(Product::class)->make([
+                'category_slug' => $sc->slug
+            ])
+        );
+
+        $p->loadMissing(['rates', 'pCat']);
+
+        // $p = Product::firstWhere('slug', $p->slug);
+
+        $this->get('/api/p/' . $p->slug)
+            ->assertOk()
+            ->assertJson($p->makeHidden('rates')->toArray());
+    }
 }

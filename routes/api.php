@@ -24,4 +24,6 @@ Route::get('/sub/{category_slug}/filterBrands/{brands}', 'ProductController@filt
 Route::get('/sub/{category_slug}/filterCondition/{is_used}', 'ProductController@filterCondition');
 Route::get('/sub/{category_slug}/priceFilter/{from}/{to}', 'ProductController@filterByPrice');
 
+Route::get('/p/{product}', 'ProductController@findOne');
 Route::get('/p/{product}/rates', 'RateController@index');
+

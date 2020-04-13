@@ -27,11 +27,10 @@
             </div>
         </div>
         @if ($p->save)
-        <h5><del class="text-muted">${{\number_format($p->price, 2)}}</del>
+        <h5><del class="text-muted" dir="ltr">${{\number_format($p->price, 2)}}</del>
             &nbsp;-&nbsp;
-            <span
-                class="text-muted">@lang('t.youSave') 
-                {{\number_format($p->price - $p->savedPrice, 2)}}
+            <span class="text-muted">@lang('t.youSave')
+                <span dir="ltr">${{\number_format($p->price - $p->savedPrice, 2)}}</span>
             </span>
         </h5>
         @endif
@@ -56,10 +55,9 @@
                     </select>
                 </div>
                 <div class="col-8">
+                    {{-- TODO get product from database by id --}}
                     <button class="btn btn-primary btn-block mb-2"
-                        v-on:click="h.d.addToCart('{{
-                            $p->makeHidden(['rates', 'pi', 'user'])->toJson()
-                        }}', h.d.cartAmount)"
+                        v-on:click="h.d.addToCart('{{$p->slug}}', {{$p->id}}, h.d.cartAmount)"
                         @if ($p->amount < 1)disabled @endif>
                             <x-btn-loader :id="$p->id.'spinnerLoader'">
                             </x-btn-loader>

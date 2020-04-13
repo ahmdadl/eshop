@@ -154,6 +154,12 @@ class ProductController extends Controller
         ]);
     }
 
+    public function findOne(Product $product)
+    {
+        $product->loadMissing(['pCat']);
+        return response()->json($product->makeHidden('rates')->toArray());
+    }
+
     public function dailyDeal()
     {
         $p = Product::with('daily', 'pCat')
