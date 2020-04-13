@@ -5,16 +5,24 @@ return array(
   'Logout' => 'Logout',
   'addCart' => 'Add To Cart',
   'all_p' => 'All Products',
+  'brand' => 'Brand',
   'check' =>
   array(
     'address' => 'Address',
     'card' => 'credit card',
     'fname' => 'first name',
     'lname' => 'last name',
+    'noItemsInCart' => 'Cart is Empty, Please add Items first',
     'save' => 'Checkout',
     'success' => 'you have successfully checkout your shopping cart',
     'title' => 'checkout shopping cart',
-    'noItemsInCart' => 'Cart is Empty, Please add Items first'
+  ),
+  'color' => 'Color',
+  'condition' => 'Condition',
+  'footer' =>
+  array(
+    'followUs' => 'Follow Us',
+    'myAccount' => 'My Account',
   ),
   'fromPrice' => 'from price',
   'home' =>
@@ -39,10 +47,12 @@ return array(
     'sellUs' => 'Sell with Us',
   ),
   'offTxt' => 'OFF',
+  'price' => 'Price',
   'product' =>
   array(
     'formTitle' => 'Sell new Product',
   ),
+  'rating' => 'Average Rating',
   'removeAllfillters' => 'Remove All Filters',
   'scart' =>
   array(
@@ -107,6 +117,7 @@ return array(
       'prod' => 'My Products',
       'profile' => 'My Profile',
       'sellItem' => 'Sell new Product',
+      'users' => 'All Users',
     ),
     'mes' =>
     array(
@@ -126,26 +137,32 @@ return array(
     'prod' => 'Total Products Count',
     'psave' => 'Save Percentage',
     'resetForm' => 'Reset',
+    'revCount' => 'Reviews Count',
     'sales' => 'Sold',
     'saveProduct' => 'Save',
     'sent' => 'Delivered',
     'sentOrder' => 'Delivered Orders Count',
+    'superTitle' => 'change user Permissions',
+    'table' =>
+    array(
+      'isAdmin' => 'admin',
+      'isNoraml' => 'normal',
+      'isSuper' => 'super',
+      'makeAsSuper' => 'Promote as Super',
+      'makeNotSuper' => 'Cancel Promotion',
+      'name' => 'Name',
+      'orders' => 'Orders Count',
+      'products' => 'Products Count',
+      'role' => '----',
+    ),
     'title' =>
     array(
       'index' => 'My Profile',
       'order' => 'My Orders',
       'prod' => 'My Products',
     ),
+    'usersCount' => 'Users Count',
   ),
   'view' => 'view as',
   'youSave' => 'you save',
-  'brand' => 'Brand',
-  'color' => 'Color',
-  'condition' => 'Condition',
-  'price' => 'Price',
-  'rating' => 'Average Rating',
-  'footer' => [
-    'followUs' => 'Follow Us',
-    'myAccount' => 'My Account'
-  ]
 );

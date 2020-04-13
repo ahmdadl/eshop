@@ -5,16 +5,24 @@ return array (
   'Logout' => 'تسجيل الخروج',
   'addCart' => 'أضف إلى العربة',
   'all_p' => 'جميع المنتجات',
+  'brand' => 'العلامة التجارية',
   'check' => 
   array (
     'address' => 'العنوان',
     'card' => 'بطاقة الإئتمان',
     'fname' => 'الإسم الأول',
     'lname' => 'الأسم الأخير',
+    'noItemsInCart' => 'العربة فارغة ، من فضلك أضف بعض المنتجات أولاً',
     'save' => 'شراء',
     'success' => 'لقد قمت بشراء محتويات العربة بنجاح',
     'title' => 'شراء عربة التسوق',
-    'noItemsInCart' => 'العربة فارغة ، من فضلك أضف بعض المنتجات أولاً'
+  ),
+  'color' => 'اللون',
+  'condition' => 'حالة السلعة',
+  'footer' => 
+  array (
+    'followUs' => 'تـابـعـنـا',
+    'myAccount' => 'حـسـابـي',
   ),
   'fromPrice' => 'من السعر',
   'home' => 
@@ -39,10 +47,12 @@ return array (
     'sellUs' => 'إبدأ البيع',
   ),
   'offTxt' => 'خصم',
+  'price' => 'السعر',
   'product' => 
   array (
     'formTitle' => 'بيع منتج جديد',
   ),
+  'rating' => 'متوسط التقييمات',
   'removeAllfillters' => 'إزالة الكل',
   'scart' => 
   array (
@@ -107,6 +117,7 @@ return array (
       'prod' => 'منتجاتى',
       'profile' => 'صفحتى الشخصية',
       'sellItem' => 'إضافة منتج جديد',
+      'users' => 'جميع المستخدمين',
     ),
     'mes' => 
     array (
@@ -126,26 +137,32 @@ return array (
     'prod' => 'إجمالى عدد المنتجات',
     'psave' => 'نسبة الخصم',
     'resetForm' => 'مسح الكل',
+    'revCount' => 'عدد التقييمات',
     'sales' => 'المباع من المنتج',
     'saveProduct' => 'حفظ',
     'sent' => 'تم التوصيل',
     'sentOrder' => 'إجمالى المنتجات التى تم توصيلها',
+    'superTitle' => 'تغيير صلاحيات المستخدم',
+    'table' => 
+    array (
+      'isAdmin' => 'مدير',
+      'isNoraml' => 'عادى',
+      'isSuper' => 'مسئول',
+      'makeAsSuper' => 'ترقية كمسئول',
+      'makeNotSuper' => 'إلغاء الترقية',
+      'name' => 'الإسم',
+      'orders' => 'عدد المشتريات',
+      'products' => 'عدد المنتجات',
+      'role' => '----',
+    ),
     'title' => 
     array (
       'index' => 'صفحتى الشخصية',
       'order' => 'مشترياتى',
       'prod' => 'منتجاتى',
     ),
+    'usersCount' => 'إجمالى عدد المستخدمين',
   ),
   'view' => 'عرض كـ',
   'youSave' => 'ستوفر',
-  'brand' => 'العلامة التجارية',
-  'color' => 'اللون',
-  'condition' => 'حالة السلعة',
-  'price' => 'السعر',
-  'rating' => 'متوسط التقييمات',
-  'footer' => [
-    'followUs' => 'تـابـعـنـا',
-    'myAccount' => 'حـسـابـي'
-  ]
 );
