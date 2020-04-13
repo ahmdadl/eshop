@@ -107,7 +107,7 @@
                                     </sup>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right"
-                                    aria-labelledby="cartDropdown" style="width: 25rem;    overflow-y: scroll;
+                                    aria-labelledby="cartDropdown" style="width: 27rem;    overflow-y: scroll;
                                     max-height: 57vh;">
                                     <ul class="list-unstyled">
                                         <li class="media border-bottom py-1"
@@ -140,7 +140,7 @@
                                             <h5
                                                 class="text-center font-weight-bolder">
                                                 @lang('t.index.overTotal')
-                                                @{{h.d.cartTotal}}
+                                                <span dir='ltr' style="font-size: large;">@{{h.d.cartTotal}}</span>
                                             </h5>
                                             <div class="form-group text-center">
                                                 <a href="/{{app()->getLocale()}}/viewCart"
@@ -261,7 +261,7 @@
                                         </sup>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right"
-                                        aria-labelledby="cartDropdown" style="width: 25rem;    overflow-y: scroll;
+                                        aria-labelledby="cartDropdown" style="width: 27rem;    overflow-y: scroll;
                                         max-height: 57vh;">
                                         <ul class="list-unstyled">
                                             <li class="media border-bottom py-1"
@@ -295,7 +295,7 @@
                                                 <h5
                                                     class="text-center font-weight-bolder">
                                                     @lang('t.index.overTotal')
-                                                    @{{h.d.cartTotal}}
+                                                    <span dir='ltr' style="font-size: large;">@{{h.d.cartTotal}}</span>
                                                 </h5>
                                                 <div
                                                     class="form-group text-center">
