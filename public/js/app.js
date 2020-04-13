@@ -16715,7 +16715,7 @@ var app = new vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"]({
     mounted: function () {
         var _this = this;
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.interceptors.response.use(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
             return response;
         }, function (error) {
             // if (error.response) {
@@ -16734,7 +16734,7 @@ var app = new vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"]({
             //     console.log("Error", error.message);
             // }
             // console.log('I`m herererer');
-            console.log(error.response);
+            // console.log(error.response);
             // show error toast
             _this.$refs.childCmp.showErrorToast();
         });
