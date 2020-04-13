@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bbad4e83ab164e19fbc59cba115cc4ad",
+    "content-hash": "4ad1b59a6c02eb49c6b671805de2421f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -775,6 +775,56 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
+        },
+        {
+            "name": "hedronium/spaceless-blade",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Hedronium/SpacelessBlade.git",
+                "reference": "bab2c0d5eaf754876d0d057c6a3d81c239f4e8a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Hedronium/SpacelessBlade/zipball/bab2c0d5eaf754876d0d057c6a3d81c239f4e8a9",
+                "reference": "bab2c0d5eaf754876d0d057c6a3d81c239f4e8a9",
+                "shasum": ""
+            },
+            "replace": {
+                "solidew/spaceless-blade": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "hedronium\\SpacelessBlade\\SpacelessBladeProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "hedronium\\SpacelessBlade\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Omran Jamal",
+                    "email": "o.jamal97@gmail.com",
+                    "homepage": "http://about.me/omran.jamal"
+                }
+            ],
+            "description": "Adds the @spaceless tag to Blade. (works like in Twig)",
+            "keywords": [
+                "blade",
+                "laravel",
+                "spaceless",
+                "twig"
+            ],
+            "time": "2019-08-24T06:23:59+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

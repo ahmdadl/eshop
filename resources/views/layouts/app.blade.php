@@ -1,3 +1,4 @@
+@spaceless
 <!doctype html>
 <html dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}"
     lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -490,3 +491,4 @@
 </body>
 
 </html>
+@endspaceless
