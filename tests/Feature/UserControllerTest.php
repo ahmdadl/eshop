@@ -2,12 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Category;
 use App\Order;
 use App\Product;
 use App\Rate;
 use App\User;
+use Arr;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Facades\Tests\Setup\CategoryFactory;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
@@ -54,8 +57,23 @@ class UserControllerTest extends TestCase
     {
         $user = $this->signIn();
 
+        $c = factory(Category::class)->create();
+        $sc = factory(Category::class)->create([
+            'category_id' => $c
+        ]);
+
+        /** @var \App\Product[] $products */
+        $products = $sc->products()->saveMany(
+            factory(Product::class, 70)->make([
+                'user_id' => $user->id,
+                'category_slug' => $sc->slug
+            ])
+        );
+
         $orders = $user->orders()->saveMany(
-            factory(Order::class, 80)->make()
+            factory(Order::class, 80)->make([
+                'product_id' => $products[0]->id
+            ])
         );
 
         $this->get('/' . app()->getLocale() . '/user/' . $user->id . '/orders')
@@ -75,16 +93,24 @@ class UserControllerTest extends TestCase
 
     public function testUserCanSeeHisProducts()
     {
+        $this->withoutExceptionHandling();
         $user = $this->signIn();
 
-        $products = $user->products()->saveMany(
-            factory(Product::class, 70)->make()
+        $c = factory(Category::class)->create();
+        $sc = factory(Category::class)->create([
+            'category_id' => $c
+        ]);
+
+        $products = $sc->products()->saveMany(
+            factory(Product::class, 70)->make([
+                'user_id' => $user->id,
+                'category_slug' => $sc->slug
+            ])
         );
 
         $this->get('/' . app()->getLocale() . '/user/' . $user->id . '/products')
             ->assertOk()
             ->assertSee($products->first()->name)
-            ->assertSee($products->find(20)->name)
             ->assertDontSee($products->find(70)->name)
             ->assertSee("page-item");
 
