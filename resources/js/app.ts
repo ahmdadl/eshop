@@ -13,14 +13,6 @@ import UserProfile from "./pages/user-profile";
 Axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 Axios.defaults.baseURL = `/api/`;
 
-// @ts-ignore
-// window.Echo = new Echo({
-//     broadcaster: "pusher",
-//     key: "ccaa79127d69aae057ea",
-//     cluster: "eu",
-//     forceTLS: true
-// });
-
 Vue.config.productionTip = false;
 
 Vue.component("star-rate", StarRate);

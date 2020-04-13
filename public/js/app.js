@@ -16699,13 +16699,6 @@ __webpack_require__.r(__webpack_exports__);
 
 axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = "/api/";
-// @ts-ignore
-// window.Echo = new Echo({
-//     broadcaster: "pusher",
-//     key: "ccaa79127d69aae057ea",
-//     cluster: "eu",
-//     forceTLS: true
-// });
 vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"].config.productionTip = false;
 vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"].component("star-rate", _components_StarRate_vue__WEBPACK_IMPORTED_MODULE_4__["default"]);
 vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Vue"].component("my-product", _components_x_product_vue__WEBPACK_IMPORTED_MODULE_5__["default"]);
