@@ -17596,7 +17596,9 @@ var ShowProduct = /** @class */ (function (_super) {
             _this.d.savingRev = false;
         });
     };
-    ShowProduct.prototype.addToCart = function (slug, id) {
+    ShowProduct.prototype.addToCart = function (slug, id
+    // amount: number = this.d.cartAmount
+    ) {
         var _this = this;
         this.showCartLoader(id);
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("p/" + slug).then(function (res) {
@@ -17651,6 +17653,7 @@ var ShowProduct = /** @class */ (function (_super) {
     ShowProduct.prototype.mounted = function () {
         this.d.slug = this.getInpVal("productSlug");
         this.d.userId = parseInt(this.getInpVal("userId"));
+        this.d.cartAmount = parseInt(document.querySelector("#amountSelect").getAttribute('amount') || '1');
         this.loadRevs();
     };
     ShowProduct = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([

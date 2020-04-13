@@ -124,9 +124,16 @@ class ProductController extends Controller
     {
         $product->load(['user', 'pi', 'pCat']);
 
+        // get product amount in cart
+        $ind = Arr::first(session('cart', []), function ($c) use ($product) {
+            return (int) $c['id'] === $product->id;
+        });
+        $amount = $ind['amount'] ?? 1;
+
         return view('product.show', [
             'cats' => $this->getList(),
-            'p' => $product
+            'p' => $product,
+            'amount' => (int) $amount
         ]);
     }
 

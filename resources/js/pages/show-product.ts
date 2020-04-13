@@ -134,7 +134,7 @@ export default class ShowProduct extends Super {
 
     public addToCart(
         slug: string,
-        id: number,
+        id: number
         // amount: number = this.d.cartAmount
     ) {
         this.showCartLoader(id);
@@ -195,6 +195,9 @@ export default class ShowProduct extends Super {
     mounted() {
         this.d.slug = this.getInpVal("productSlug");
         this.d.userId = parseInt(this.getInpVal("userId"));
+        this.d.cartAmount = parseInt(
+            (document.querySelector("#amountSelect") as HTMLSelectElement).getAttribute('amount') || '1'
+        );
 
         this.loadRevs();
     }

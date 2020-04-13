@@ -47,10 +47,10 @@
         <div class="d-block">
             <div class="row">
                 <div class="col-4">
-                    <select class="custom-select" name="cartAmount"
+                    <select id="amountSelect" amount="{{$amount}}" class="custom-select" name="cartAmount"
                         v-model="h.d.cartAmount">
                         @foreach (range(1, $p->amount) as $i)
-                        <option :value='{{$i}}'>{{$i}}</option>
+                        <option :value='{{$i}}' @if($amount === $i)checked @endif>{{$i}}</option>
                         @endforeach
                     </select>
                 </div>
