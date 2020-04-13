@@ -42,9 +42,14 @@ Route::group(
             ->middleware('verified');
             Route::post('/cart/checkout', 'CartController@done')->middleware('verified');
 
-            Route::get('/user/{user}/profile', 'UserController@index');
-            Route::get('/user/{user}/orders', 'UserController@getOrders');
-            Route::get('/user/{user}/products', 'UserController@getProducts');
+            Route::get('/user/{user}/profile', 
+            'UserController@index');
+            Route::get('/user/{user}/orders',
+            'UserController@getOrders');
+            Route::get('/user/{user}/products',
+            'UserController@getProducts');
+            Route::get('/user/{user}/users',
+            'UserController@getUsers');
 
             Route::get('/user/{user}/p/create', 'ProductController@create');
             Route::post('/user/{user}/p', 'ProductController@store');

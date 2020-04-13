@@ -61,6 +61,17 @@ class UserController extends Controller
         return view('user.products', compact('user', 'products'));
     }
 
+    public function getUsers(User $user)
+    {
+        abort_if(Gate::denies('change-role'), 403);
+
+        $users = User::withCount('products')
+            ->withCount('orders')
+            ->paginate(30);
+
+        return view('user.super', compact('users'));
+    }
+
     private function loadUserStats($user): array
     {
         $countOrders = DB::table('orders')

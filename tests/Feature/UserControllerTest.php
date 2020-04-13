@@ -113,4 +113,30 @@ class UserControllerTest extends TestCase
             ->assertSee(30)
             ->assertSee(70);
     }
+
+    public function testOnlyAdminCanAccessUsersPage()
+    {
+        $user = $this->signIn();
+
+        $this->get('/en/user/' . $user->id . '/users')
+            ->assertStatus(403);
+    }
+
+    public function testAdminCanSeeUsersTable()
+    {
+        // $this->withoutExceptionHandling();
+
+        $user = $this->signIn(['role' => User::AdminRole]);
+
+        $user2 = factory(User::class)->create();
+        $user2->products()->saveMany(
+            factory(Product::class, 80)->make()
+        );
+
+
+        $this->get('/en/user/' . $user->id . '/users')
+            ->assertOk()
+            ->assertSee("<td>80</td>", false)
+            ->assertSee('page-item');
+    }
 }

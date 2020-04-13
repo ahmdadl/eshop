@@ -19,6 +19,12 @@
                     href="/{{app()->getLocale()}}/user/{{auth()->id()}}/p/create">
                     @lang('t.user.menu.sellItem')
                 </a>
+                @can ('change-role')
+                <a class="nav-link @if (request()->is('*/user/*/users')) bg-primary text-light rounded @endif"
+                    href="/{{app()->getLocale()}}/user/{{auth()->id()}}/users">
+                    @lang('t.user.menu.users')
+                </a>
+                @endcan
             </nav>
         </div>
         <div class="col-sm-9">
