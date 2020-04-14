@@ -63,13 +63,13 @@ class CartController extends Controller
         }
     }
 
-    public function create(\Faker\Generator $faker)
+    public function create()
     {
         return view('cart.checkout', [
             'cats' => $this->getList(),
             'userName' => explode(' ', auth()->user()->name),
-            'address' => $faker->address,
-            'card' => $faker->creditCardNumber
+            'address' => Arr::random(['2732 Connelly Keys Suite 758Yostburgh, WA 46872-2314', '9965 Wyman Circle Suite 203New Erickamouth, OK 53434-7598', '694 Rocky Estates Suite 694West Berenice, NY 96502']),
+            'card' => Arr::random(['12364545423264546455'])
         ]);
     }
 
