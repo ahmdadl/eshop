@@ -149,7 +149,10 @@ export default class Super extends Vue {
         Axios.post("cart", ncart, {
             baseURL: `/${this.getLocale()}/`
         }).then(res => {
-            if (res) {
+            if (!res.data) {
+                this.hideCartLoader(product.id);
+                this.showErrorToast();
+                return;
             }
             (this.d as Dynamic).cart.push(ncart);
 

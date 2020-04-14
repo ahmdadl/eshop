@@ -131,6 +131,11 @@
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
+    <style>
+        .toast.transition {
+            right: 0 !important
+        }
+    </style>
     @endif
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     @if (app()->isLocale('ar'))
@@ -138,7 +143,6 @@
         .star.star-filled {
             right: 0 !important
         }
-
     </style>
     @endif
 </head>
@@ -488,7 +492,8 @@
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/bootstrap.native@2.0.27/dist/bootstrap-native-v4.min.js">
     </script>
-    <script src="https://kit.fontawesome.com/ddcc428049.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/ddcc428049.js"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -17796,7 +17796,10 @@ var Super = /** @class */ (function (_super) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("cart", ncart, {
             baseURL: "/" + this.getLocale() + "/"
         }).then(function (res) {
-            if (res) {
+            if (!res.data) {
+                _this.hideCartLoader(product.id);
+                _this.showErrorToast();
+                return;
             }
             _this.d.cart.push(ncart);
             _this.calcCartTotal();
