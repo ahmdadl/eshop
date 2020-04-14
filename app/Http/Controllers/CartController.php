@@ -31,10 +31,35 @@ class CartController extends Controller
             session()->put('cart', []);
         }
 
-        $carts = session('cart');
+        $carts = session('cart', []);
+        $outCarts = [];
+        $amountError = false;
+
+        $ids = collect($carts)->pluck('id');
+        $products = Product::without(['rates', 'user', 'pi', 'pcat'])
+            ->whereIn('id', $ids)
+            ->get(['id', 'amount']);
+
+        // loop check if any product is out of stock
+        for ($i = 0; $i < sizeof($products); $i++) {
+            $cp = $carts[$i];
+            $p = $products[$i];
+
+            if ($p->id === $cp['id']) {
+                $cp['product']['amount'] = $p->amount;
+                if ($p->amount < 1) {
+                    $amountError = true;
+                }
+            }
+            $outCarts[] = $cp;
+        }
+
+        session()->put('cart', $outCarts);
+
+        $outCarts[] = ['amountErr' => $amountError];
 
         if (request()->wantsJson()) {
-            return response()->json($carts);
+            return response()->json($outCarts);
         }
     }
 

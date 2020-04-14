@@ -17753,6 +17753,7 @@ var Super = /** @class */ (function (_super) {
      * @tutorial 2 => alert title
      * @tutorial 3 => error title
      * @tutorial 4 => success title
+     * @tutorial 5 => product no amount left
      */
     Super.prototype.getLang = function (inx) {
         return this.d.lang[inx] || "";
@@ -17867,11 +17868,17 @@ var Super = /** @class */ (function (_super) {
         this.d.cart = [];
         this.d.cartLoader = true;
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("cart", { baseURL: "/" + this.getLocale() + "/" }).then(function (res) {
-            if (!res || !res.data) {
+            if (!res.data) {
                 _this.d.cartLoader = false;
                 _this.showErrorToast();
                 return;
             }
+            // check for amount error
+            var amountErr = res.data[res.data.length - 1];
+            if (amountErr && amountErr.amountErr) {
+                _this.showErrorToast(_this.getLang(5));
+            }
+            res.data.pop();
             _this.d.cart = res.data;
             _this.$emit("cartDataLoaded", true);
             _this.calcCartTotal();

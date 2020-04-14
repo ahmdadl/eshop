@@ -39,6 +39,7 @@ return array(
     'profile' => 'My Profile',
     'stock' => 'Only left in stock!',
     'viewC' => 'View Cart',
+    'productNoAmount' => 'Some Products in your cart are out of stock'
   ),
   'nav' =>
   array(

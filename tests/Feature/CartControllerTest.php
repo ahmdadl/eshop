@@ -222,6 +222,34 @@ class CartControllerTest extends TestCase
             ->assertDontSee('fname');
     }
 
+    public function testCartWillBeCheckProductRemaningAmount()
+    {
+        $cart = $this->createCart();
+        $this->post('/' . app()->getLocale() . '/cart', $cart)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart]);
+        $product = factory(Product::class)->create();
+        $cart2 = $this->createCart($product);
+        $this->post('/' . app()->getLocale() . '/cart', $cart2)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart, $cart2]);
+
+        $this->getJson('/en/cart')
+            ->assertOk();
+
+        // CONSIDER another user checkout a product with full amount
+        // THEN we will check for product amount on very cart loading
+        $product->amount = 0;
+        $product->update();
+
+        $cart2['product']['amount'] = 0;
+
+        // get the cart again
+        $this->getJson('/en/cart')
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart, $cart2]);
+    }
+
     private function createCart(
         ?object $product = null,
         ?int $amount = null,

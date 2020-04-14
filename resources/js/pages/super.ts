@@ -92,6 +92,7 @@ export default class Super extends Vue {
      * @tutorial 2 => alert title
      * @tutorial 3 => error title
      * @tutorial 4 => success title
+     * @tutorial 5 => product no amount left
      */
     protected getLang(inx: number): string {
         return this.d.lang[inx] || "";
@@ -241,12 +242,19 @@ export default class Super extends Vue {
 
         Axios.get(`cart`, { baseURL: `/${this.getLocale()}/` }).then(
             (res: any) => {
-                if (!res || !res.data) {
+                if (!res.data) {
                     this.d.cartLoader = false;
                     this.showErrorToast();
                     return;
                 }
 
+                // check for amount error
+                const amountErr = res.data[res.data.length-1];
+                if (amountErr && amountErr.amountErr) {
+                    this.showErrorToast(this.getLang(5));
+                }
+                
+                res.data.pop();
                 (this.d as Dynamic).cart = res.data;
                 this.$emit("cartDataLoaded", true);
                 this.calcCartTotal();
