@@ -29,5 +29,13 @@
     "auth.A fresh verification link has been sent to your email address.": "",
     "auth.Before proceeding, please check your email for a verification link.": "",
     "auth.If you did not receive the email": "",
-    "auth.click here to request another": ""
+    "auth.click here to request another": "",
+    "All Categories": "All Categories",
+    "fashion": "fashion",
+    "super market": "super market",
+    "mobiles & tablets": "mobiles & tablets",
+    "electronics": "electronics",
+    "home": "home",
+    "toys": "toys",
+    "sports": "sports"
 }

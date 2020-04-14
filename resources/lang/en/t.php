@@ -6,6 +6,7 @@ return array(
   'addCart' => 'Add To Cart',
   'all_p' => 'All Products',
   'brand' => 'Brand',
+  
   'check' =>
   array(
     'address' => 'Address',
