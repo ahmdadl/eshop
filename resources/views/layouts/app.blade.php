@@ -429,15 +429,16 @@
                     style="background-color: #e3f2fd" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active"
-                            href="{{LaravelLocalization::localizeUrl('/')}}">All
-                            Categories</a>
+                            href="{{LaravelLocalization::localizeUrl('/')}}">
+                        {{__('All Categories')}}
+                        </a>
                     </li>
                     @foreach ($cats as $c)
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"
                             data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="true" aria-expanded="false">
-                            {{$c->name}}
+                            {{__($c->name)}}
                         </a>
                         <div class="dropdown-menu">
                             @foreach ($c->subCat as $sc)
