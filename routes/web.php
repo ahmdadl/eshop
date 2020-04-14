@@ -30,26 +30,37 @@ Route::group(
         Route::get('/p/{product}', 'ProductController@show');
         Route::get('/daily', 'ProductController@dailyDeal');
 
-        Route::get('/cart', 'CartController@index');
+        Route::middleware('isAjax')->group(function () {
+            // sessions not working on api routes
+            Route::get('/cart', 'CartController@index');
+            Route::patch('/cart/{id}', 'CartController@update');
+            Route::delete('/cart/{id}', 'CartController@destroy');
+        });
+
         Route::get('/viewCart', 'CartController@show');
-        // sessions not working on api routes
         Route::post('/cart', 'CartController@store');
-        Route::patch('/cart/{id}', 'CartController@update');
-        Route::delete('/cart/{id}', 'CartController@destroy');
 
         Route::middleware('auth')->group(function () {
             Route::get('/cart/checkout', 'CartController@create')
-            ->middleware('verified');
+                ->middleware('verified');
             Route::post('/cart/checkout', 'CartController@done')->middleware('verified');
 
-            Route::get('/user/{user}/profile', 
-            'UserController@index');
-            Route::get('/user/{user}/orders',
-            'UserController@getOrders');
-            Route::get('/user/{user}/products',
-            'UserController@getProducts');
-            Route::get('/user/{user}/users',
-            'UserController@getUsers');
+            Route::get(
+                '/user/{user}/profile',
+                'UserController@index'
+            );
+            Route::get(
+                '/user/{user}/orders',
+                'UserController@getOrders'
+            );
+            Route::get(
+                '/user/{user}/products',
+                'UserController@getProducts'
+            );
+            Route::get(
+                '/user/{user}/users',
+                'UserController@getUsers'
+            );
 
             Route::get('/user/{user}/p/create', 'ProductController@create');
             Route::post('/user/{user}/p', 'ProductController@store');
@@ -63,7 +74,7 @@ Route::group(
     }
 );
 
-Route::prefix('/api')->middleware('auth')->group(function () {
+Route::prefix('/api')->middleware(['auth', 'isAjax'])->group(function () {
     Route::post('/p/{product}/rates', 'RateController@store');
     Route::patch('/rates/{rate}', 'RateController@update');
 

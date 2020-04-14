@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\checkIfApi;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -67,5 +68,7 @@ class Kernel extends HttpKernel
         // 'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
         'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
         'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+        // My Middlewares
+        'isAjax' => \App\Http\Middleware\checkIfApi::class
     ];
 }
