@@ -64,7 +64,7 @@ export default class UserProfile extends Super {
     public deleteProduct(slug: string, id: number, inx: number) {
         this.removeClass(`#spinner${id}`, "d-none");
 
-        Axios.delete(`/${this.getLocale()}/p/${slug}`, { baseURL: "" }).then(
+        Axios.delete(`p/${slug}`).then(
             res => {
                 if (res.data && res.data.deleted) {
                     this.addClass(`#card${inx}`, "fade");

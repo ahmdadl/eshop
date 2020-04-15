@@ -30,15 +30,11 @@ Route::group(
         Route::get('/p/{product}', 'ProductController@show');
         Route::get('/daily', 'ProductController@dailyDeal');
 
-        Route::middleware('isAjax')->group(function () {
-            // sessions not working on api routes
-            Route::get('/cart', 'CartController@index');
-            Route::patch('/cart/{id}', 'CartController@update');
-            Route::delete('/cart/{id}', 'CartController@destroy');
-        });
+        // Route::middleware('isAjax')->group(function () {
+
+        // });
 
         Route::get('/viewCart', 'CartController@show');
-        Route::post('/cart', 'CartController@store');
 
         Route::middleware('auth')->group(function () {
             Route::get('/cart/checkout', 'CartController@create')
@@ -69,14 +65,23 @@ Route::group(
                 'ProductController@edit'
             )->middleware("can:update,product");
             Route::patch('/p/{product}', 'ProductController@update')->middleware('can:update,product');
-            Route::delete('/p/{product}', 'ProductController@destroy')->middleware("can:delete,product");
         });
     }
 );
 
-Route::prefix('/api')->middleware(['auth', 'isAjax'])->group(function () {
-    Route::post('/p/{product}/rates', 'RateController@store');
-    Route::patch('/rates/{rate}', 'RateController@update');
+Route::prefix('/api')->middleware('isAjax')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::post('/p/{product}/rates', 'RateController@store');
+        Route::patch('/rates/{rate}', 'RateController@update');
 
-    Route::patch('/user/{user}/role', 'UserController@updateRole');
+        Route::patch('/user/{user}/role', 'UserController@updateRole');
+        
+        Route::delete('/p/{product}', 'ProductController@destroy')->middleware("can:delete,product");
+    });
+
+    // sessions not working on api routes
+    Route::get('/cart', 'CartController@index');
+    Route::post('/cart', 'CartController@store');
+    Route::patch('/cart/{id}', 'CartController@update');
+    Route::delete('/cart/{id}', 'CartController@destroy');
 });

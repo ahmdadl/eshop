@@ -218,7 +218,7 @@ export default class Product extends Super {
     }
 
     public removeProduct(p: ProductInterface) {
-        Axios.delete(`/${this.getLocale()}/p/` + p.slug, { baseURL: "" }).then(
+        Axios.delete(`p/` + p.slug).then(
             res => {
                 if (!res.data || !res.data.deleted) {
                     this.addClass(`#spinnerDel${p.id}`, "d-none");

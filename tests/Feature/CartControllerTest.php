@@ -24,7 +24,7 @@ class CartControllerTest extends TestCase
             'total' => 26
         ];
 
-        $this->post('/' . app()->getLocale() . '/cart', $cart)->assertOk()
+        $this->post('/api/cart', $cart)->assertOk()
             ->assertJsonPath('amount', 2)
             ->assertSessionHas('cart', [$cart]);
 
@@ -37,7 +37,7 @@ class CartControllerTest extends TestCase
             'total' => 26
         ];
 
-        $this->post('/' . app()->getLocale() . '/cart', $cart2)->assertOk()
+        $this->post('/api/cart', $cart2)->assertOk()
             ->assertJsonPath('amount', 30)
             ->assertSessionHas('cart', [$cart, $cart2]);
     }
@@ -50,11 +50,11 @@ class CartControllerTest extends TestCase
         /** @var \App\Product $p */
         $p = $cart['product'];
 
-        $this->post('/' . app()->getLocale() . '/cart', $cart)
+        $this->post('/api/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
-        $this->post('/' . app()->getLocale() . '/cart', $cart)
+        $this->post('/api/cart', $cart)
             ->assertOk()
             ->assertExactJson([
                 'exists' => true
@@ -69,14 +69,14 @@ class CartControllerTest extends TestCase
         /** @var \App\Product $p */
         $p = $cart['product'];
 
-        $this->post('/' . app()->getLocale() . '/cart', $cart)
+        $this->post('/api/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
         $cart['amount'] = 25;
         $cart['total'] = 60;
 
-        $this->patch('/' . app()->getLocale() . '/cart/' . $p->id, ['amount' => 25, 'total' => 60])
+        $this->patch('/api/cart/' . $p->id, ['amount' => 25, 'total' => 60])
             ->assertOk()
             ->assertSessionHas('cart', [$cart])
             ->assertExactJson(['updated' => true]);
@@ -85,16 +85,16 @@ class CartControllerTest extends TestCase
     public function testUpdatingCartRequiresItemExists()
     {
         $this->initSessionArray();
-        $this->patch('/' . app()->getLocale() . '/cart/55', [])
+        $this->patch('/api/cart/55', [])
             ->assertOk()
             ->assertExactJson(['empty' => true]);
 
         $cart = $this->createCart();
-        $this->post('/' . app()->getLocale() . '/cart', $cart)
+        $this->post('/api/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
-        $this->patch('/' . app()->getLocale() . '/cart/445')
+        $this->patch('/api/cart/445')
             ->assertOk()
             ->assertExactJson(['exists' => false]);
     }
@@ -107,15 +107,15 @@ class CartControllerTest extends TestCase
 
         $id = $cart['id'];
 
-        $this->post('/' . app()->getLocale() . '/cart', $cart)
+        $this->post('/api/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
-        $this->post('/' . app()->getLocale() . '/cart', $cats2)
+        $this->post('/api/cart', $cats2)
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cats2]);
 
-        $this->delete('/' . app()->getLocale() . '/cart/' . $id)
+        $this->delete('/api/cart/' . $id)
             ->assertOk()
             ->assertSessionHas('cart', [$cats2])
             ->assertExactJson([
@@ -128,17 +128,17 @@ class CartControllerTest extends TestCase
         $this->initSessionArray();
 
         // trying to remove while cart is empty
-        $this->delete('/' . app()->getLocale() . '/cart/55')
+        $this->delete('/api/cart/55')
             ->assertOk()
             ->assertExactJson(['empty' => true]);
 
         // remove cart with invalid id
         $cart = $this->createCart();
-        $this->post('/' . app()->getLocale() . '/cart', $cart)
+        $this->post('/api/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
-        $this->delete('/' . app()->getLocale() . '/cart/' . 55)
+        $this->delete('/api/cart/' . 55)
             ->assertOk()
             ->assertExactJson(['exists' => false]);
     }
@@ -147,29 +147,29 @@ class CartControllerTest extends TestCase
     {
         $this->initSessionArray();
         $cart = $this->createCart();
-        $this->post('/' . app()->getLocale() . '/cart', $cart)
+        $this->post('/api/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
         $cart2 = $this->createCart();
-        $this->post('/' . app()->getLocale() . '/cart', $cart2)
+        $this->post('/api/cart', $cart2)
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cart2]);
         $cart3 = $this->createCart();
-        $this->post('/' . app()->getLocale() . '/cart', $cart3)
+        $this->post('/api/cart', $cart3)
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cart2, $cart3]);
 
-        $this->getJson('/' . app()->getLocale() . '/cart')
+        $this->getJson('/api/cart')
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cart2, $cart3]);
     }
 
     public function testOnlyAuthriedUsersCanCheckout()
     {
-        $this->get('/' . app()->getLocale() . '/cart/checkout')
+        $this->get('/en/cart/checkout')
             ->assertStatus(302);
 
-        $this->post('/' . app()->getLocale() . '/cart/checkout', [])
+        $this->post('/en/cart/checkout', [])
             ->assertStatus(302);
     }
 
@@ -177,7 +177,7 @@ class CartControllerTest extends TestCase
     {
         $this->signIn();
 
-        $this->post('/' . app()->getLocale() . '/cart/checkout', [])
+        $this->post('/en/cart/checkout', [])
             ->assertStatus(302)
             ->assertSessionHasErrors(['fname', 'lname', 'address', 'card']);
     }
@@ -188,15 +188,15 @@ class CartControllerTest extends TestCase
         $user = $this->signIn();
 
         $cart = $this->createCart();
-        $this->post('/' . app()->getLocale() . '/cart', $cart);
+        $this->post('/api/cart', $cart);
         $cart = $this->createCart();
-        $this->post('/' . app()->getLocale() . '/cart', $cart);
+        $this->post('/api/cart', $cart);
         $cart3 = $this->createCart();
-        $this->post('/' . app()->getLocale() . '/cart', $cart3);
+        $this->post('/api/cart', $cart3);
 
         $userNameArr = explode(' ', $user->name);
 
-        $this->post('/' . app()->getLocale() . '/cart/checkout', [
+        $this->post('/en/cart/checkout', [
             'fname' => $userNameArr[0],
             'lname' => $userNameArr[1],
             'address' => $this->faker->address,
@@ -225,16 +225,16 @@ class CartControllerTest extends TestCase
     public function testCartWillBeCheckProductRemaningAmount()
     {
         $cart = $this->createCart();
-        $this->post('/' . app()->getLocale() . '/cart', $cart)
+        $this->post('/api/cart', $cart)
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
         $product = factory(Product::class)->create();
         $cart2 = $this->createCart($product);
-        $this->post('/' . app()->getLocale() . '/cart', $cart2)
+        $this->post('/api/cart', $cart2)
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cart2]);
 
-        $this->getJson('/en/cart')
+        $this->getJson('/api/cart')
             ->assertOk();
 
         // CONSIDER another user checkout a product with full amount
@@ -245,7 +245,7 @@ class CartControllerTest extends TestCase
         $cart2['product']['amount'] = 0;
 
         // get the cart again
-        $this->getJson('/en/cart')
+        $this->getJson('/api/cart')
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cart2]);
     }

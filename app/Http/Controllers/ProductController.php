@@ -233,10 +233,6 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        if (request()->wantsJson()) {
-            return response()->json(['deleted' => true]);
-        }
-
-        return redirect('/');
+        return response()->json(['deleted' => true]);
     }
 }

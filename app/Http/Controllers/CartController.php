@@ -58,9 +58,7 @@ class CartController extends Controller
 
         $outCarts[] = ['amountErr' => $amountError];
 
-        if (request()->wantsJson()) {
-            return response()->json($outCarts);
-        }
+        return response()->json($outCarts);
     }
 
     public function create()

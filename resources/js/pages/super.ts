@@ -147,9 +147,7 @@ export default class Super extends Vue {
             total: total.toFixed(2)
         };
 
-        Axios.post("cart", ncart, {
-            baseURL: `/${this.getLocale()}/`
-        }).then(res => {
+        Axios.post("cart", ncart).then(res => {
             if (!res.data) {
                 this.hideCartLoader(product.id);
                 this.showErrorToast();
@@ -175,12 +173,11 @@ export default class Super extends Vue {
         const total = amount * price;
 
         Axios.patch(
-            `/${this.getLocale()}/cart/${id}`,
+            `cart/${id}`,
             {
                 amount: amount,
                 total
-            },
-            { baseURL: "" }
+            }
         ).then(res => {
             if (!res.data || !res.data.updated) {
                 this.hideCartLoader(id);
@@ -240,7 +237,7 @@ export default class Super extends Vue {
         (this.d as Dynamic).cart = [];
         this.d.cartLoader = true;
 
-        Axios.get(`cart`, { baseURL: `/${this.getLocale()}/` }).then(
+        Axios.get(`cart`).then(
             (res: any) => {
                 if (!res.data) {
                     this.d.cartLoader = false;
