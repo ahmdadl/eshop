@@ -493,8 +493,8 @@
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/bootstrap.native@2.0.27/dist/bootstrap-native-v4.min.js">
     </script>
-    <script src="https://kit.fontawesome.com/ddcc428049.js"
-        crossorigin="anonymous"></script>
+    {{-- <script src="https://kit.fontawesome.com/ddcc428049.js"
+        crossorigin="anonymous"></script> --}}
 </body>
 
 </html>
