@@ -1,7 +1,7 @@
 <div class="row pt-5">
-    <div class="col-12 col-sm-6">
+    <div class="col-12 col-sm-6 card card-body">
         <div class="btn-group">
-            <button class="btn btn-clear" type="button">
+            <button class="btn btn-clear col-10" type="button">
                 <h4 class="text-primary"
                     v-text="h.d.price || h.d.formatPrice({{$p->savedPrice}})">
                     ${{\number_format($p->savedPrice, 2)}}
@@ -13,7 +13,7 @@
                 aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
-            <div class="dropdown-menu p-2">
+            <div class="dropdown-menu p-2 dropdown-menu-right">
                 <a class="dropdown-item" href="#"
                     v-on:click.prevent="h.d.convertTo('EGP')">
                     @lang('t.show.conTo') @lang('t.show.EGP')
@@ -43,7 +43,7 @@
             <span>{{$p->info}}</span>
         </p>
     </div>
-    <div class="col-12 col-sm-6">
+    <div class="col-12 col-sm-6 card card-body">
         <div class="d-block">
             <div class="row">
                 <div class="col-4">
