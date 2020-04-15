@@ -6047,6 +6047,10 @@ readers do not read off random characters that represent icons */
   font-weight: 400;
 }
 
+body {
+  background-color: #edf2f7;
+}
+
 .text-dell {
   text-decoration: line-through !important;
 }

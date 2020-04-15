@@ -13,7 +13,9 @@
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/brands.scss";
-
+body {
+    background-color: $body-bg;
+}
 .text-dell {
     text-decoration: line-through !important;
 }
