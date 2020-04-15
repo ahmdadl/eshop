@@ -31,43 +31,19 @@ class CartController extends Controller
             session()->put('cart', []);
         }
 
-        $carts = session('cart', []);
-        $outCarts = [];
-        $amountError = false;
-
-        $ids = collect($carts)->pluck('id');
-        $products = Product::without(['rates', 'user', 'pi', 'pcat'])
-            ->whereIn('id', $ids)
-            ->get(['id', 'amount']);
-
-        // loop check if any product is out of stock
-        for ($i = 0; $i < sizeof($products); $i++) {
-            $cp = $carts[$i];
-            $p = $products[$i];
-
-            if ($p->id === $cp['id']) {
-                $cp['product']['amount'] = $p->amount;
-                if ($p->amount < 1) {
-                    $amountError = true;
-                }
-            }
-            $outCarts[] = $cp;
-        }
-
-        session()->put('cart', $outCarts);
-
-        $outCarts[] = ['amountErr' => $amountError];
-
-        return response()->json($outCarts);
+        return response()->json($this->checkForProductAmount());
     }
 
     public function create()
     {
+        $err = $this->checkForProductAmount();
+
         return view('cart.checkout', [
             'cats' => $this->getList(),
             'userName' => explode(' ', auth()->user()->name),
             'address' => Arr::random(['2732 Connelly Keys Suite 758Yostburgh, WA 46872-2314', '9965 Wyman Circle Suite 203New Erickamouth, OK 53434-7598', '694 Rocky Estates Suite 694West Berenice, NY 96502']),
-            'card' => Arr::random(['12364545423264546455'])
+            'card' => Arr::random(['12364545423264546455']),
+            'amountErr' => $err[sizeof($err) - 1]['amountErr']
         ]);
     }
 
@@ -81,8 +57,12 @@ class CartController extends Controller
         ]);
 
         $carts = session('cart');
+        $err = $this->checkForProductAmount();
 
         abort_unless(!!sizeof($carts), 404);
+        // abort if product is out of stock
+        // or cart amount more than left amount in product
+        abort_if(($err[sizeof($err) - 1]['amountErr']), 403);
 
         foreach ($carts as $cart) {
             auth()->user()->orders()->create([
@@ -214,5 +194,37 @@ class CartController extends Controller
     private function checkIfIdExsits(int $id, array $carts): bool
     {
         return in_array($id, array_column($carts, 'id'));
+    }
+
+    private function checkForProductAmount(): array
+    {
+        $carts = session('cart', []);
+        $outCarts = [];
+        $amountError = false;
+
+        $ids = collect($carts)->pluck('id');
+        $products = Product::without(['rates', 'user', 'pi', 'pcat'])
+            ->whereIn('id', $ids)
+            ->get(['id', 'amount']);
+
+        // loop check if any product is out of stock
+        for ($i = 0; $i < sizeof($products); $i++) {
+            $cp = $carts[$i];
+            $p = $products[$i];
+
+            if ($p->id === $cp['id']) {
+                $cp['product']['amount'] = $p->amount;
+                if ($p->amount < $cp['amount']) {
+                    $amountError = true;
+                }
+            }
+            $outCarts[] = $cp;
+        }
+
+        session()->put('cart', $outCarts);
+
+        $outCarts[] = ['amountErr' => $amountError];
+
+        return $outCarts;
     }
 }

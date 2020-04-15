@@ -7,7 +7,11 @@
 @section('content')
 <div class="row">
     <div class="col-sm-10 col-md-8">
+        @if ($amountErr)
+        <x-errors :msg="__('t.index.productNoAmount')"></x-errors>
+        @else
         <x-errors></x-errors>
+        @endif
         @unless (Session::has('success') && Session::get('success', false))
         @if (Session::has('cart') && count(Session::get('cart')) > 0)
         <form novalidate action="/{{app()->getLocale()}}/cart/checkout"
@@ -78,7 +82,7 @@
             </div>
             <div class="form-group">
                 <button type="submit"
-                    class="btn btn-primary btn-block col-sm-8">
+                    class="btn btn-primary btn-block col-sm-8" @if ($amountErr)disabled @endif>
                     @lang('t.check.save')
                 </button>
             </div>

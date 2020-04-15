@@ -14,6 +14,7 @@ class CartControllerTest extends TestCase
 
     public function testAnyOneCanAddToCart()
     {
+        // $this->withoutExceptionHandling();
         $this->initSessionArray();
         $p = factory(Product::class)->create();
 
@@ -212,6 +213,7 @@ class CartControllerTest extends TestCase
 
     public function testUserCanNotCheckoutIfNoItemsInCart()
     {
+        // $this->withoutExceptionHandling();
         $user = $this->signIn();
 
         $this->get('/en/cart/checkout')
@@ -248,6 +250,27 @@ class CartControllerTest extends TestCase
         $this->getJson('/api/cart')
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cart2]);
+    }
+
+    public function testCartCanNotCheckedIfProductAmountIsOut()
+    {
+        // $this->withoutExceptionHandling();
+        $user = $this->signIn();
+
+        $product = factory(Product::class)->create(['amount' => 3]);
+        $cart = $this->createCart($product, 5);
+        $this->post('/api/cart', $cart)
+            ->assertOk()
+            ->assertSessionHas('cart', [$cart]);
+
+        $userNameArr = explode(' ', $user->name);
+
+        $this->post('/en/cart/checkout', [
+            'fname' => $userNameArr[0],
+            'lname' => $userNameArr[1],
+            'address' => $this->faker->address,
+            'card' => $this->faker->creditCardNumber
+        ])->assertStatus(403);
     }
 
     private function createCart(
