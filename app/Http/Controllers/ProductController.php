@@ -6,9 +6,11 @@ use App\Category;
 use App\Http\Requests\UpdateProduct;
 use App\Product;
 use App\User;
+use Cache;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -35,7 +37,7 @@ class ProductController extends Controller
         $brands = explode(',', $brands);
 
         return response()->json(
-            Product::with('pCat')->where('category_slug', $cat_slug)
+            Product::with(['pCat', 'rates'])->where('category_slug', $cat_slug)
                 ->whereIn('brand', $brands)
                 ->paginate(30)
         );
@@ -44,7 +46,7 @@ class ProductController extends Controller
     public function filterCondition(string $cat_slug, int $is_used)
     {
         return response()->json(
-            Product::with('pCat')->where('category_slug', $cat_slug)
+            Product::with(['pCat', 'rates'])->where('category_slug', $cat_slug)
                 ->where('is_used', (int) $is_used)
                 ->paginate(30)
         );
@@ -56,7 +58,7 @@ class ProductController extends Controller
         float $to
     ) {
         return response()->json(
-            Product::with('pCat')->where('category_slug', $cat_slug)
+            Product::with(['pCat', 'rates'])->where('category_slug', $cat_slug)
                 ->whereBetween(DB::raw('price-(save/100*price)'), [$from, $to])
                 ->paginate(30)
         );
@@ -122,7 +124,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product->load(['user', 'pi', 'pCat']);
+        $product->loadMissing(['user', 'pi', 'pCat']);
 
         // get product amount in cart
         $ind = Arr::first(session('cart', []), function ($c) use ($product) {
@@ -169,18 +171,23 @@ class ProductController extends Controller
 
     public function dailyDeal()
     {
-        $p = Product::with('daily', 'pCat')
-            ->paginate(30);
+        $page = request()->input('page','1');
+
+        $product = Cache::remember('daily_page' . $page, Carbon::now()->addDay(), function () {
+            return Product::with('daily', 'pCat')
+                ->latest()
+                ->paginate(30);
+        });
 
         if (request()->wantsJson()) {
-            return response()->json($p);
+            return response()->json($product);
         }
 
         return view('product.index', [
             'cats' => $this->getList(),
             'slug' => ['search', ''],
             'title' => 'daily',
-            'pros' => $p
+            'pros' => $product
         ]);
     }
 
