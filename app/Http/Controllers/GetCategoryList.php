@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Arr;
-use Illuminate\Database\Eloquent\Collection;
+use Cache;
 
 trait GetCategoryList
 {
-    protected function getList() : Collection
+    protected function getList()
     {
-        return Category::whereNull('category_id')->with(['subCat'])->get();
+        return Cache::rememberForever('cats', function() {
+            return Category::whereNull('category_id')->with(['subCat'])->get();
+        });
     }
 
     protected function getImgArr(): array
