@@ -21,6 +21,8 @@ class Product extends Model
         'img' => 'array'
     ];
 
+    protected $with = ['rates'];
+
     protected $appends = [
         'rateAvg',
         'savedPrice'
