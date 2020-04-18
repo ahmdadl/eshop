@@ -17,9 +17,9 @@ trait GetCategoryList
 
     protected function getImgArr(): array
     {
-        $arr = range(1, 5);
+        $arr = range(1, 14);
         return [
-            Arr::random($arr) . '.png', Arr::random($arr) . '.png', Arr::random($arr) . '.png'
+            Arr::random($arr) . '.jpg', Arr::random($arr) . '.jpg', Arr::random($arr) . '.jpg'
         ];
     }
 }
