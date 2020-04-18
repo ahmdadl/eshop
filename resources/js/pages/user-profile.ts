@@ -64,7 +64,7 @@ export default class UserProfile extends Super {
     public deleteProduct(slug: string, id: number, inx: number) {
         this.removeClass(`#spinner${id}`, "d-none");
 
-        Axios.delete(`p/${slug}`).then(
+        Axios.post(`p/${slug}/delete`).then(
             res => {
                 if (res.data && res.data.deleted) {
                     this.addClass(`#card${inx}`, "fade");
@@ -86,7 +86,7 @@ export default class UserProfile extends Super {
             (el as HTMLElement).getAttribute("user-role") as string
         );
 
-        Axios.patch(`user/${id}/role`, { super: role }).then(res => {
+        Axios.post(`user/${id}/role/up`, { super: role }).then(res => {
             if (!res.data || !res.data.updated) {
                 this.addClass(`#spinnerUpdating${id}`, "d-none");
                 this.showErrorToast();

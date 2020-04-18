@@ -97,8 +97,8 @@ export default class ShowProduct extends Super {
             path = `p/${this.d.slug}/rates`;
 
         if (this.d.userRev.alreadyReved) {
-            method = "patch";
-            path = `/rates/${this.d.userRev.id}`;
+            method = "post";
+            path = `/rates/up/${this.d.userRev.id}`;
         }
 
         const r = {

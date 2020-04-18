@@ -172,7 +172,7 @@ export default class Super extends Vue {
         }
         const total = amount * price;
 
-        Axios.patch(
+        Axios.post(
             `cart/${id}`,
             {
                 amount: amount,

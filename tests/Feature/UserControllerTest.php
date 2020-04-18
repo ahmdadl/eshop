@@ -172,11 +172,11 @@ class UserControllerTest extends TestCase
 
         $user = factory(User::class)->create();
 
-        $this->patchJson('/api/user/' . $user->id . '/role')
+        $this->patchJson('/api/user/' . $user->id . '/role/up')
             ->assertStatus(403);
 
         $this->signIn(['role' => User::SuperRole]);
-        $this->patchJson('/api/user/' . $user->id . '/role')
+        $this->patchJson('/api/user/' . $user->id . '/role/up')
             ->assertStatus(403);
     }
 
@@ -190,7 +190,7 @@ class UserControllerTest extends TestCase
 
         $this->assertFalse($user->isSuper());
 
-        $this->patchJson('/api/user/' . $user->id . '/role', ['super' => true])
+        $this->patchJson('/api/user/' . $user->id . '/role/up', ['super' => true])
             ->assertOk()
             ->assertExactJson(['updated' => true]);
 
@@ -198,7 +198,7 @@ class UserControllerTest extends TestCase
 
         $this->assertTrue($user->isSuper());
 
-        $this->patchJson('/api/user/' . $user->id . '/role', ['super' => false])
+        $this->patchJson('/api/user/' . $user->id . '/role/up', ['super' => false])
             ->assertOk()
             ->assertExactJson(['updated' => true]);
 

@@ -100,8 +100,8 @@ class RateControllerTest extends TestCase
         $p = factory(Product::class)->create();
         $rate = $p->rates()->save(factory(Rate::class)->make());
 
-        $this->patch(
-            '/api/rates/' . $rate->id,
+        $this->post(
+            '/api/rates/up/' . $rate->id,
             $rate->only(['user_id', 'rate', 'message'])
         )->assertStatus(403);
     }
@@ -115,8 +115,8 @@ class RateControllerTest extends TestCase
             'message' => 'asd'
         ]));
 
-        $this->patch(
-            '/api/rates/' . $rate->id,
+        $this->post(
+            '/api/rates/up/' . $rate->id,
             $rate->only(['user_id', 'rate', 'message'])
         )->assertStatus(302)
             ->assertSessionHasErrors('message');
@@ -144,8 +144,8 @@ class RateControllerTest extends TestCase
 
         $rate->message = $newMessage;
 
-        $this->patch(
-            '/api/rates/' . $rate->id,
+        $this->post(
+            '/api/rates/up/' . $rate->id,
             $rate->only(['user_id', 'rate', 'message'])
         )->assertOk()
             ->assertJsonPath('obj.message', $rate->message);

@@ -77,7 +77,7 @@ class CartControllerTest extends TestCase
         $cart['amount'] = 25;
         $cart['total'] = 60;
 
-        $this->patch('/api/cart/' . $p->id, ['amount' => 25, 'total' => 60])
+        $this->post('/api/cart/' . $p->id, ['amount' => 25, 'total' => 60])
             ->assertOk()
             ->assertSessionHas('cart', [$cart])
             ->assertExactJson(['updated' => true]);
@@ -86,7 +86,7 @@ class CartControllerTest extends TestCase
     public function testUpdatingCartRequiresItemExists()
     {
         $this->initSessionArray();
-        $this->patch('/api/cart/55', [])
+        $this->post('/api/cart/55', [])
             ->assertOk()
             ->assertExactJson(['empty' => true]);
 
@@ -95,7 +95,7 @@ class CartControllerTest extends TestCase
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
-        $this->patch('/api/cart/445')
+        $this->post('/api/cart/445')
             ->assertOk()
             ->assertExactJson(['exists' => false]);
     }
@@ -116,7 +116,7 @@ class CartControllerTest extends TestCase
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cats2]);
 
-        $this->delete('/api/cart/' . $id)
+        $this->delete('/api/cart/' . $id . '/delete')
             ->assertOk()
             ->assertSessionHas('cart', [$cats2])
             ->assertExactJson([

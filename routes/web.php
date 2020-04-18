@@ -72,16 +72,16 @@ Route::group(
 Route::prefix('/api')->middleware('isAjax')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::post('/p/{product}/rates', 'RateController@store');
-        Route::patch('/rates/{rate}', 'RateController@update');
+        Route::post('/rates/up/{rate}', 'RateController@update');
 
-        Route::patch('/user/{user}/role', 'UserController@updateRole');
+        Route::post('/user/{user}/role/up', 'UserController@updateRole');
         
-        Route::delete('/p/{product}', 'ProductController@destroy')->middleware("can:delete,product");
+        Route::post('/p/{product}/delete', 'ProductController@destroy')->middleware("can:delete,product");
     });
 
     // sessions not working on api routes
     Route::get('/cart', 'CartController@index');
     Route::post('/cart', 'CartController@store');
-    Route::patch('/cart/{id}', 'CartController@update');
-    Route::delete('/cart/{id}', 'CartController@destroy');
+    Route::post('/cart/{id}', 'CartController@update');
+    Route::post('/cart/{id}/delete', 'CartController@destroy');
 });
