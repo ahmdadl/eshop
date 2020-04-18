@@ -61,19 +61,17 @@ export default class ShowCart extends Super {
     public removeItem(inx: number, id: number) {
         this.d.cartLoader = true;
 
-        Axios.post(`cart/${id}/delete`).then(
-            res => {
-                if (!res.data || !res.data.deleted) {
-                    this.d.cartLoader = false;
-                    this.showErrorToast();
-                    return;
-                }
-                this.d.cart.splice(inx, 1);
-                this.updateCartTotal();
-                this.calcTotalPrice();
+        Axios.post(`cart/${id}/delete`).then(res => {
+            if (!res.data || !res.data.deleted) {
                 this.d.cartLoader = false;
+                this.showErrorToast();
+                return;
             }
-        );
+            this.d.cart.splice(inx, 1);
+            this.updateCartTotal();
+            this.calcTotalPrice();
+            this.d.cartLoader = false;
+        });
     }
 
     beforeMount() {

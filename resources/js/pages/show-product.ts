@@ -145,6 +145,8 @@ export default class ShowProduct extends Super {
                 return;
             }
             console.log(this.d.cartAmount);
+            res.data.savedPriceInt = res.data.savedPrice;
+            res.data.savedPrice = this.formatter.format(res.data.savedPrice);
             this.addToCartNative(res.data, this.d.cartAmount);
         });
     }
