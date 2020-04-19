@@ -100,7 +100,8 @@
                     class="navbar sticky-top navbar-expand-md navbar-dark bg-primary shadow-sm">
                     <div class="container">
                         <a class="navbar-brand" href="{{ url('/') }}">
-                            {{ config('app.name', 'Laravel') }}
+                            <img src="/favicon.ico" width="30" height="30" alt="">
+                            {{ config('app.name', '') }}
                         </a>
                         <ul class="unstyled-list">
                             <li
