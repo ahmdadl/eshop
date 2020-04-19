@@ -13,7 +13,7 @@ $id = $id ?? bin2hex(random_bytes(5));
     </ol>
     <div class="carousel-inner">
         @foreach ($imgArr as $img)
-        <div class="carousel-item {{$loop->index === 1 ? 'active' : ''}}">
+        <div class="carousel-item {{$loop->index === 0 ? 'active' : ''}}">
             <img src="/img/{{$slug ?? ''}}/{{$img}}" class="d-block w-100" alt=".">
         </div>
         @endforeach
