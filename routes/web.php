@@ -77,6 +77,13 @@ Route::prefix('/api')->middleware('isAjax')->group(function () {
         Route::post('/user/{user}/role/up', 'UserController@updateRole');
         
         Route::post('/p/{product}/delete', 'ProductController@destroy')->middleware("can:delete,product");
+        Route::post(
+            '/oauth/clients/update/{client}', 'OauthController@update'
+        );
+        Route::post(
+            '/oauth/clients/{client}/delete',
+            'OauthController@destroy'
+        );
     });
 
     // sessions not working on api routes

@@ -15,13 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::post(
-        '/oauth/clients/update/{client}', 'OauthController@update'
-    );
-    Route::post(
-        '/oauth/clients/{client}/delete',
-        'OauthController@destroy'
-    );
+    
 });
 
 Route::get('/sub/{category_slug}', 'HomeController@sendData');
