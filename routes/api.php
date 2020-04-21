@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:web')->group(function () {
-    
+Route::middleware('auth:api')->group(function () {
+    Route::post('/oauth/clients/update/{client}', 'OauthController@update');
 });
 
 Route::get('/sub/{category_slug}', 'HomeController@sendData');
@@ -26,4 +26,3 @@ Route::get('/sub/{category_slug}/priceFilter/{from}/{to}', 'ProductController@fi
 
 Route::get('/p/{product}', 'ProductController@findOne');
 Route::get('/p/{product}/rates', 'RateController@index');
-
