@@ -1,6 +1,6 @@
 import { Vue } from "vue-property-decorator";
 import Axios from "axios";
-import Echo from "laravel-echo";
+// import Echo from "laravel-echo";
 import Home from "./pages/home";
 import Product from "./pages/product";
 import StarRate from "./components/StarRate.vue";
@@ -9,6 +9,7 @@ import Toastr from "./components/toast.vue";
 import ShowProduct from "./pages/show-product";
 import ShowCart from "./pages/show-cart";
 import UserProfile from "./pages/user-profile";
+import Clients from "./components/passport/Clients.vue";
 
 Axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 Axios.defaults.baseURL = `/api/`;
@@ -18,6 +19,7 @@ Vue.config.productionTip = false;
 Vue.component("star-rate", StarRate);
 Vue.component("my-product", XProduct);
 Vue.component("toast", Toastr);
+Vue.component("passport-clients", Clients);
 
 const app = new Vue({
     el: "#app",
