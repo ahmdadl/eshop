@@ -49,14 +49,47 @@ class OauthControllerTest extends TestCase
             ->assertSessionHasErrors(['name', 'redirect']);
     }
 
-    public function testUserCanUpdateOwnedClientByOurController()
+    public function testUserCanUpdateOwnedClientByOauthController()
     {
-        $clientId = $this->createClient();
+        $owner = factory(User::class)->create();
+
+        $clientId = $this->createClient($owner);
 
         $data = $this->clientData();
 
-        $this->post('/api/oauth/clients/update/' . $clientId, $data)
+        $this->actingAs($owner)->post('/api/oauth/clients/update/' . $clientId, $data)
             ->assertOk();
+    }
+
+    public function testUserCanDeleteOwnedClients()
+    {
+        $owner = factory(User::class)->create();
+
+        $clientId = $this->createClient($owner);
+
+        // user cannot delete others clients
+        Passport::actingAs(factory(User::class)->create());
+        $this->delete("/oauth/clients/$clientId")
+            ->assertStatus(404);
+
+        // user can delete owned clients
+        Passport::actingAs($owner);
+        $this->delete("/oauth/clients/$clientId")
+            ->assertStatus(204);
+    }
+
+    public function testUserCanDeleteOwnedClientByOauthController()
+    {
+        $owner = factory(User::class)->create();
+        $clientId = $this->createClient($owner);
+
+        // user cannot delete others clients
+        $this->actingAs(factory(User::class)->create())->post("/api/oauth/clients/$clientId/delete")
+            ->assertStatus(404);
+
+        // user can delete owned clients
+        $this->actingAs($owner)->post("/api/oauth/clients/$clientId/delete")
+            ->assertStatus(204);
     }
 
     private function clientData(): array
