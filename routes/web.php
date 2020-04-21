@@ -65,6 +65,11 @@ Route::group(
                 'ProductController@edit'
             )->middleware("can:update,product");
             Route::patch('/p/{product}', 'ProductController@update')->middleware('can:update,product');
+
+            Route::get(
+                '/user/{user}/clients',
+                'UserController@getClients'
+            );
         });
     }
 );

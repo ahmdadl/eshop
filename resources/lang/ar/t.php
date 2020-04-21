@@ -119,6 +119,7 @@ return array (
       'profile' => 'صفحتى الشخصية',
       'sellItem' => 'إضافة منتج جديد',
       'users' => 'جميع المستخدمين',
+      'clients' => 'تطبيقات API'
     ),
     'mes' => 
     array (

@@ -120,6 +120,7 @@ return array(
       'profile' => 'My Profile',
       'sellItem' => 'Sell new Product',
       'users' => 'All Users',
+      'clients' => 'My API Clients'
     ),
     'mes' =>
     array(

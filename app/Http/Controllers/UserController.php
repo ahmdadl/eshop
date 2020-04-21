@@ -61,6 +61,11 @@ class UserController extends Controller
         return view('user.products', compact('user', 'products'));
     }
 
+    public function getClients(User $user)
+    {
+        return view('user.apps');
+    }
+
     public function getUsers(User $user)
     {
         abort_if(Gate::denies('change-role'), 403);
