@@ -116,7 +116,7 @@ class CartControllerTest extends TestCase
             ->assertOk()
             ->assertSessionHas('cart', [$cart, $cats2]);
 
-        $this->delete('/api/cart/' . $id . '/delete')
+        $this->post('/api/cart/' . $id . '/delete')
             ->assertOk()
             ->assertSessionHas('cart', [$cats2])
             ->assertExactJson([
@@ -129,7 +129,7 @@ class CartControllerTest extends TestCase
         $this->initSessionArray();
 
         // trying to remove while cart is empty
-        $this->delete('/api/cart/55')
+        $this->post('/api/cart/55')
             ->assertOk()
             ->assertExactJson(['empty' => true]);
 
@@ -139,7 +139,7 @@ class CartControllerTest extends TestCase
             ->assertOk()
             ->assertSessionHas('cart', [$cart]);
 
-        $this->delete('/api/cart/' . 55)
+        $this->post('/api/cart/' . 55)
             ->assertOk()
             ->assertExactJson(['exists' => false]);
     }

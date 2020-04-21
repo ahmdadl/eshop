@@ -230,7 +230,7 @@ class ProductControllerTest extends TestCase
 
     public function testGuestCanNotDeleteProduct()
     {
-        $this->delete('/api/p/some-name')
+        $this->post('/api/p/some-name/delete')
             ->assertStatus(302);
     }
 
@@ -247,10 +247,10 @@ class ProductControllerTest extends TestCase
             ])
         );
 
-        $this->delete('/api/p/' . $slug.'/delete')
+        $this->post('/api/p/' . $slug.'/delete')
             ->assertStatus(403);
 
-        $this->actingAs($user)->delete('/api/p/' . $slug.'/delete')
+        $this->actingAs($user)->post('/api/p/' . $slug.'/delete')
             ->assertOk()
             ->assertExactJson(['deleted' => true]);
 
@@ -270,7 +270,7 @@ class ProductControllerTest extends TestCase
             ])
         );
 
-        $this->delete('/api/p/' . $slug.'/delete')
+        $this->post('/api/p/' . $slug.'/delete')
             ->assertOk()
             ->assertExactJson(['deleted' => true]);
 

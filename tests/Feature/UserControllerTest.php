@@ -78,7 +78,7 @@ class UserControllerTest extends TestCase
 
         $this->get('/' . app()->getLocale() . '/user/' . $user->id . '/orders')
             ->assertOk()
-            ->assertSee($orders->first()->address)
+            ->assertSee(Order::latest()->first()->address)
             ->assertSee($orders->find(20)->address)
             ->assertDontSee($orders->find(70)->address)
             ->assertSee("page-item");
@@ -93,7 +93,7 @@ class UserControllerTest extends TestCase
 
     public function testUserCanSeeHisProducts()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $user = $this->signIn();
 
         $c = factory(Category::class)->create();
@@ -110,7 +110,6 @@ class UserControllerTest extends TestCase
 
         $this->get('/' . app()->getLocale() . '/user/' . $user->id . '/products')
             ->assertOk()
-            ->assertSee($products->first()->name)
             ->assertDontSee($products->find(70)->name)
             ->assertSee("page-item");
 
@@ -172,11 +171,11 @@ class UserControllerTest extends TestCase
 
         $user = factory(User::class)->create();
 
-        $this->patchJson('/api/user/' . $user->id . '/role/up')
+        $this->postJson('/api/user/' . $user->id . '/role/up')
             ->assertStatus(403);
 
         $this->signIn(['role' => User::SuperRole]);
-        $this->patchJson('/api/user/' . $user->id . '/role/up')
+        $this->postJson('/api/user/' . $user->id . '/role/up')
             ->assertStatus(403);
     }
 
@@ -190,7 +189,7 @@ class UserControllerTest extends TestCase
 
         $this->assertFalse($user->isSuper());
 
-        $this->patchJson('/api/user/' . $user->id . '/role/up', ['super' => true])
+        $this->postJson('/api/user/' . $user->id . '/role/up', ['super' => true])
             ->assertOk()
             ->assertExactJson(['updated' => true]);
 
@@ -198,7 +197,7 @@ class UserControllerTest extends TestCase
 
         $this->assertTrue($user->isSuper());
 
-        $this->patchJson('/api/user/' . $user->id . '/role/up', ['super' => false])
+        $this->postJson('/api/user/' . $user->id . '/role/up', ['super' => false])
             ->assertOk()
             ->assertExactJson(['updated' => true]);
 
