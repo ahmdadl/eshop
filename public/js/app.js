@@ -16456,7 +16456,11 @@ var app = new vue_property_decorator_1.Vue({
         'product': function () { return Promise.resolve().then(function () { return __webpack_require__(/*! ./pages/product */ "./resources/js/pages/product.ts"); }); },
         "show-product": function () { return Promise.resolve().then(function () { return __webpack_require__(/*! ./pages/show-product */ "./resources/js/pages/show-product.ts"); }); },
         "show-cart": function () { return Promise.resolve().then(function () { return __webpack_require__(/*! ./pages/show-cart */ "./resources/js/pages/show-cart.ts"); }); },
-        "user-profile": function () { return Promise.resolve().then(function () { return __webpack_require__(/*! ./pages/user-profile */ "./resources/js/pages/user-profile.ts"); }); }
+        "user-profile": function () { return Promise.resolve().then(function () { return __webpack_require__(/*! ./pages/user-profile */ "./resources/js/pages/user-profile.ts"); }); },
+        "console": function (resolve) {
+            // @ts-ignore
+            __webpack_require__.e(/*! AMD require */ 2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./pages/console */ "./resources/js/pages/console.ts")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+        }
     },
     mounted: function () {
         var _this = this;

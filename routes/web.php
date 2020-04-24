@@ -70,6 +70,11 @@ Route::group(
                 '/user/{user}/clients',
                 'UserController@getClients'
             );
+
+            Route::get(
+                '/console',
+                'UserController@loadConsole'
+            );
         });
     }
 );

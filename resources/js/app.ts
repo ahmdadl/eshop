@@ -35,7 +35,11 @@ const app = new Vue({
         'product': () => import("./pages/product"),
         "show-product": () => import("./pages/show-product"),
         "show-cart": () => import("./pages/show-cart"),
-        "user-profile": () => import("./pages/user-profile")
+        "user-profile": () => import("./pages/user-profile"),
+        "console": function(resolve) {
+            // @ts-ignore
+            require(["./pages/console"], resolve);
+        }
     },
     mounted() {
         Axios.interceptors.response.use(

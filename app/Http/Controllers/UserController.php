@@ -92,6 +92,11 @@ class UserController extends Controller
         return response()->json(['updated' => true]);
     }
 
+    public function loadConsole()
+    {
+        return view('console');
+    }
+
     private function loadUserStats($user): array
     {
         $countOrders = DB::table('orders')
