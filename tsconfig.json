@@ -11,7 +11,7 @@
         "experimentalDecorators": true,
         "importHelpers": true,
         "target": "es5",
-        "module": "es2015",
+        "module": "CommonJS",
         "moduleResolution": "node",
         "typeRoots": ["node_modules/@types"],
         "lib": ["dom", "es6"]

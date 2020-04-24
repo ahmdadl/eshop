@@ -4,12 +4,12 @@ import Axios from "axios";
 import Home from "./pages/home";
 import Product from "./pages/product";
 import StarRate from "./components/StarRate.vue";
-import XProduct from "./components/x-product.vue";
+// import XProduct from "./components/x-product.vue";
 import Toastr from "./components/toast.vue";
 import ShowProduct from "./pages/show-product";
 import ShowCart from "./pages/show-cart";
-import UserProfile from "./pages/user-profile";
-import Clients from "./components/passport/Clients.vue";
+// import UserProfile from "./pages/user-profile";
+// import Clients from "./components/passport/Clients.vue";
 
 Axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 Axios.defaults.baseURL = `/api/`;
@@ -17,23 +17,30 @@ Axios.defaults.baseURL = `/api/`;
 Vue.config.productionTip = false;
 
 Vue.component("star-rate", StarRate);
-Vue.component("my-product", XProduct);
+// Vue.component("my-product", () => import("./components/x-product.vue"));
+Vue.component("my-product", function(resolve) {
+    // @ts-ignore
+    require(["./components/x-product.vue"], resolve);
+});
 Vue.component("toast", Toastr);
-Vue.component("passport-clients", Clients);
+Vue.component("passport-clients", function(resolve) {
+    // @ts-ignore
+    require(["./components/passport/Clients.vue"], resolve);
+});
 
 const app = new Vue({
     el: "#app",
     components: {
         Home,
-        Product,
-        ShowProduct,
-        ShowCart,
-        UserProfile
+        'product': () => import("./pages/product"),
+        "show-product": () => import("./pages/show-product"),
+        "show-cart": () => import("./pages/show-cart"),
+        "user-profile": () => import("./pages/user-profile")
     },
     mounted() {
         Axios.interceptors.response.use(
             response => {
-                // console.log(response.data);
+                console.log(response.data);
                 return response;
             },
             error => {
