@@ -88,10 +88,19 @@
         @include('product.filters.rating')
     </div>
     @endunless
-    <div class="alert alert-danger mt-5 col-12 text-center font-weight-bolder"
+    <div class="alert alert-danger mt-5 col-12 col-md-7 text-center font-weight-bolder"
         style="max-height: 50px"
         v-if="!h.d.oldData.length && !h.d.loadingPosts">
         @lang('t.show.noPros')
+    </div>
+    <div :class="h.d.loadingPosts ? 'd-flex' : 'd-none'"
+        class="d-none justify-content-center mt-2 col-md-6">
+        <div class="spinner-border text-primary"
+            style="width: 3rem; height: 3rem;" role="status">
+            <div class="spinner-grow text-danger" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
     </div>
     <div class="col-12 col-md-10 card-columns">
         <my-product v-for="(p, pinx) in h.d.data" :product="p"
@@ -106,15 +115,6 @@
             v-on:added="h.d.addToCart($event)"
             v-on:delete="h.d.removeProduct($event)">
         </my-product>
-    </div>
-</div>
-<div :class="h.d.loadingPosts ? 'd-flex' : 'd-none'"
-    class="d-none justify-content-center mt-2">
-    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"
-        role="status">
-        <div class="spinner-grow text-danger" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
     </div>
 </div>
 @isset ($pros)
