@@ -23,6 +23,10 @@ eshop Developers Console
         </div>
     </div>
     <div class="col-sm-6">
+        <div class="alert alert-warning" v-if="h.d.doc.method==='POST'">
+            <strong>Note</strong> this website hosting is preventing put, patch
+            and delete http methods.
+        </div>
         <h4
             v-text="h.d.doc.method + ' ' + h.d.doc.route || '{{$doc[0]->method}} {{$doc[0]->route}}'">
         </h4>
@@ -160,5 +164,7 @@ eshop Developers Console
     </div>
 </div>
 <input type="hidden" class="d-none" id="vxdata" value="{{json_encode($doc)}}" />
-<console-tester :show="h.d.showModal" :doc="h.d.doc" :clients="h.d.clients" v-on:remove-active-class="h.d.removeClassFromAll($event)" v-on:success="h.d.setAfterSuccess($event)"></console-tester>
+<console-tester :show="h.d.showModal" :doc="h.d.doc" :clients="h.d.clients"
+    v-on:remove-active-class="h.d.removeClassFromAll($event)"
+    v-on:success="h.d.setAfterSuccess($event)"></console-tester>
 @endsection
