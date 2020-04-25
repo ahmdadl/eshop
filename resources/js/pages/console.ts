@@ -55,8 +55,8 @@ export default class Console extends Super {
             " | " +
             "eshop Developers Console";
         document.title = title;
-        const method = isBack ? 'replaceState' : 'pushState';
-        
+        const method = isBack ? "replaceState" : "pushState";
+
         window.history[method](
             {
                 page: inx,
@@ -65,7 +65,12 @@ export default class Console extends Super {
             title,
             "/en/console#" + this.d.doc.route
         );
-        console.log(inx);
+
+        // remove active class from all elements
+        this.removeClassFromAll(".pageLink");
+        this.addClass(`#page${inx}`, "active");
+        this.addClass(`#page${inx}`, 'text-light');
+
         this.d.doc.response = JSON.stringify(
             JSON.parse(this.d.doc.response),
             null,
@@ -84,6 +89,13 @@ export default class Console extends Super {
         document.execCommand("copy");
         document.body.removeChild(el);
         this.showToast("copied to clipboard", "Copied", "success");
+    }
+
+    public removeClassFromAll(cls: string) {
+        const list = document.querySelectorAll(cls) as NodeList;
+        list.forEach(el =>
+            (el as HTMLAnchorElement).classList.remove('active', 'text-light')
+        );
     }
 
     beforeMount() {

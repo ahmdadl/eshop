@@ -44,12 +44,15 @@ var Console = /** @class */ (function (_super) {
             " | " +
             "eshop Developers Console";
         document.title = title;
-        var method = isBack ? 'replaceState' : 'pushState';
+        var method = isBack ? "replaceState" : "pushState";
         window.history[method]({
             page: inx,
             doc: this.d.doc
         }, title, "/en/console#" + this.d.doc.route);
-        console.log(inx);
+        // remove active class from all elements
+        this.removeClassFromAll(".pageLink");
+        this.addClass("#page" + inx, "active");
+        this.addClass("#page" + inx, 'text-light');
         this.d.doc.response = JSON.stringify(JSON.parse(this.d.doc.response), null, 2);
     };
     Console.prototype.copyCurl = function () {
@@ -63,6 +66,12 @@ var Console = /** @class */ (function (_super) {
         document.execCommand("copy");
         document.body.removeChild(el);
         this.showToast("copied to clipboard", "Copied", "success");
+    };
+    Console.prototype.removeClassFromAll = function (cls) {
+        var list = document.querySelectorAll(cls);
+        list.forEach(function (el) {
+            return el.classList.remove('active', 'text-light');
+        });
     };
     Console.prototype.beforeMount = function () {
         this.attachToGlobal(this, ["setDoc", "copyCurl"]);

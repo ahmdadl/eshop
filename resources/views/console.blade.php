@@ -12,9 +12,9 @@ eshop Developers Console
             @isset ($d->parent)
             <h6 class="pt-1 font-weight-bold">{{$d->parent}}</h6>
             @endif
-            <a href="#" v-on:click.prevent.stop="h.d.setDoc({{$loop->index}})"
-                class="list-group-item list-group-item-action 
-            @if ($loop->first) active @endif
+            <a href="#" id="page{{$loop->index}}" v-on:click.prevent.stop="h.d.setDoc({{$loop->index}})"
+                class="list-group-item list-group-item-action pageLink 
+            @if ($loop->first) active text-light @endif
             @if ($d->method === 'POST') text-danger @else text-primary @endif
             " style="word-break:break-all">
                 {{$d->method}} {{$d->route}}
