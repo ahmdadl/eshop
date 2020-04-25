@@ -242,6 +242,10 @@
                                             @lang('t.index.products')
                                         </a>
                                         <a class="dropdown-item"
+                                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/clients">
+                                            @lang('t.user.menu.clients')
+                                        </a>
+                                        <a class="dropdown-item"
                                             href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

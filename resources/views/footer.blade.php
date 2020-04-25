@@ -43,24 +43,27 @@
                         </a>
                     </li>
                     <li class="list-group-item bg-dark border-secondary">
-                        <a class="text-light" @auth
-                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/profile"
-                            @else href="{{ route('login') }}" @endauth>
+                        <a class="text-light"
+                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/profile">
                             {{ __('t.user.menu.profile') }}
                         </a>
                     </li>
                     <li class="list-group-item bg-dark border-secondary">
-                        <a class="text-light" @auth
-                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/orders"
-                            @else href="{{ route('login') }}" @endauth>
+                        <a class="text-light"
+                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/orders">
                             {{ __('t.user.menu.order') }}
                         </a>
                     </li>
                     <li class="list-group-item bg-dark border-secondary">
-                        <a class="text-light" @auth
-                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/products"
-                            @else href="{{ route('login') }}" @endauth>
+                        <a class="text-light"
+                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/products">
                             {{ __('t.user.menu.prod') }}
+                        </a>
+                    </li>
+                    <li class="list-group-item bg-dark border-secondary">
+                        <a class="text-light"
+                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/clients">
+                            @lang('t.user.menu.clients')
                         </a>
                     </li>
                 </ul>
@@ -70,9 +73,9 @@
             <div class="col-12 pt-2 pb-2 text-center copy">
                 <h5>
                     Made With <span class="text-danger">&hearts;</span> by <a
-                        class="text-danger"
-                        target="_blank"
-                        href="http://ninjacoder.rf.gd/">ninjaCoder</a> &copy; 2020
+                        class="text-danger" target="_blank"
+                        href="http://ninjacoder.rf.gd/">ninjaCoder</a> &copy;
+                    2020
                 </h5>
             </div>
         </div>
