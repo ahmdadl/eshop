@@ -160,5 +160,5 @@ eshop Developers Console
     </div>
 </div>
 <input type="hidden" class="d-none" id="vxdata" value="{{json_encode($doc)}}" />
-<console-tester :show="h.d.showModal" :doc="h.d.doc" :clients="h.d.clients" v-on:remove-active-class="h.d.removeClassFromAll($event)"></console-tester>
+<console-tester :show="h.d.showModal" :doc="h.d.doc" :clients="h.d.clients" v-on:remove-active-class="h.d.removeClassFromAll($event)" v-on:success="h.d.setAfterSuccess($event)"></console-tester>
 @endsection

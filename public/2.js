@@ -55,7 +55,7 @@ var ConsoleTester = /** @class */ (function (_super) {
         console.log(this.url);
         var data = this.buildFormData();
         axios_1.default.post("console/test", data).then(function (res) {
-            if (res.status !== 200) {
+            if (res.status > 204) {
                 _this.connecting = false;
                 // if this validation error
                 if (res.status === 422) {
@@ -65,7 +65,12 @@ var ConsoleTester = /** @class */ (function (_super) {
                 _this.errors = [['an Error occured with code ' + res.status]];
                 return;
             }
-            _this.connecting = true;
+            _this.$emit('success', {
+                res: res.data,
+                url: _this.url
+            });
+            _this.connecting = false;
+            _this.hideModal();
         });
     };
     ConsoleTester.prototype.buildUrl = function () {

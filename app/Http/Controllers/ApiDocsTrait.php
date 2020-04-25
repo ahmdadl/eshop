@@ -306,7 +306,7 @@ trait ApiDocsTrait
                 '/product/consequatur-quibusdam-rem-consequuntur-sunt-provident-dolores/rates/39449?rate=4.6',
                 '[]',
                 [$this->cparam('Authorization', 'A valid access token', true)],
-                [204, ''],
+                [204, '.'],
                 [
                     $this->cparam('slug', 'product slug', true),
                     $this->cparam('id', 'rate id', true)
@@ -388,12 +388,12 @@ trait ApiDocsTrait
                 'change user role - requires admin access',
                 '/user/{id}/role/patch?role=',
                 '/user/5/role/patch?role=1',
-                '',
+                '[]',
                 [$this->cparam('Authorization', 'A valid access token', true), $this->cparam('scopes', 'patch-role is required to access this route', true)],
-                [204, ''],
+                [204, '.'],
                 [$this->cparam('id', 'update this user role', false)],
                 [$this->cparam('role', 'number, 0 -> normal user, 1 -> super user', false, 0)]
-            ),
+            )
         ];
 
         file_put_contents(

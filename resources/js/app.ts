@@ -46,7 +46,7 @@ const app = new Vue({
     mounted() {
         Axios.interceptors.response.use(
             response => {
-                console.log(response.data);
+                // console.log(response.data);
                 return response;
             },
             error => {

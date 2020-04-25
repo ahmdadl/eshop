@@ -193,7 +193,7 @@ export default class ConsoleTester extends Vue {
         const data = this.buildFormData();
 
         Axios.post("console/test", data).then(res => {
-            if (res.status !== 200) {
+            if (res.status > 204) {
                 this.connecting = false;
                 // if this validation error
                 if (res.status === 422) {
@@ -204,7 +204,12 @@ export default class ConsoleTester extends Vue {
                 return;
             }
 
-            this.connecting = true;
+            this.$emit('success', {
+                res: res.data,
+                url: this.url
+            });
+            this.connecting = false;
+            this.hideModal();
         });
     }
 
