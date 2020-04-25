@@ -25,14 +25,15 @@ var ConsoleTester = /** @class */ (function (_super) {
         _this.activeClient = _this.clients[0];
         _this.connecting = false;
         _this.url = "";
+        _this.errors = [];
         return _this;
     }
-    // public errors
     ConsoleTester.prototype.showModal = function () {
         // @ts-ignore
         new Modal(document.getElementById("conoleTesterModal")).show();
         this.url_params = [];
         this.query = [];
+        this.errors = [];
     };
     ConsoleTester.prototype.hideModal = function () {
         // @ts-ignore
@@ -47,14 +48,24 @@ var ConsoleTester = /** @class */ (function (_super) {
         });
     };
     ConsoleTester.prototype.connect = function () {
+        var _this = this;
         this.connecting = true;
+        this.errors = [];
         this.buildUrl();
         console.log(this.url);
         var data = this.buildFormData();
-        axios_1.default.post("console/test", data).then(function (res) { }).catch(function (err) {
-            var e = err.response;
-            if (e.data) {
+        axios_1.default.post("console/test", data).then(function (res) {
+            if (res.status !== 200) {
+                _this.connecting = false;
+                // if this validation error
+                if (res.status === 422) {
+                    _this.errors = res.data;
+                    return;
+                }
+                _this.errors = [['an Error occured with code ' + res.status]];
+                return;
             }
+            _this.connecting = true;
         });
     };
     ConsoleTester.prototype.buildUrl = function () {
@@ -205,6 +216,50 @@ var render = function() {
                         }
                       })
                     ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-2" }, [
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errors.length !== 0,
+                            expression: "errors.length !== 0"
+                          }
+                        ],
+                        staticClass: "col-12"
+                      },
+                      [
+                        _c("div", { staticClass: "alert alert-danger" }, [
+                          _c(
+                            "ul",
+                            { staticClass: "list-group list-group-flush" },
+                            _vm._l(_vm.errors, function(err, errinx) {
+                              return _c(
+                                "li",
+                                {
+                                  key: errinx,
+                                  staticClass: "list-group-item bg-transparent"
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                            * " +
+                                      _vm._s(err[0]) +
+                                      "\n                                        "
+                                  )
+                                ]
+                              )
+                            }),
+                            0
+                          )
+                        ])
+                      ]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "row mt-2" }, [

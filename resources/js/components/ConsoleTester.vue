@@ -37,6 +37,25 @@
                                 </div>
                             </div>
                             <div class="row mt-2">
+                                <hr />
+                                <div
+                                    class="col-12"
+                                    v-show="errors.length !== 0"
+                                >
+                                    <div class="alert alert-danger">
+                                        <ul class="list-group list-group-flush">
+                                            <li
+                                                class="list-group-item bg-transparent"
+                                                v-for="(err, errinx) in errors"
+                                                :key="errinx"
+                                            >
+                                                * {{ err[0] }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
                                 <div
                                     class="col-12"
                                     v-if="doc.url_params.length"
@@ -137,7 +156,7 @@ export default class ConsoleTester extends Vue {
     public activeClient: any = this.clients[0];
     public connecting: boolean = false;
     public url: string = "";
-    // public errors
+    public errors: any[] = [];
 
     public showModal() {
         // @ts-ignore
@@ -147,6 +166,7 @@ export default class ConsoleTester extends Vue {
 
         this.url_params = [];
         this.query = [];
+        this.errors = [];
     }
 
     public hideModal() {
@@ -167,15 +187,24 @@ export default class ConsoleTester extends Vue {
 
     public connect() {
         this.connecting = true;
+        this.errors = [];
         this.buildUrl();
         console.log(this.url);
         const data = this.buildFormData();
 
-        Axios.post("console/test", data).then(res => {}).catch(err => {
-            const e = err.response;
-            if (e.data) {
-                
+        Axios.post("console/test", data).then(res => {
+            if (res.status !== 200) {
+                this.connecting = false;
+                // if this validation error
+                if (res.status === 422) {
+                    this.errors = res.data;
+                    return;
+                }
+                this.errors = [['an Error occured with code ' + res.status]];
+                return;
             }
+
+            this.connecting = true;
         });
     }
 

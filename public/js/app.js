@@ -16489,9 +16489,11 @@ var app = new vue_property_decorator_1.Vue({
             //     console.log("Error", error.message);
             // }
             // console.log('I`m herererer');
-            console.log(error.response);
+            // console.log(error.response);
+            // 
             // show error toast
             _this.$refs.childCmp.showErrorToast();
+            return error.response;
         });
         var splash = this.$refs.splashScreen;
         if (splash && splash.style) {
