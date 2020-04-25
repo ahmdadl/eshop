@@ -118,7 +118,7 @@ export default class Console extends Super {
     }
 
     public setAfterSuccess(obj) {
-        console.log(obj);
+        // console.log(obj);
         this.d.doc.response = JSON.stringify(obj.res, null, 2);
         this.d.doc.test_curl = `curl ${obj.url} -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMWFlNWQ0ZDA4MWFjMTAwYmE0NzYyMTMzOTJiYTUwNjNlZTcwNDBkZWNlNDA0NDc3NWRiOGZmMTUxNDIzYjlmYTVhNWMzMDFkNGJjMTA3NjEiLCJpYXQiOjE1ODc3MTc2ODIsIm5iZiI6MTU4NzcxNzY4MiwiZXhwIjoxNTg3ODA0MDgyLCJzdWIiOiIzIiwic2NvcGVzIjpbXX0.pQu9cPO6peRqmU3Kk25B_y1W5y4k2ujlOeE05_cWf30gDEat4iVSUIe8UmIV8KFmp259UO9rLqQAOLrSwMdWEm4X64SCiTD4ht5U0IE4MQt2Hb8AOnmhzO4cqpBYkX9BiyDJEKzQsir154Jfv71Qy4GCPrOYDMCcI7K6-40aO8yqw_hyQoZ1cZm2fnIPOVvcXP3Cna7jKIDq6YONKW8Cs_TMfFtW323KnIxNUoXFMHWVxkYI334nHs_a1GZberoU1VqxUEyzoz7BhGPlU83YW1dDVzWhzz7SCz-QZ4Z0H_GDpBsSi9VX6QldU7w9wa1XaMvS595-F2WbcVVDVEpTADjbifQ5B_yG7z_5MXINkOIVxXaKQv5Ngqx-tqQsG6itPOMi2GLLbWgdhckLNzWSF8PeAKi2zz5g_a795GICMA2tzAR1tXmIqjZlsCVfY_7AAss9-B5zOvW3xWfK5YLuIGcf5rWCWil20A5S0W7omtt_WKSw5337yLZI5XneVgkkKXMKef3GiWcbysBtDVJXbUxETj_VLQr9ZRJPxjMYzye6R59s3dOvP0fpk-U1SbSPr8p3-yO451xKIVcxpsD7cSbGMQagggq0tlcyAb53MCAhX3u53g9zw_ewxse0oLgaxmcJGN9fWL5HYqopawLcK70NSsMS75qKbszBLS6k89c" -H "Accept: application/json"`;
     }
@@ -157,7 +157,7 @@ export default class Console extends Super {
 
         window.onpopstate = e => {
             if (e.state) {
-                console.log(e.state);
+                // console.log(e.state);
                 this.setDoc(e.state.page, true);
                 document.title = e.state.doc.route;
             }

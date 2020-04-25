@@ -41,7 +41,7 @@ var ConsoleTester = /** @class */ (function (_super) {
     };
     ConsoleTester.prototype.setClient = function (inx, ev) {
         this.activeClient = this.clients[inx];
-        console.log(this.activeClient);
+        // console.log(this.activeClient);
         this.$emit("remove-active-class", ".btnClient");
         setTimeout(function (_) {
             return ev.target.classList.add("active");
@@ -52,7 +52,7 @@ var ConsoleTester = /** @class */ (function (_super) {
         this.connecting = true;
         this.errors = [];
         this.buildUrl();
-        console.log(this.url);
+        // console.log(this.url);
         var data = this.buildFormData();
         axios_1.default.post("console/test", data).then(function (res) {
             if (res.status > 204) {

@@ -178,7 +178,7 @@ export default class ConsoleTester extends Vue {
 
     public setClient(inx: number, ev: Event) {
         this.activeClient = this.clients[inx];
-        console.log(this.activeClient);
+        // console.log(this.activeClient);
         this.$emit("remove-active-class", ".btnClient");
         setTimeout(_ =>
             (ev.target as HTMLButtonElement).classList.add("active")
@@ -189,7 +189,7 @@ export default class ConsoleTester extends Vue {
         this.connecting = true;
         this.errors = [];
         this.buildUrl();
-        console.log(this.url);
+        // console.log(this.url);
         const data = this.buildFormData();
 
         Axios.post("console/test", data).then(res => {

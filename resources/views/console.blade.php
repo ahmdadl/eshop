@@ -144,7 +144,7 @@ eshop Developers Console
                 v-text="h.d.doc.test_curl || '{{$doc[0]->test_curl}}'">
             </p>
         </div>
-        <div>
+        <div class="pt-3">
             <h4 class="text-secondary border-bottom border-secondary">Response
                 <strong class="text-warning float-right">
                     <span
