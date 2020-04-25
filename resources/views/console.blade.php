@@ -1,7 +1,7 @@
 @extends('layouts.app', ['cpt' => 'console'])
 
 @section('title')
-Developers Console
+eshop Developers Console
 @endsection
 
 @section('content')
@@ -132,7 +132,7 @@ Developers Console
         <span class="position-absolute btn btn-secondary btn-sm" v-on:click="h.d.copyCurl()">
             <i class="fa fa-copy"></i>
         </span>
-        <div class="p-2 pt-0">
+        <div class="p-2 pt-0" style="word-break:break-all">
             <p id="cli" class="pt-4"
                 v-text="h.d.doc.test_curl || '{{$doc[0]->test_curl}}'">
             </p>

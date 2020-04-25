@@ -46,28 +46,48 @@ export default class Console extends Super {
         }
     };
 
-    public setDoc(inx: number) {
-        // console.log(this.d.data[inx]);
+    public setDoc(inx: number, isBack: boolean = false) {
         this.d.doc = this.d.data[inx];
-        this.d.doc.response =  JSON.stringify(JSON.parse(this.d.doc.response), null, 2);
+        const title =
+            this.d.doc.method +
+            " " +
+            this.d.doc.route +
+            " | " +
+            "eshop Developers Console";
+        document.title = title;
+        const method = isBack ? 'replaceState' : 'pushState';
+        
+        window.history[method](
+            {
+                page: inx,
+                doc: this.d.doc
+            },
+            title,
+            "/en/console#" + this.d.doc.route
+        );
+        console.log(inx);
+        this.d.doc.response = JSON.stringify(
+            JSON.parse(this.d.doc.response),
+            null,
+            2
+        );
     }
 
-    public copyCurl()
-    {
-        const el = document.createElement('textarea');
+    public copyCurl() {
+        const el = document.createElement("textarea");
         el.value = this.d.doc.test_curl;
-        el.style.height = '0';
-        el.style.width = '0';
+        el.style.height = "0";
+        el.style.width = "0";
         document.body.appendChild(el);
         el.select();
         el.setSelectionRange(0, 9999);
-        document.execCommand('copy');
+        document.execCommand("copy");
         document.body.removeChild(el);
-        this.showToast('copied to clipboard', 'Copied', 'success');
+        this.showToast("copied to clipboard", "Copied", "success");
     }
 
     beforeMount() {
-        this.attachToGlobal(this, ['setDoc', 'copyCurl']);
+        this.attachToGlobal(this, ["setDoc", "copyCurl"]);
     }
 
     mounted() {
@@ -88,5 +108,13 @@ export default class Console extends Super {
             this.d.doc = this.d.data[0];
             console.log(this.d.doc);
         }
+
+        window.onpopstate = e => {
+            if (e.state) {
+                console.log(e.state);
+                this.setDoc(e.state.page, true);
+                document.title = e.state.doc.route;
+            }
+        };
     }
 }
