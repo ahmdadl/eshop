@@ -74,14 +74,14 @@ trait ApiDocsTrait
             ),
             $this->doc(
                 $base,
-                '/category/sub/{sub_category_slug}',
+                '/category/sub/{slug}',
                 'GET',
                 'load one category info',
-                '/category/sub/{sub_category_slug}',
+                '/category/sub/{slug}',
                 '/category/sub/sunt-eum-voluptatum',
                 '[{"id":47,"name":"Sunt eum voluptatum.","category_id":44,"slug":"sunt-eum-voluptatum","created_at":"2020-04-23T04:20:28.000000Z","updated_at":"2020-04-23T04:20:28.000000Z","parent":{"id":44,"name":"toys","category_id":null,"slug":"toys","created_at":"2020-04-23T04:20:28.000000Z","updated_at":"2020-04-23T04:20:28.000000Z"}}]',
                 [$this->cparam('Authorization', 'A valid access token', true)],
-                [200, 'category object with refrences to parent category.'],
+                [200, 'category object with refrences to parent category.'],[$this->cparam('slug', 'sub category slug')]
             ),
             $this->doc(
                 $base,

@@ -94,6 +94,8 @@ Route::prefix('/api')->middleware('isAjax')->group(function () {
             '/oauth/clients/{client}/delete',
             'OauthController@destroy'
         );
+
+        Route::post('/console/test', 'OauthController@test');
     });
 
     // sessions not working on api routes

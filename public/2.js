@@ -12,6 +12,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 var vue_property_decorator_1 = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
+var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var ConsoleTester = /** @class */ (function (_super) {
     tslib_1.__extends(ConsoleTester, _super);
     function ConsoleTester() {
@@ -44,13 +45,21 @@ var ConsoleTester = /** @class */ (function (_super) {
             return ev.target.classList.add("active");
         });
     };
+    ConsoleTester.prototype.connect = function () {
+        this.connecting = true;
+        this.buildUrl();
+        console.log(this.url);
+        var data = this.buildFormData();
+        axios_1.default.post("console/test", data).then(function (res) { });
+    };
     ConsoleTester.prototype.buildUrl = function () {
         var _this = this;
         this.url = this.doc.url_with_params;
         // get query assign sign ?
         var queryPos = this.url.indexOf("?");
         // remove empty queries from url
-        this.url = this.url.slice(0, queryPos);
+        if (queryPos > -1)
+            this.url = this.url.slice(0, queryPos);
         // replace url params keys with values
         this.url_params.map(function (u, i) {
             var re = new RegExp("{" + _this.doc.url_params[i].key + "}", "gi");
@@ -67,10 +76,19 @@ var ConsoleTester = /** @class */ (function (_super) {
             }
         });
     };
-    ConsoleTester.prototype.connect = function () {
-        this.connecting = true;
-        this.buildUrl();
-        console.log(this.url);
+    ConsoleTester.prototype.buildFormData = function () {
+        var _this = this;
+        var f = new FormData();
+        f.append("method", this.doc.method);
+        f.append("url", this.url);
+        f.append("token", this.token);
+        this.query.map(function (q, i) {
+            f.append(_this.doc.query[i].key, q);
+        });
+        if (this.activeClient) {
+            f.append("client_id", this.activeClient.id);
+        }
+        return f;
     };
     ConsoleTester.prototype.onShowChange = function (val, oldVal) {
         this.showModal();

@@ -147,18 +147,19 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import { Doc, Param } from "../pages/console";
+import Axios from "axios";
 
 @Component
 export default class ConsoleTester extends Vue {
     @Prop({ type: Boolean, required: true }) public show: boolean;
     @Prop({ type: Object, required: true }) public doc: Doc;
-    @Prop({ type: Array }) public clients: ClientData[];
+    @Prop({ type: Array }) public clients: any[];
     public token: string = "";
     public clientId: number = 0;
     public isEdit: boolean = false;
     public query: any[] = [];
     public url_params: any[] = [];
-    public activeClient: ClientData = this.clients[0];
+    public activeClient: any = this.clients[0];
     public connecting: boolean = false;
     public url: string = "";
 
@@ -188,13 +189,22 @@ export default class ConsoleTester extends Vue {
         );
     }
 
-    public buildUrl() {
+    public connect() {
+        this.connecting = true;
+        this.buildUrl();
+        console.log(this.url);
+        const data = this.buildFormData();
+
+        Axios.post("console/test", data).then(res => {});
+    }
+
+    private buildUrl() {
         this.url = this.doc.url_with_params;
 
         // get query assign sign ?
         const queryPos = this.url.indexOf("?");
         // remove empty queries from url
-        this.url = this.url.slice(0, queryPos);
+        if (queryPos > -1) this.url = this.url.slice(0, queryPos);
 
         // replace url params keys with values
         this.url_params.map((u, i) => {
@@ -213,10 +223,18 @@ export default class ConsoleTester extends Vue {
         });
     }
 
-    public connect() {
-        this.connecting = true;
-        this.buildUrl();
-        console.log(this.url);
+    private buildFormData(): FormData {
+        const f = new FormData();
+        f.append("method", this.doc.method);
+        f.append("url", this.url);
+        f.append("token", this.token);
+        this.query.map((q, i) => {
+            f.append(this.doc.query[i].key, q);
+        });
+        if (this.activeClient) {
+            f.append("client_id", this.activeClient.id);
+        }
+        return f;
     }
 
     @Watch("show")

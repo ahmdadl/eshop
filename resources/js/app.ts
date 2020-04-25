@@ -66,7 +66,7 @@ const app = new Vue({
                 //     console.log("Error", error.message);
                 // }
                 // console.log('I`m herererer');
-                // console.log(error.response);
+                console.log(error.response);
 
                 // show error toast
                 this.$refs.childCmp.showErrorToast();
