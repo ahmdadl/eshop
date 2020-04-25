@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
+    use ApiDocsTrait;
+
     public function index(User $user)
     {
         abort_if($user->id !== auth()->id(), 403);
@@ -94,7 +96,13 @@ class UserController extends Controller
 
     public function loadConsole()
     {
-        return view('console');
+        // $this->docs();
+        // load apidocs file
+        return view('console', [
+            'doc' => unserialize(
+                file_get_contents(storage_path() . '/app/api_docs.php')
+            )
+        ]);
     }
 
     private function loadUserStats($user): array
