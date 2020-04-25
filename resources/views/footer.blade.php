@@ -43,8 +43,8 @@
                         </a>
                     </li>
                     <li class="list-group-item bg-dark border-secondary">
-                        <a class="text-light"
-                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/profile">
+                        <a class="text-light" @auth
+                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/profile"@else href="{{ route('login') }}" @endauth>
                             {{ __('t.user.menu.profile') }}
                         </a>
                     </li>
