@@ -206,7 +206,8 @@ export default class ConsoleTester extends Vue {
 
             this.$emit('success', {
                 res: res.data,
-                url: this.url
+                url: this.url,
+                token: this.token
             });
             this.connecting = false;
             this.hideModal();
