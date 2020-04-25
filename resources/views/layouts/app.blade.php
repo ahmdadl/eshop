@@ -366,10 +366,7 @@
                     __('t.show.errMess'), __('t.show.succMess'), __('t.show.alertTitle'), __('t.show.dangerTitle'), __('t.show.succTitle'), __('t.index.productNoAmount')
                     ])}}" />
                 <main class="py-4 container-fluid" id="component-container">
-
                     @yield('content')
-
-
                 </main>
                 @include('footer')
             </template>

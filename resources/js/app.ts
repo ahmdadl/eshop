@@ -2,14 +2,15 @@ import { Vue } from "vue-property-decorator";
 import Axios from "axios";
 // import Echo from "laravel-echo";
 import Home from "./pages/home";
-import Product from "./pages/product";
+import Product from './pages/product';
 import StarRate from "./components/StarRate.vue";
 // import XProduct from "./components/x-product.vue";
 import Toastr from "./components/toast.vue";
-import ShowProduct from "./pages/show-product";
-import ShowCart from "./pages/show-cart";
-// import UserProfile from "./pages/user-profile";
+import ShowProduct from './pages/show-product';
+import ShowCart from './pages/show-cart';
+import UserProfile from './pages/user-profile';
 // import Clients from "./components/passport/Clients.vue";
+import Console from './pages/console';
 
 Axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 Axios.defaults.baseURL = `/api/`;
@@ -32,14 +33,11 @@ const app = new Vue({
     el: "#app",
     components: {
         Home,
-        'product': () => import("./pages/product"),
-        "show-product": () => import("./pages/show-product"),
-        "show-cart": () => import("./pages/show-cart"),
-        "user-profile": () => import("./pages/user-profile"),
-        "console": function(resolve) {
-            // @ts-ignore
-            require(["./pages/console"], resolve);
-        }
+        Product,
+        ShowProduct,
+        ShowCart,
+        UserProfile,
+        Console
     },
     mounted() {
         Axios.interceptors.response.use(

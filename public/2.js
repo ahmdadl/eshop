@@ -78,8 +78,13 @@ var Console = /** @class */ (function (_super) {
     };
     Console.prototype.mounted = function () {
         var _this = this;
-        var _a;
-        var data = (_a = document.querySelector("#vxdata").value) !== null && _a !== void 0 ? _a : "[]";
+        var data = document.querySelector("#vxdata");
+        if (data) {
+            data = data.value;
+        }
+        else {
+            data = "[]";
+        }
         if (!data.length) {
             setTimeout(function () {
                 var _a;
@@ -92,7 +97,7 @@ var Console = /** @class */ (function (_super) {
         else {
             this.d.data = JSON.parse(data);
             this.d.doc = this.d.data[0];
-            console.log(this.d.doc);
+            // console.log(this.d.doc);
         }
         window.onpopstate = function (e) {
             if (e.state) {

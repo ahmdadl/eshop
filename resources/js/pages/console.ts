@@ -103,9 +103,13 @@ export default class Console extends Super {
     }
 
     mounted() {
-        const data =
-            (document.querySelector("#vxdata") as HTMLInputElement).value ??
-            "[]";
+        let data: any =
+            (document.querySelector("#vxdata") as HTMLInputElement);
+            if (data) {
+                data = data.value;
+            } else {
+                data = "[]";
+            }
 
         if (!data.length) {
             setTimeout(() => {
@@ -118,7 +122,7 @@ export default class Console extends Super {
         } else {
             this.d.data = JSON.parse(data);
             this.d.doc = this.d.data[0];
-            console.log(this.d.doc);
+            // console.log(this.d.doc);
         }
 
         window.onpopstate = e => {
