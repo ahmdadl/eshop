@@ -25,6 +25,7 @@ export interface Doc {
 export interface Dynamic {
     data: Doc[];
     doc: Doc;
+    showModal: boolean;
 }
 
 @Component
@@ -43,7 +44,8 @@ export default class Console extends Super {
             url_params: [],
             query: [],
             parent: ""
-        }
+        },
+        showModal: false
     };
 
     public setDoc(inx: number, isBack: boolean = false) {
@@ -69,7 +71,7 @@ export default class Console extends Super {
         // remove active class from all elements
         this.removeClassFromAll(".pageLink");
         this.addClass(`#page${inx}`, "active");
-        this.addClass(`#page${inx}`, 'text-light');
+        this.addClass(`#page${inx}`, "text-light");
 
         this.d.doc.response = JSON.stringify(
             JSON.parse(this.d.doc.response),
@@ -94,22 +96,25 @@ export default class Console extends Super {
     public removeClassFromAll(cls: string) {
         const list = document.querySelectorAll(cls) as NodeList;
         list.forEach(el =>
-            (el as HTMLAnchorElement).classList.remove('active', 'text-light')
+            (el as HTMLAnchorElement).classList.remove("active", "text-light")
         );
     }
 
+    public tryIt() {
+        this.d.showModal = !this.d.showModal;
+    }
+
     beforeMount() {
-        this.attachToGlobal(this, ["setDoc", "copyCurl"]);
+        this.attachToGlobal(this, ["setDoc", "copyCurl", "tryIt"]);
     }
 
     mounted() {
-        let data: any =
-            (document.querySelector("#vxdata") as HTMLInputElement);
-            if (data) {
-                data = data.value;
-            } else {
-                data = "[]";
-            }
+        let data: any = document.querySelector("#vxdata") as HTMLInputElement;
+        if (data) {
+            data = data.value;
+        } else {
+            data = "[]";
+        }
 
         if (!data.length) {
             setTimeout(() => {

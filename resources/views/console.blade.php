@@ -12,8 +12,8 @@ eshop Developers Console
             @isset ($d->parent)
             <h6 class="pt-1 font-weight-bold">{{$d->parent}}</h6>
             @endif
-            <a href="#" id="page{{$loop->index}}" v-on:click.prevent.stop="h.d.setDoc({{$loop->index}})"
-                class="list-group-item list-group-item-action pageLink 
+            <a href="#" id="page{{$loop->index}}"
+                v-on:click.prevent.stop="h.d.setDoc({{$loop->index}})" class="list-group-item list-group-item-action pageLink 
             @if ($loop->first) active text-light @endif
             @if ($d->method === 'POST') text-danger @else text-primary @endif
             " style="word-break:break-all">
@@ -26,6 +26,9 @@ eshop Developers Console
         <h4
             v-text="h.d.doc.method + ' ' + h.d.doc.route || '{{$doc[0]->method}} {{$doc[0]->route}}'">
         </h4>
+        <button class="btn btn-info float-right" v-on:click="h.d.tryIt()">
+            TryIt
+        </button>
         <p v-text="h.d.doc.info || '{{$doc[0]->info}}'"></p>
         <code class="bg-dark p-2"
             v-text="h.d.doc.url_with_params || '{{$doc[0]->url_with_params}}'">
@@ -127,9 +130,13 @@ eshop Developers Console
         <p>Body: <span
                 v-text="h.d.doc.res_doc[1] || '{{$doc[0]->res_doc[1]}}'"></span>
         </p>
+        <button class="btn btn-info btn-block" v-on:click="h.d.tryIt()">
+            TryIt
+        </button>
     </div>
     <div class="col-sm-3 bash bg-dark text-success">
-        <span class="position-absolute btn btn-secondary btn-sm" v-on:click="h.d.copyCurl()">
+        <span class="position-absolute btn btn-secondary btn-sm"
+            v-on:click="h.d.copyCurl()">
             <i class="fa fa-copy"></i>
         </span>
         <div class="p-2 pt-0 curlCli" style="word-break:break-all">
@@ -153,4 +160,5 @@ eshop Developers Console
     </div>
 </div>
 <input type="hidden" class="d-none" id="vxdata" value="{{json_encode($doc)}}" />
+<console-tester :show="h.d.showModal" :doc="h.d.doc"></console-tester>
 @endsection

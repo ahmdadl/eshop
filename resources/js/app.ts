@@ -28,6 +28,10 @@ Vue.component("passport-clients", function(resolve) {
     // @ts-ignore
     require(["./components/passport/Clients.vue"], resolve);
 });
+Vue.component("console-tester", function (res) {
+    // @ts-ignore
+    require(['./components/ConsoleTester.vue'], res);
+});
 
 const app = new Vue({
     el: "#app",

@@ -16453,6 +16453,10 @@ vue_property_decorator_1.Vue.component("passport-clients", function (resolve) {
     // @ts-ignore
     __webpack_require__.e(/*! AMD require */ 1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./components/passport/Clients.vue */ "./resources/js/components/passport/Clients.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
 });
+vue_property_decorator_1.Vue.component("console-tester", function (res) {
+    // @ts-ignore
+    __webpack_require__.e(/*! AMD require */ 2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./components/ConsoleTester.vue */ "./resources/js/components/ConsoleTester.vue")]; (res).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+});
 var app = new vue_property_decorator_1.Vue({
     el: "#app",
     components: {
@@ -16692,7 +16696,8 @@ var Console = /** @class */ (function (_super) {
                 url_params: [],
                 query: [],
                 parent: ""
-            }
+            },
+            showModal: false
         };
         return _this;
     }
@@ -16713,7 +16718,7 @@ var Console = /** @class */ (function (_super) {
         // remove active class from all elements
         this.removeClassFromAll(".pageLink");
         this.addClass("#page" + inx, "active");
-        this.addClass("#page" + inx, 'text-light');
+        this.addClass("#page" + inx, "text-light");
         this.d.doc.response = JSON.stringify(JSON.parse(this.d.doc.response), null, 2);
     };
     Console.prototype.copyCurl = function () {
@@ -16731,11 +16736,14 @@ var Console = /** @class */ (function (_super) {
     Console.prototype.removeClassFromAll = function (cls) {
         var list = document.querySelectorAll(cls);
         list.forEach(function (el) {
-            return el.classList.remove('active', 'text-light');
+            return el.classList.remove("active", "text-light");
         });
     };
+    Console.prototype.tryIt = function () {
+        this.d.showModal = !this.d.showModal;
+    };
     Console.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ["setDoc", "copyCurl"]);
+        this.attachToGlobal(this, ["setDoc", "copyCurl", "tryIt"]);
     };
     Console.prototype.mounted = function () {
         var _this = this;
