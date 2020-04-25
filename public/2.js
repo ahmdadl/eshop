@@ -15,7 +15,14 @@ var vue_property_decorator_1 = __webpack_require__(/*! vue-property-decorator */
 var ConsoleTester = /** @class */ (function (_super) {
     tslib_1.__extends(ConsoleTester, _super);
     function ConsoleTester() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.token = "";
+        _this.clientId = 0;
+        _this.isEdit = false;
+        _this.query = [];
+        _this.url_params = [];
+        _this.activeClient = _this.clients[0];
+        return _this;
     }
     ConsoleTester.prototype.showModal = function () {
         // @ts-ignore
@@ -25,13 +32,22 @@ var ConsoleTester = /** @class */ (function (_super) {
         // @ts-ignore
         new Modal(document.getElementById("conoleTesterModal")).hide();
     };
+    ConsoleTester.prototype.setClient = function (inx, ev) {
+        this.activeClient = this.clients[inx];
+        console.log(this.activeClient);
+        this.$emit('remove-active-class', '.btnClient');
+        setTimeout(function (_) { return ev.target.classList.add('active'); });
+    };
     ConsoleTester.prototype.onShowChange = function (val, oldVal) {
         this.showModal();
     };
     ConsoleTester.prototype.onDocChange = function (val, oldVal) {
         this.doc = val;
+        // console.log(this.doc);
     };
-    ConsoleTester.prototype.mounted = function () { };
+    ConsoleTester.prototype.mounted = function () {
+        this.token = "*".repeat(50);
+    };
     tslib_1.__decorate([
         vue_property_decorator_1.Prop({ type: Boolean, required: true }),
         tslib_1.__metadata("design:type", Boolean)
@@ -40,6 +56,10 @@ var ConsoleTester = /** @class */ (function (_super) {
         vue_property_decorator_1.Prop({ type: Object, required: true }),
         tslib_1.__metadata("design:type", Object)
     ], ConsoleTester.prototype, "doc", void 0);
+    tslib_1.__decorate([
+        vue_property_decorator_1.Prop({ type: Array }),
+        tslib_1.__metadata("design:type", Array)
+    ], ConsoleTester.prototype, "clients", void 0);
     tslib_1.__decorate([
         vue_property_decorator_1.Watch("show"),
         tslib_1.__metadata("design:type", Function),
@@ -99,11 +119,220 @@ var render = function() {
               _vm._m(0),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.doc) +
-                    "\n                "
-                )
+                _c("form", { staticClass: "needs-validation was-validated" }, [
+                  _c("div", { staticClass: "row form-group" }, [
+                    _c("div", { staticClass: "col-4 form-label" }, [
+                      _vm._v("Token")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-8" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.token,
+                            expression: "token"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", required: "true" },
+                        domProps: { value: _vm.token },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.token = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-2" }, [
+                    _c("hr"),
+                    _vm._v(" "),
+                    !_vm.clients.length
+                      ? _c("span", { staticClass: "bg-dark text-danger" }, [
+                          _vm._v(
+                            "\n                                you didn`t create any api clients create new\n                                one from user section\n                            "
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-12" },
+                      [
+                        _c("h6", [_vm._v("Select Client")]),
+                        _vm._v(" "),
+                        _vm._l(_vm.clients, function(c, cinx) {
+                          return _c(
+                            "button",
+                            {
+                              key: cinx,
+                              staticClass:
+                                "btn btn-primary btnClient mb-2 mr-2 transition",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.setClient(cinx, $event)
+                                }
+                              }
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "fa fa-check text-success mr-1"
+                              }),
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(c.name) +
+                                  "\n                                "
+                              )
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-2" }, [
+                    _vm.doc.url_params.length
+                      ? _c(
+                          "div",
+                          { staticClass: "col-12" },
+                          [
+                            _c("hr"),
+                            _vm._v(" "),
+                            _c("h5", [_vm._v("Url PARAMETER")]),
+                            _vm._v(" "),
+                            _vm._l(_vm.doc.url_params, function(url, uinx) {
+                              return _c(
+                                "div",
+                                { key: uinx, staticClass: "row form-group" },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "col-4 form-label font-weight-bold"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(url.key) +
+                                          "\n                                    "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.url_params[uinx],
+                                          expression: "url_params[uinx]"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        required: url.req
+                                      },
+                                      domProps: { value: _vm.url_params[uinx] },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.url_params,
+                                            uinx,
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-2" }, [
+                    _vm.doc.query.length
+                      ? _c(
+                          "div",
+                          { staticClass: "col-12" },
+                          [
+                            _c("hr"),
+                            _vm._v(" "),
+                            _c("h5", [_vm._v("Query PARAMETER")]),
+                            _vm._v(" "),
+                            _vm._l(_vm.doc.query, function(q, qinx) {
+                              return _c(
+                                "div",
+                                { key: qinx, staticClass: "row form-group" },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "col-4 form-label font-weight-bold"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(q.key) +
+                                          "\n                                    "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.query[qinx],
+                                          expression: "query[qinx]"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { type: "text", required: q.req },
+                                      domProps: { value: _vm.query[qinx] },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.query,
+                                            qinx,
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      : _vm._e()
+                  ])
+                ])
               ]),
               _vm._v(" "),
               _vm._m(1)
@@ -119,7 +348,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
+    return _c("div", { staticClass: "modal-header bg-primary text-light" }, [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "conoleTesterModalLabel" } },
@@ -148,11 +377,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
+    return _c("div", { staticClass: "modal-footer bg-secondary" }, [
       _c(
         "button",
         {
-          staticClass: "btn btn-secondary",
+          staticClass: "btn btn-danger",
           attrs: { type: "button", "data-dismiss": "modal" }
         },
         [_vm._v("\n                        Close\n                    ")]
@@ -161,7 +390,7 @@ var staticRenderFns = [
       _c(
         "button",
         { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("\n                        Save changes\n                    ")]
+        [_vm._v("\n                        Connect\n                    ")]
       )
     ])
   }

@@ -7,8 +7,10 @@
 // Bootstrap
 // @import "~bootstrap/scss/bootstrap";
 * {
-    font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
-    font-size: .9rem;
+    font-family: "Cairo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif,
+        sans-serif;
+    font-size: 0.9rem;
 }
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
@@ -38,11 +40,12 @@ body {
     z-index: 99;
 }
 .fast {
-    transition-duration: .5s;
+    transition-duration: 0.5s;
 }
 .footer {
     .copy {
-        span, a {
+        span,
+        a {
             font-size: large;
         }
         a:hover {
@@ -53,4 +56,14 @@ body {
 .curlCli {
     max-height: 50vh;
     overflow-y: auto;
+}
+.btnClient {
+    .fa.fa-check {
+        display: none;
+    }
+    &.active {
+        .fa.fa-check {
+            display: inline;
+        }
+    }
 }

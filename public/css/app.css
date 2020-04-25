@@ -6094,3 +6094,11 @@ body {
   overflow-y: auto;
 }
 
+.btnClient .fa.fa-check {
+  display: none;
+}
+
+.btnClient.active .fa.fa-check {
+  display: inline;
+}
+

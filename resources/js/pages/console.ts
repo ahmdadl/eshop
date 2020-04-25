@@ -1,5 +1,6 @@
 import { Component } from "vue-property-decorator";
 import Super from "./super";
+import Axios from "axios";
 
 export interface Param {
     key: string;
@@ -26,6 +27,7 @@ export interface Dynamic {
     data: Doc[];
     doc: Doc;
     showModal: boolean;
+    clients: ClientData[];
 }
 
 @Component
@@ -45,7 +47,8 @@ export default class Console extends Super {
             query: [],
             parent: ""
         },
-        showModal: false
+        showModal: false,
+        clients: []
     };
 
     public setDoc(inx: number, isBack: boolean = false) {
@@ -104,8 +107,18 @@ export default class Console extends Super {
         this.d.showModal = !this.d.showModal;
     }
 
+    public loadClients() {
+        Axios.get("/oauth/clients", { baseURL: "" }).then(res => {
+            if (!res.data) {
+                this.showErrorToast();
+                return;
+            }
+            this.d.clients = res.data;
+        });
+    }
+
     beforeMount() {
-        this.attachToGlobal(this, ["setDoc", "copyCurl", "tryIt"]);
+        this.attachToGlobal(this, ["setDoc", "copyCurl", "tryIt", "removeClassFromAll"]);
     }
 
     mounted() {
@@ -137,5 +150,7 @@ export default class Console extends Super {
                 document.title = e.state.doc.route;
             }
         };
+
+        this.loadClients();
     }
 }

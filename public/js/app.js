@@ -16678,6 +16678,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 var vue_property_decorator_1 = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
 var super_1 = __webpack_require__(/*! ./super */ "./resources/js/pages/super.ts");
+var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var Console = /** @class */ (function (_super) {
     tslib_1.__extends(Console, _super);
     function Console() {
@@ -16697,7 +16698,8 @@ var Console = /** @class */ (function (_super) {
                 query: [],
                 parent: ""
             },
-            showModal: false
+            showModal: false,
+            clients: []
         };
         return _this;
     }
@@ -16742,8 +16744,18 @@ var Console = /** @class */ (function (_super) {
     Console.prototype.tryIt = function () {
         this.d.showModal = !this.d.showModal;
     };
+    Console.prototype.loadClients = function () {
+        var _this = this;
+        axios_1.default.get("/oauth/clients", { baseURL: "" }).then(function (res) {
+            if (!res.data) {
+                _this.showErrorToast();
+                return;
+            }
+            _this.d.clients = res.data;
+        });
+    };
     Console.prototype.beforeMount = function () {
-        this.attachToGlobal(this, ["setDoc", "copyCurl", "tryIt"]);
+        this.attachToGlobal(this, ["setDoc", "copyCurl", "tryIt", "removeClassFromAll"]);
     };
     Console.prototype.mounted = function () {
         var _this = this;
@@ -16775,6 +16787,7 @@ var Console = /** @class */ (function (_super) {
                 document.title = e.state.doc.route;
             }
         };
+        this.loadClients();
     };
     Console = tslib_1.__decorate([
         vue_property_decorator_1.Component
