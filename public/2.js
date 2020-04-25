@@ -22,11 +22,15 @@ var ConsoleTester = /** @class */ (function (_super) {
         _this.query = [];
         _this.url_params = [];
         _this.activeClient = _this.clients[0];
+        _this.connecting = false;
+        _this.url = "";
         return _this;
     }
     ConsoleTester.prototype.showModal = function () {
         // @ts-ignore
         new Modal(document.getElementById("conoleTesterModal")).show();
+        this.url_params = [];
+        this.query = [];
     };
     ConsoleTester.prototype.hideModal = function () {
         // @ts-ignore
@@ -35,8 +39,38 @@ var ConsoleTester = /** @class */ (function (_super) {
     ConsoleTester.prototype.setClient = function (inx, ev) {
         this.activeClient = this.clients[inx];
         console.log(this.activeClient);
-        this.$emit('remove-active-class', '.btnClient');
-        setTimeout(function (_) { return ev.target.classList.add('active'); });
+        this.$emit("remove-active-class", ".btnClient");
+        setTimeout(function (_) {
+            return ev.target.classList.add("active");
+        });
+    };
+    ConsoleTester.prototype.buildUrl = function () {
+        var _this = this;
+        this.url = this.doc.url_with_params;
+        // get query assign sign ?
+        var queryPos = this.url.indexOf("?");
+        // remove empty queries from url
+        this.url = this.url.slice(0, queryPos);
+        // replace url params keys with values
+        this.url_params.map(function (u, i) {
+            var re = new RegExp("{" + _this.doc.url_params[i].key + "}", "gi");
+            _this.url = _this.url.replace(re, encodeURI(u));
+        });
+        // add query to url key=value
+        this.query.map(function (u, i) {
+            u = encodeURI(u);
+            if (i === 0) {
+                _this.url += "?" + _this.doc.query[i].key + "=" + u;
+            }
+            else {
+                _this.url += "&" + _this.doc.query[i].key + "=" + u;
+            }
+        });
+    };
+    ConsoleTester.prototype.connect = function () {
+        this.connecting = true;
+        this.buildUrl();
+        console.log(this.url);
     };
     ConsoleTester.prototype.onShowChange = function (val, oldVal) {
         this.showModal();
@@ -335,7 +369,44 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(1)
+              _c("div", { staticClass: "modal-footer bg-secondary" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Close\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.connect()
+                      }
+                    }
+                  },
+                  [
+                    _vm.connecting
+                      ? _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      : _vm._e(),
+                    _vm._v(
+                      "\n                        Connect\n                    "
+                    )
+                  ]
+                )
+              ])
             ])
           ]
         )
@@ -370,27 +441,6 @@ var staticRenderFns = [
           }
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer bg-secondary" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-danger",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("\n                        Close\n                    ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("\n                        Connect\n                    ")]
       )
     ])
   }

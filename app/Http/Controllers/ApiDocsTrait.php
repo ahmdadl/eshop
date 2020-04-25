@@ -88,12 +88,12 @@ trait ApiDocsTrait
                 '/product/ids',
                 'GET',
                 'load list of products ids',
-                '/product/ids/{count_per_page}',
+                '/product/ids/{count per page}',
                 '/product/ids/10',
                 '{"current_page":1,"data":[{"id":42},{"id":43},{"id":44},{"id":45},{"id":46},{"id":47},{"id":48},{"id":49},{"id":50},{"id":51}],"first_page_url":"http:\/\/api.test\/product\/ids\/10?page=1","from":1,"last_page":420,"last_page_url":"http:\/\/api.test\/product\/ids\/10?page=420","next_page_url":"http:\/\/api.test\/product\/ids\/10?page=2","path":"http:\/\/api.test\/product\/ids\/10","per_page":10,"prev_page_url":null,"to":10,"total":4197}',
                 [$this->cparam('Authorization', 'A valid access token', true)],
                 [200, 'object contains pagination urls and array of products ids.'],
-                [$this->cparam('Count Per Page', 'how many ids to load per one page', false, 70)],
+                [$this->cparam('count per page', 'how many ids to load per one page', false, 70)],
                 [],
                 'Product'
             ),
@@ -102,24 +102,24 @@ trait ApiDocsTrait
                 '/product/list',
                 'GET',
                 'load list of products list',
-                '/product/list/{count_per_page}',
+                '/product/list/{count per page}',
                 '/product/list/2',
                 '{"current_page":1,"data":[{"id":1,"user_id":4,"category_slug":"et-praesentium-in","name":"Consequatur quibusdam rem consequuntur sunt provident dolores.","price":23350.3,"save":84,"amount":4,"is_used":true,"brand":"Balistreri LLC","color":["ForestGreen","Pink"],"img":["15.jpg","4.jpg","7.jpg"],"created_at":"2020-04-23T04:20:28.000000Z","updated_at":"2020-04-23T04:20:28.000000Z","info":"Harum iste quae officia repudiandae. Quo itaque pariatur quia dolorum odio. Amet est ipsum quia dolorem magni odit a.","slug":"consequatur-quibusdam-rem-consequuntur-sunt-provident-dolores","savedPrice":3736.047999999999},{"id":2,"user_id":5,"category_slug":"et-praesentium-in","name":"Assumenda nemo voluptatum nemo fuga illum voluptas.","price":14321.4,"save":71,"amount":11,"is_used":false,"brand":"Koss Group","color":["PapayaWhip","NavajoWhite"],"img":["1.jpg","2.jpg","15.jpg"],"created_at":"2020-04-23T04:20:28.000000Z","updated_at":"2020-04-23T04:20:28.000000Z","info":"Dolorum exercitationem est voluptatem sed similique. Eligendi libero culpa ducimus. Quas accusantium et sapiente in asperiores voluptatem.","slug":"assumenda-nemo-voluptatum-nemo-fuga-illum-voluptas","savedPrice":4153.206}],"first_page_url":"http:\/\/api.test\/product\/list\/2?page=1","from":1,"last_page":2099,"last_page_url":"http:\/\/api.test\/product\/list\/2?page=2099","next_page_url":"http:\/\/api.test\/product\/list\/2?page=2","path":"http:\/\/api.test\/product\/list\/2","per_page":2,"prev_page_url":null,"to":2,"total":4197}',
                 [$this->cparam('Authorization', 'A valid access token', true)],
                 [200, 'object contains pagination urls and array of products objects.'],
-                [$this->cparam('Count Per Page', 'how many products to load per one page', false, 70)]
+                [$this->cparam('count per page', 'how many products to load per one page', false, 70)]
             ),
             $this->doc(
                 $base,
                 '/product/find?q=search',
                 'GET',
                 'search for products with name or brand',
-                '/product/find/{count_per_page}?q={query}',
+                '/product/find/{count per page}?q={query}',
                 '/product/find/2?q=Consequatu',
                 '{"current_page":1,"data":[{"id":4224,"user_id":4228,"category_slug":null,"name":"Sunt corrupti aut molestias consequatur voluptas vero in totam.","price":76330.2,"save":38,"amount":10,"is_used":false,"brand":"another company","color":["Navy","PowderBlue"],"img":["4.jpg","8.jpg","3.jpg"],"created_at":"2020-04-23T15:24:10.000000Z","updated_at":"2020-04-23T15:24:10.000000Z","info":"Blanditiis dolores eaque maiores aut voluptates fuga quia. Aut necessitatibus qui qui neque ratione corrupti. Sed ea eos vel vel provident nemo.","slug":"sunt-corrupti-aut-molestias-consequatur-voluptas-vero-in-totam","savedPrice":47324.724,"rates":[{"id":39443,"user_id":4,"product_id":4224,"rate":"1","message":"some words combined","created_at":"2020-04-23T15:24:10.000000Z","updated_at":"2020-04-23T15:24:10.000000Z","updated":"21 hours ago"}],"p_cat":null},{"id":4223,"user_id":4227,"category_slug":null,"name":"Velit nam possimus dolores illo consequatur nesciunt corrupti voluptas.","price":59490.8,"save":67,"amount":4,"is_used":true,"brand":"another company","color":["WhiteSmoke","SandyBrown"],"img":["4.jpg","12.jpg","1.jpg"],"created_at":"2020-04-23T15:23:33.000000Z","updated_at":"2020-04-23T15:23:33.000000Z","info":"Nostrum repellat consequatur reiciendis eaque. Perferendis esse modi et dolorem quia. Dolor tenetur sequi et sit illum officiis. Harum sint quia et est.","slug":"velit-nam-possimus-dolores-illo-consequatur-nesciunt-corrupti-voluptas","savedPrice":19631.964,"rates":[{"id":39442,"user_id":4,"product_id":4223,"rate":"2","message":"some words combined","created_at":"2020-04-23T15:23:33.000000Z","updated_at":"2020-04-23T15:23:33.000000Z","updated":"21 hours ago"}],"p_cat":null}],"first_page_url":"http:\/\/api.test\/product\/find\/2?page=1","from":1,"last_page":168,"last_page_url":"http:\/\/api.test\/product\/find\/2?page=168","next_page_url":"http:\/\/api.test\/product\/find\/2?page=2","path":"http:\/\/api.test\/product\/find\/2","per_page":2,"prev_page_url":null,"to":2,"total":336}',
                 [$this->cparam('Authorization', 'A valid access token', true)],
                 [200, 'object contains pagination urls and array of found products.'],
-                [$this->cparam('Count Per Page', 'how many products to load per one page', false, 70)],
+                [$this->cparam('count per page', 'how many products to load per one page', false, 70)],
                 [$this->cparam('q', 'product name or brand', true)]
             ),
             $this->doc(
@@ -127,13 +127,13 @@ trait ApiDocsTrait
                 '/product/sub/{slug}',
                 'GET',
                 'load products with category slug',
-                '/product/sub/{slug}/{count_per_page}',
+                '/product/sub/{slug}/{count per page}',
                 '/product/sub/et-praesentium-in/2',
                 '{"current_page":1,"data":[{"id":1,"user_id":4,"category_slug":"et-praesentium-in","name":"Consequatur quibusdam rem consequuntur sunt provident dolores.","price":23350.3,"save":84,"amount":4,"is_used":true,"brand":"Balistreri LLC","color":["ForestGreen","Pink"],"img":["15.jpg","4.jpg","7.jpg"],"created_at":"2020-04-23T04:20:28.000000Z","updated_at":"2020-04-23T04:20:28.000000Z","info":"Harum iste quae officia repudiandae. Quo itaque pariatur quia dolorum odio. Amet est ipsum quia dolorem magni odit a.","slug":"consequatur-quibusdam-rem-consequuntur-sunt-provident-dolores","savedPrice":3736.047999999999},{"id":2,"user_id":5,"category_slug":"et-praesentium-in","name":"Assumenda nemo voluptatum nemo fuga illum voluptas.","price":14321.4,"save":71,"amount":11,"is_used":false,"brand":"Koss Group","color":["PapayaWhip","NavajoWhite"],"img":["1.jpg","2.jpg","15.jpg"],"created_at":"2020-04-23T04:20:28.000000Z","updated_at":"2020-04-23T04:20:28.000000Z","info":"Dolorum exercitationem est voluptatem sed similique. Eligendi libero culpa ducimus. Quas accusantium et sapiente in asperiores voluptatem.","slug":"assumenda-nemo-voluptatum-nemo-fuga-illum-voluptas","savedPrice":4153.206}],"first_page_url":"http:\/\/api.test\/product\/sub\/et-praesentium-in\/2?page=1","from":1,"last_page":29,"last_page_url":"http:\/\/api.test\/product\/sub\/et-praesentium-in\/2?page=29","next_page_url":"http:\/\/api.test\/product\/sub\/et-praesentium-in\/2?page=2","path":"http:\/\/api.test\/product\/sub\/et-praesentium-in\/2","per_page":2,"prev_page_url":null,"to":2,"total":57}',
                 [$this->cparam('Authorization', 'A valid access token', true)],
                 [200, 'object contains pagination urls and array of products.'],
                 [
-                    $this->cparam('slug', 'sub category slug', true), $this->cparam('Count Per Page', 'how many products to load per one page', false, 70)
+                    $this->cparam('slug', 'sub category slug', true), $this->cparam('count per page', 'how many products to load per one page', false, 70)
                 ]
             ),
             $this->doc(

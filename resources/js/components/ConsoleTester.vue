@@ -54,7 +54,9 @@
                                         :key="cinx"
                                         @click="setClient(cinx, $event)"
                                     >
-                                        <i class="fa fa-check text-success mr-1"></i>
+                                        <i
+                                            class="fa fa-check text-success mr-1"
+                                        ></i>
                                         {{ c.name }}
                                     </button>
                                 </div>
@@ -71,7 +73,9 @@
                                         v-for="(url, uinx) in doc.url_params"
                                         :key="uinx"
                                     >
-                                        <div class="col-4 form-label font-weight-bold">
+                                        <div
+                                            class="col-4 form-label font-weight-bold"
+                                        >
                                             {{ url.key }}
                                         </div>
                                         <div class="col-8">
@@ -94,7 +98,9 @@
                                         v-for="(q, qinx) in doc.query"
                                         :key="qinx"
                                     >
-                                        <div class="col-4 form-label font-weight-bold">
+                                        <div
+                                            class="col-4 form-label font-weight-bold"
+                                        >
                                             {{ q.key }}
                                         </div>
                                         <div class="col-8">
@@ -118,7 +124,17 @@
                         >
                             Close
                         </button>
-                        <button type="button" class="btn btn-primary">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            @click="connect()"
+                        >
+                            <span
+                                v-if="connecting"
+                                class="spinner-border spinner-border-sm"
+                                role="status"
+                                aria-hidden="true"
+                            ></span>
                             Connect
                         </button>
                     </div>
@@ -140,15 +156,20 @@ export default class ConsoleTester extends Vue {
     public token: string = "";
     public clientId: number = 0;
     public isEdit: boolean = false;
-    public query: Param[] = [];
-    public url_params: Param[] = [];
+    public query: any[] = [];
+    public url_params: any[] = [];
     public activeClient: ClientData = this.clients[0];
+    public connecting: boolean = false;
+    public url: string = "";
 
     public showModal() {
         // @ts-ignore
         new Modal(
             document.getElementById("conoleTesterModal") as HTMLDivElement
         ).show();
+
+        this.url_params = [];
+        this.query = [];
     }
 
     public hideModal() {
@@ -161,8 +182,41 @@ export default class ConsoleTester extends Vue {
     public setClient(inx: number, ev: Event) {
         this.activeClient = this.clients[inx];
         console.log(this.activeClient);
-        this.$emit('remove-active-class', '.btnClient');
-        setTimeout(_ => (ev.target as HTMLButtonElement).classList.add('active'));
+        this.$emit("remove-active-class", ".btnClient");
+        setTimeout(_ =>
+            (ev.target as HTMLButtonElement).classList.add("active")
+        );
+    }
+
+    public buildUrl() {
+        this.url = this.doc.url_with_params;
+
+        // get query assign sign ?
+        const queryPos = this.url.indexOf("?");
+        // remove empty queries from url
+        this.url = this.url.slice(0, queryPos);
+
+        // replace url params keys with values
+        this.url_params.map((u, i) => {
+            const re = new RegExp("{" + this.doc.url_params[i].key + "}", "gi");
+            this.url = this.url.replace(re, encodeURI(u));
+        });
+
+        // add query to url key=value
+        this.query.map((u, i) => {
+            u = encodeURI(u);
+            if (i === 0) {
+                this.url += `?${this.doc.query[i].key}=${u}`;
+            } else {
+                this.url += `&${this.doc.query[i].key}=${u}`;
+            }
+        });
+    }
+
+    public connect() {
+        this.connecting = true;
+        this.buildUrl();
+        console.log(this.url);
     }
 
     @Watch("show")
