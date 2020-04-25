@@ -6089,3 +6089,8 @@ body {
   color: #ff5252 !important;
 }
 
+.curlCli {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
