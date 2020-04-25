@@ -16470,7 +16470,7 @@ var app = new vue_property_decorator_1.Vue({
     mounted: function () {
         var _this = this;
         axios_1.default.interceptors.response.use(function (response) {
-            // console.log(response.data);
+            console.log(response.data);
             return response;
         }, function (error) {
             // if (error.response) {

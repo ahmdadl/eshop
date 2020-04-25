@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -10,9 +12,7 @@ trait GetCategoryList
 {
     protected function getList()
     {
-        return Cache::rememberForever('cats', function() {
-            return Category::whereNull('category_id')->with(['subCat'])->get();
-        });
+        return Category::whereNull('category_id')->with(['subCat'])->get();
     }
 
     protected function getImgArr(): array
