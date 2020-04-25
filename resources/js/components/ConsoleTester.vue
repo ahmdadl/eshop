@@ -37,31 +37,6 @@
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <hr />
-                                <span
-                                    class="bg-dark text-danger"
-                                    v-if="!clients.length"
-                                >
-                                    you didn`t create any api clients create new
-                                    one from user section
-                                </span>
-                                <div class="col-12">
-                                    <h6>Select Client</h6>
-                                    <button
-                                        type="button"
-                                        class="btn btn-primary btnClient mb-2 mr-2 transition"
-                                        v-for="(c, cinx) in clients"
-                                        :key="cinx"
-                                        @click="setClient(cinx, $event)"
-                                    >
-                                        <i
-                                            class="fa fa-check text-success mr-1"
-                                        ></i>
-                                        {{ c.name }}
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
                                 <div
                                     class="col-12"
                                     v-if="doc.url_params.length"
@@ -162,6 +137,7 @@ export default class ConsoleTester extends Vue {
     public activeClient: any = this.clients[0];
     public connecting: boolean = false;
     public url: string = "";
+    // public errors
 
     public showModal() {
         // @ts-ignore
@@ -195,7 +171,12 @@ export default class ConsoleTester extends Vue {
         console.log(this.url);
         const data = this.buildFormData();
 
-        Axios.post("console/test", data).then(res => {});
+        Axios.post("console/test", data).then(res => {}).catch(err => {
+            const e = err.response;
+            if (e.data) {
+                
+            }
+        });
     }
 
     private buildUrl() {

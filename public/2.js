@@ -27,6 +27,7 @@ var ConsoleTester = /** @class */ (function (_super) {
         _this.url = "";
         return _this;
     }
+    // public errors
     ConsoleTester.prototype.showModal = function () {
         // @ts-ignore
         new Modal(document.getElementById("conoleTesterModal")).show();
@@ -50,7 +51,11 @@ var ConsoleTester = /** @class */ (function (_super) {
         this.buildUrl();
         console.log(this.url);
         var data = this.buildFormData();
-        axios_1.default.post("console/test", data).then(function (res) { });
+        axios_1.default.post("console/test", data).then(function (res) { }).catch(function (err) {
+            var e = err.response;
+            if (e.data) {
+            }
+        });
     };
     ConsoleTester.prototype.buildUrl = function () {
         var _this = this;
@@ -200,54 +205,6 @@ var render = function() {
                         }
                       })
                     ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row mt-2" }, [
-                    _c("hr"),
-                    _vm._v(" "),
-                    !_vm.clients.length
-                      ? _c("span", { staticClass: "bg-dark text-danger" }, [
-                          _vm._v(
-                            "\n                                you didn`t create any api clients create new\n                                one from user section\n                            "
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "col-12" },
-                      [
-                        _c("h6", [_vm._v("Select Client")]),
-                        _vm._v(" "),
-                        _vm._l(_vm.clients, function(c, cinx) {
-                          return _c(
-                            "button",
-                            {
-                              key: cinx,
-                              staticClass:
-                                "btn btn-primary btnClient mb-2 mr-2 transition",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.setClient(cinx, $event)
-                                }
-                              }
-                            },
-                            [
-                              _c("i", {
-                                staticClass: "fa fa-check text-success mr-1"
-                              }),
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(c.name) +
-                                  "\n                                "
-                              )
-                            ]
-                          )
-                        })
-                      ],
-                      2
-                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "row mt-2" }, [
