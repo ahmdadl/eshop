@@ -38,6 +38,7 @@ var Console = /** @class */ (function (_super) {
     Console.prototype.setDoc = function (inx) {
         // console.log(this.d.data[inx]);
         this.d.doc = this.d.data[inx];
+        this.d.doc.response = JSON.stringify(JSON.parse(this.d.doc.response), null, 2);
     };
     Console.prototype.copyCurl = function () {
         var el = document.createElement('textarea');

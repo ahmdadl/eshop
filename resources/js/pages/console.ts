@@ -49,6 +49,7 @@ export default class Console extends Super {
     public setDoc(inx: number) {
         // console.log(this.d.data[inx]);
         this.d.doc = this.d.data[inx];
+        this.d.doc.response =  JSON.stringify(JSON.parse(this.d.doc.response), null, 2);
     }
 
     public copyCurl()
