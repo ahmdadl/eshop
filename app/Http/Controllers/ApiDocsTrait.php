@@ -7,6 +7,7 @@ trait ApiDocsTrait
     public function docs()
     {
         $base = 'http://api.eshopt.rf.gd';
+        // $base = 'http://api.test';
         $d = new \stdClass;
         $arr = [
             $this->doc(

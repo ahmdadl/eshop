@@ -189,7 +189,7 @@ export default class ConsoleTester extends Vue {
         this.connecting = true;
         this.errors = [];
         this.buildUrl();
-        // console.log(this.url);
+        console.log(this.url);
         const data = this.buildFormData();
 
         Axios.post("console/test", data).then(res => {
@@ -237,6 +237,8 @@ export default class ConsoleTester extends Vue {
                 this.url += `&${this.doc.query[i].key}=${u}`;
             }
         });
+
+        this.url = this.url.replace(/{.+}/gi,'');
     }
 
     private buildFormData(): FormData {
