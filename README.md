@@ -3,6 +3,8 @@ an an e-commerce website build with laravel 7 and vuejs visit [link here](http:/
 
 ## Features
 * Multi-Language (en, ar)
+* Developers Api
+* Developers Console
 * Daily Deals
 * Add Product To Cart and Checkout
 * Register and Verify Email
