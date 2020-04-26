@@ -44,25 +44,25 @@
                     </li>
                     <li class="list-group-item bg-dark border-secondary">
                         <a class="text-light" @auth
-                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/profile"@else href="{{ route('login') }}" @endauth>
+                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/profile" @else href="{{ route('login') }}" @endauth>
                             {{ __('t.user.menu.profile') }}
                         </a>
                     </li>
                     <li class="list-group-item bg-dark border-secondary">
-                        <a class="text-light"
-                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/orders">
+                        <a class="text-light" @auth
+                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/orders" @else href="{{ route('login') }}" @endauth>
                             {{ __('t.user.menu.order') }}
                         </a>
                     </li>
                     <li class="list-group-item bg-dark border-secondary">
-                        <a class="text-light"
-                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/products">
+                        <a class="text-light" @auth
+                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/products" @else href="{{ route('login') }}" @endauth>
                             {{ __('t.user.menu.prod') }}
                         </a>
                     </li>
                     <li class="list-group-item bg-dark border-secondary">
-                        <a class="text-light"
-                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/clients">
+                        <a class="text-light" @auth
+                            href="/{{app()->getLocale()}}/user/{{auth()->id()}}/clients" @else href="{{ route('login') }}" @endauth>
                             @lang('t.user.menu.clients')
                         </a>
                     </li>
