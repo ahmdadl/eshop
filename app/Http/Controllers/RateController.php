@@ -79,7 +79,7 @@ class RateController extends Controller
         abort_unless($r->user_id === auth()->id(), 403);
 
         $rate->rate = $r->rate;
-        $rate->message = $r->message ? '';
+        $rate->message = $r->message ?? '';
 
         $rate->save();
 
