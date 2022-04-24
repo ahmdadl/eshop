@@ -1,7 +1,7 @@
 <template>
     <div
         :id="'card' + p.id"
-        class=""
+        class="col-sm-6 col-md-4 col-lg-3"
     >
         <div class="card" :class="is_land ? 'mb-3' : 'mb-1'">
             <div class="row" :class="is_land ? 'no-gutters' : ''">

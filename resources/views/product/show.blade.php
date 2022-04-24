@@ -24,16 +24,23 @@
                 {{$p->save}} %  {{__('t.offTxt')}}
             </span>
             @endif
-            <div class="col-12">
-                <x-img-slider :slug="$p->pCat->parent->slug" :imgArr="$p->img">
-                </x-img-slider>
-            </div>
+            
         </div>
-
-        @include('product.show.info')
-        @include('product.show.social')
-        @include('product.show.spec')
-        @include('product.show.rev')
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <x-img-slider :slug="$p->pCat->parent->slug" :imgArr="$p->img">
+            </x-img-slider>
+        </div>
+        <div class="col-md-6">
+            @include('product.show.info')
+            @include('product.show.social')
+        </div>
+        <div class="col-md-9">
+            @include('product.show.spec')
+            @include('product.show.rev')
+        </div>
+    </div>
+    
 
     @endsection

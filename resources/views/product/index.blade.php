@@ -102,7 +102,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-10 card-columns">
+    <div class="col-12 col-md-10 row">
         <my-product v-for="(p, pinx) in h.d.data" :product="p"
             :lang="['@lang('t.offTxt')', '@lang('t.addCart')', '@lang('t.youSave')', '@lang('t.user.edit')', '@lang('t.user.delete')']"
             @auth @if (auth()->user()->isAdmin()) :is-admin="true" @endif
