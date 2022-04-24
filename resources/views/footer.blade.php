@@ -74,7 +74,7 @@
                 <h5>
                     Made With <span class="text-danger">&hearts;</span> by <a
                         class="text-danger" target="_blank"
-                        href="http://ninjacoder.rf.gd/">ninjaCoder</a> &copy;
+                        href="https://abo3adel.github.io/">Ahmed Adel</a> &copy;
                     2020
                 </h5>
             </div>
