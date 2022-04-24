@@ -18,7 +18,7 @@ class DailyDealSeeder extends Seeder
 
         DB::beginTransaction();
 
-        $ids = Arr::random($products->pluck('id')->toArray(), mt_rand(70, 130));
+        $ids = Arr::random($products->pluck('id')->toArray(), mt_rand(50, 90));
 
         foreach ($ids as $id) {
             DailyDeal::create([

@@ -22,7 +22,7 @@ class RateSeeder extends Seeder
         $f = Factory::create();
 
         (Product::all())->each(function (Product $p) use ($users_ids, $f) {
-            for ($i = 0; $i < mt_rand(7, 15); $i++) {
+            for ($i = 0; $i < mt_rand(3, 8); $i++) {
                 DB::table('rates')->insert([
                     'user_id' => Arr::random($users_ids),
                     'product_id' => $p->id,

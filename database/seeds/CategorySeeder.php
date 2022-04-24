@@ -31,7 +31,7 @@ class CategorySeeder extends Seeder
             ]);
 
             $c->categories()->createMany(
-                factory(Category::class, mt_rand(3, 12))->raw([
+                factory(Category::class, mt_rand(3, 6))->raw([
                     'category_id' => $c->id
                 ])
             );

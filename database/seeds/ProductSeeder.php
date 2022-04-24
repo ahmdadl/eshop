@@ -21,12 +21,12 @@ class ProductSeeder extends Seeder
 
         $cats->each(function (Category $c) {
             $c->products()->saveMany(
-                factory(Product::class, mt_rand(25, 80))->make([
+                factory(Product::class, mt_rand(5, 10))->make([
                     'category_slug' => $c->slug,
                 ])
             );
             User::find(3)->products()->saveMany(
-                factory(Product::class, mt_rand(15, 35))->make([
+                factory(Product::class, mt_rand(0, 3))->make([
                     'category_slug' => $c->slug,
                 ])
             );
