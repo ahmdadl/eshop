@@ -26,7 +26,7 @@
                 </span>
                 @endif
                 <img src="/img/{{$cat->slug}}/{{$p->img[0]}}"
-                    class="card-img-top" alt="{{$p->slug}}">
+                    class="card-img-top" alt="{{$p->slug}}" alt="image">
                 <div class="card-body">
                     <h5 class="card-title">
                         <a href="/{{app()->getLocale()}}/p/{{$p->slug}}">

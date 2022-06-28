@@ -65,9 +65,9 @@ const app = new Vue({
                 return error.response;
             }
         );
-        const splash = this.$refs.splashScreen;
+        const splash = document.getElementById('splashScreen');
         if (splash && splash.style) {
-            splash.style.display = "none";
+            setTimeout(() => splash.style.display = "none", 500);
         }
     }
 });

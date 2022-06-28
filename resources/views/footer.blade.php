@@ -5,25 +5,25 @@
                 <h4 class="text-light">{{__('t.footer.followUs')}}</h4>
                 <div class="mx-auto">
                     <a href='https://github.com/abo3adel' target="_blank"
-                        class="btn btn-outline-primary btn-brand transition fast mr-2 mt-2">
+                        class="btn btn-outline-primary btn-brand transition fast mr-2 mt-2" aria-label="Github">
                         <i class='fab fa-github'></i>
                     </a>
                     <a href='https://codepen.io/abo3adel' target="_blank"
-                        class="btn btn-outline-danger btn-brand transition fast mr-2 mt-2">
+                        class="btn btn-outline-danger btn-brand transition fast mr-2 mt-2" aria-label="Codepen">
 
                         <i class='fab fa-codepen'></i>
                     </a>
                     <a href='https://www.linkedin.com/in/ahmed-adel-30a932119/'
                         target="_blank"
-                        class="btn btn-outline-info btn-brand transition fast mr-2 mt-2">
+                        class="btn btn-outline-info btn-brand transition fast mr-2 mt-2" aria-label="Linked">
                         <i class='fab fa-linkedin-in'></i>
                     </a>
                     <a href='https://fb.com/a7md200' target="_blank"
-                        class="btn btn-outline-primary btn-brand transition fast mr-2 mt-2">
+                        class="btn btn-outline-primary btn-brand transition fast mr-2 mt-2" aria-label="">
                         <i class='fab fa-facebook-f'></i>
                     </a>
                     <a href='https://wa.me/201143647417' target="_blank"
-                        class="btn btn-outline-success btn-brand transition fast mr-2 mt-2">
+                        class="btn btn-outline-success btn-brand transition fast mr-2 mt-2" aria-label="">
                         <i class='fab fa-whatsapp'></i>
                     </a>
                 </div>
